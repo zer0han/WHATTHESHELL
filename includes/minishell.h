@@ -6,7 +6,7 @@
 /*   By: rdalal <rdalal@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/10 19:08:44 by rdalal            #+#    #+#             */
-/*   Updated: 2024/12/20 16:27:32 by rdalal           ###   ########.fr       */
+/*   Updated: 2025/01/06 16:41:34 by rdalal           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,5 +51,21 @@ typedef struct s_node
 }			t_node;
 
 /*functions here*/
+
+
+/***builtins***/
+int	cmd_cd(char **agrv);
+
+int	cmd_pwd(char **argv);
+
+int	cmd_echo(char **argv);
+
+int	cmd_export(char **argv, char **envp);
+
+int	cmd_unset(char **argv, char **envp);
+
+int	cmd_env(char **argv, char **envp);
+
+int	cmd_exit(char **argv);
 
 #endif
