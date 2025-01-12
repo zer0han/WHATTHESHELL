@@ -6,7 +6,7 @@
 /*   By: rdalal <rdalal@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/10 19:08:44 by rdalal            #+#    #+#             */
-/*   Updated: 2025/01/06 16:41:34 by rdalal           ###   ########.fr       */
+/*   Updated: 2025/01/12 20:03:18 by rdalal           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,23 +37,32 @@
 
 /*typedef struct s_data
 {
-	
+			
 }*/
+// variable types are just placeholders for now
 
-typedef struct s_node
+typedef struct s_data
 {
-	char	*input;
-	char	*data;
-	int		value;
-	char	*type;
-	char	*left;
-	char	*right;
-}			t_node;
+	char			*args;
+	int				nbr;
+	struct s_data	cmd;	
+}					t_data;
+
+typedef struct s_token 
+{
+    char			*input;
+    char			*type;
+    int				value;
+    struct s_token	*left;
+    struct s_token	*right;
+}					t_token;
 
 /*functions here*/
 
 
 /***builtins***/
+
+//change the prototypes and use t_token node instead of char
 int	cmd_cd(char **agrv);
 
 int	cmd_pwd(char **argv);
