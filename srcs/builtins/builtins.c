@@ -6,7 +6,7 @@
 /*   By: rdalal <rdalal@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/06 16:25:27 by rdalal            #+#    #+#             */
-/*   Updated: 2025/01/12 16:57:19 by rdalal           ###   ########.fr       */
+/*   Updated: 2025/01/14 17:20:17 by rdalal           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,12 +29,20 @@ int chdir(const char *path);
 */
 int	cmd_cd(char **argv)
 {
+	const char	*dir;
+
 	if (!argv[1])
 	{
-		ft_printf(stderr, "cd: missing arguement\n");
-		return (1);
+		dir = getenv("HOME");
+		if (!dir)
+		{
+			ft_printf("cd: missing arguement\n");
+			return (1);
+		}
 	}
-	if (chdir(argv[1]) != 0)
+	else
+		dir = argv[1];
+	if (chdir(dir) != 0)
 	{
 		perror("cd");
 		return (1);
@@ -43,7 +51,7 @@ int	cmd_cd(char **argv)
 }
 
 /***pwd***/
-int	cmd_pwd(char **argv)
+int	cmd_pwd(t_token **args)
 {
 	/*
 	default behaviour of builtin pwd is same as using "pwd -L"
@@ -66,8 +74,6 @@ int	cmd_pwd(char **argv)
 	}
 }
 /***echo***/
-int	cmd_echo(char **argv)
-{
 	/*
 	[options] = various options available for modifying the behavior of the echo command
 	[string] = it is the string that we we want to display
@@ -84,6 +90,9 @@ int	cmd_echo(char **argv)
 	**if not followed by non 'n' like -nP -nL -n-n
 	***invalid
 	*/
+
+int	cmd_echo(char **argv)
+{
 	int	i;
 	int	new_line;
 
@@ -107,46 +116,6 @@ int	cmd_echo(char **argv)
 		ft_printf("\n");
 	return (0);
 }
-
-/***builtin exit***/
-int	cmd_exit(t_token *)
-{
-	/* exit [N (exit_nbr)]
-	check if there are more than one arguments and if the first argument is not a valid exit code
-	print error if not the correct number of arguments and return with exit code 1
-	set default exit code at 0
-	check if the first argument is a valid exit code(should be a nbr)
-	if valid convert the arg to an int
-	if arg is invalid, call exit error function to handle
-	set exit code to 2 to indicate an error
-	close any open resources in the shell context
-	free memory in the shell context
-	exit the shell with the determined exit code
-	*/
-
-	/*
-	will have to make another function to check if the provided value can be a valid exit code
-	and ensure the value is a nbr and is in the valid range of the exit codes.
-	can be something like 
-	int exitcode_check(char *value)
-	*/
-}
-
-int	exitcode_check(char *value)
-{
-	/*
-	allocated the value to a temp variable
-	skip the signs
-	iterate through each char in the value to check if it is a nbr
-	if all chars are not nbr return 1 indicating invalid exit code
-	if valid value: convert the value to a long int with ft_atol in libft
-	check for over and underflows in the range of exit codes
-	if not in range return 1 to indicate invalid exit code
-	return 0 if the value is a valid exit code (no over and underflows, no non-nbr chars)
-	the range is between 0 and 255 for the exit codes
-	*/
-}
-
 
 
 /***cmd_export
