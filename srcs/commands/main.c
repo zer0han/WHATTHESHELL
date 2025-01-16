@@ -6,7 +6,7 @@
 /*   By: rdalal <rdalal@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/18 18:41:24 by rdalal            #+#    #+#             */
-/*   Updated: 2025/01/14 17:32:09 by rdalal           ###   ########.fr       */
+/*   Updated: 2025/01/16 13:11:33 by rdalal           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,6 +56,30 @@ int	cmd_pwd(t_token **args)
 	}
 }
 
+int	cmd_echo(char **argv)
+{
+	int	i;
+	int	nl;
+
+	i = 1;
+	nl = 1;
+	if (argv[1] && strcmp(argv[1], "-n") == 0)
+	{
+		nl = 0;
+		i = 2;
+	}
+	while (argv[1])
+	{
+		if ((i > 2) || i == 2 && nl)
+			printf(" ");
+		printf("%s", argv[i]);
+		i++;
+	}
+	if (nl)
+		printf("\n");
+	return (0);
+}
+
 int	cmd_cd(char **argv)
 {
 	const char	*dir;
@@ -98,6 +122,8 @@ int	main(void)
 			cmd_pwd(NULL);
 		else if (strcmp(input, "cd") == 0)
 			cmd_cd(argv);
+		else if (strcmp(input, "echo") == 0)
+			cmd_echo(argv);
 		else
 			printf("Input entered: %s\n", input);
 		free (input);
