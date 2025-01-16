@@ -6,7 +6,7 @@
 /*   By: rdalal <rdalal@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/18 18:41:24 by rdalal            #+#    #+#             */
-/*   Updated: 2025/01/16 14:16:07 by rdalal           ###   ########.fr       */
+/*   Updated: 2025/01/16 18:08:10 by rdalal           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,23 +56,23 @@ int	cmd_pwd(t_token **args)
 	}
 }
 
-int	cmd_echo(char **argv)
+int	cmd_echo(int argc, char **argv)
 {
 	int	i;
 	int	nl;
 
 	i = 1;
 	nl = 1;
-	if (argv[1] && strcmp(argv[1], "-n") == 0)
+	if (argc > 1 && strcmp(argv[1], "-n") == 0)
 	{
 		nl = 0;
-		i = 2;
+		i++;
 	}
-	while (argv[1])
+	while (i < argc)
 	{
-		if ((i > 2) || i == 2 && nl)
-			printf(" ");
 		printf("%s", argv[i]);
+		if (i < argc - 1)
+			printf(" ");
 		i++;
 	}
 	if (nl)
@@ -123,12 +123,12 @@ int	main(void)
 			argc++;
 			argv[argc] = strtok(NULL, " ");
 		}
-		if (strcmp(argv[0], "pwd") == 0)
+		if (strcmp(input, "pwd") == 0)
 			cmd_pwd(NULL);
-		else if (strcmp(argv[0], "cd") == 0)
+		else if (strcmp(input, "cd") == 0)
 			cmd_cd(argv);
-		else if (strcmp(argv[0], "echo") == 0)
-			cmd_echo(argv);
+		else if (strcmp(input, "echo") == 0)
+			cmd_echo(argc, argv);
 		else
 			printf("Input entered: %s\n", input);
 		free (input);
