@@ -6,7 +6,7 @@
 /*   By: rdalal <rdalal@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/18 18:41:24 by rdalal            #+#    #+#             */
-/*   Updated: 2025/01/16 13:11:33 by rdalal           ###   ########.fr       */
+/*   Updated: 2025/01/16 14:16:07 by rdalal           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -106,7 +106,8 @@ int	cmd_cd(char **argv)
 int	main(void)
 {
 	char	*input;
-	char	*argv[3];
+	char	*argv[1003];
+	int		argc;
 
 	while (1)
 	{
@@ -115,14 +116,18 @@ int	main(void)
 			break ;
 		if (*input)
 			add_history(input);
-		argv[0] = strtok(input, " ");
-		argv[1] = strtok(NULL, " ");
-		argv[2] = NULL;
-		if (strcmp(input, "pwd") == 0)
+		argc = 0;
+		argv[argc] = strtok(input, " ");
+		while (argv[argc] != NULL)
+		{
+			argc++;
+			argv[argc] = strtok(NULL, " ");
+		}
+		if (strcmp(argv[0], "pwd") == 0)
 			cmd_pwd(NULL);
-		else if (strcmp(input, "cd") == 0)
+		else if (strcmp(argv[0], "cd") == 0)
 			cmd_cd(argv);
-		else if (strcmp(input, "echo") == 0)
+		else if (strcmp(argv[0], "echo") == 0)
 			cmd_echo(argv);
 		else
 			printf("Input entered: %s\n", input);
