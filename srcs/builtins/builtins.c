@@ -6,7 +6,7 @@
 /*   By: rdalal <rdalal@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/06 16:25:27 by rdalal            #+#    #+#             */
-/*   Updated: 2025/01/16 18:13:00 by rdalal           ###   ########.fr       */
+/*   Updated: 2025/01/18 20:55:15 by rdalal           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -105,7 +105,7 @@ int	cmd_echo(int argc, char **argv)
 	}
 	while (i < argc)
 	{
-		ft_printf('%s', argv[i]);
+		ft_printf("%s", argv[i]);
 		if (i < argc - 1)
 			ft_printf(" ");
 		i++;
@@ -168,6 +168,6 @@ int	cmd_env(char **argv, char **envp)
 **runs a command with an empty environment
 
 [-i | -] [Name=Value]... [Command [Argument ...]]
-*/	
-}
+*/
 
+}
