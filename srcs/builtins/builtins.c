@@ -6,7 +6,7 @@
 /*   By: rdalal <rdalal@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/06 16:25:27 by rdalal            #+#    #+#             */
-/*   Updated: 2025/01/18 20:55:15 by rdalal           ###   ########.fr       */
+/*   Updated: 2025/01/19 20:48:15 by rdalal           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,7 +51,7 @@ int	cmd_cd(char **argv)
 }
 
 /***pwd***/
-int	cmd_pwd(t_token **args)
+int	cmd_pwd(char **args)
 {
 	/*
 	default behaviour of builtin pwd is same as using "pwd -L"
@@ -60,6 +60,7 @@ int	cmd_pwd(t_token **args)
 	use getcwd() function here
 	getcwd(): string|false
 	*/
+	(void)args;
 	char	cwd[1024];
 
 	if (getcwd(cwd, sizeof(cwd)) != NULL)
@@ -84,7 +85,7 @@ int	cmd_pwd(t_token **args)
 	** if no str parameter is specified, new line (\n) is displayed
 	echo -n
 	echo -nnnnnn
-	**-n/-nnnnnn (followed only by char 'n)
+	**-n/-nnnnnn (followed only by char 'n')
 	***valid option
 	***remove \n
 	**if not followed by non 'n' like -nP -nL -n-n
@@ -157,17 +158,26 @@ declare -x SHELL="/bin/bash"
  ** undefine shell function in bash
  */
 
-/***env***/
+
+
 int	cmd_env(char **argv, char **envp)
 {
-/*
-*if no flags or parameters specified, the env command displays your current environment, showing one Name=Value per line
-**Print out a list of all the env variables
+	int		i;
+	char	*env_variable;
+	char	*key;
+	char	*value;
 
-*'-i' or '-ignore-environment' or '-'
-**runs a command with an empty environment
-
-[-i | -] [Name=Value]... [Command [Argument ...]]
-*/
-
+	i = 0;
+	env_variable = envp[i];
+	while (env_variable)
+	{
+		ft_printf("%s\n", env_variable);
+		key = strtok(env_variable, "=");
+		value = strtok(NULL, "=");
+		if (strcmp(key, "PATH") == 0)
+			ft_prinf("%s\n", value);
+		i++;
+		env_variable = envp[i];
+	}
+	return (0);
 }

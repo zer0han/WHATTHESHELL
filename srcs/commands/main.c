@@ -6,7 +6,7 @@
 /*   By: rdalal <rdalal@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/18 18:41:24 by rdalal            #+#    #+#             */
-/*   Updated: 2025/01/16 18:08:10 by rdalal           ###   ########.fr       */
+/*   Updated: 2025/01/19 19:41:26 by rdalal           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -136,3 +136,4 @@ int	main(void)
 	printf("Exiting whattheshell\n");
 	return (0);
 }
+
