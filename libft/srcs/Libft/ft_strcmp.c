@@ -6,11 +6,11 @@
 /*   By: rdalal <rdalal@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/19 20:50:51 by rdalal            #+#    #+#             */
-/*   Updated: 2025/01/19 20:53:59 by rdalal           ###   ########.fr       */
+/*   Updated: 2025/01/19 21:00:04 by rdalal           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../includes/libft.h"
+#include "libft.h"
 
 int	ft_strcmp(const char *s1, const char *s2)
 {
