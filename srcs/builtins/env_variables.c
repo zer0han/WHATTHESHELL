@@ -6,7 +6,7 @@
 /*   By: rdalal <rdalal@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/06 18:17:17 by rdalal            #+#    #+#             */
-/*   Updated: 2025/01/19 20:57:25 by rdalal           ###   ########.fr       */
+/*   Updated: 2025/01/20 13:23:41 by rdalal           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,15 +26,15 @@
 [-i | -] [Name=Value]... [Command [Argument ...]]
 */
 
-int cmd_env(char **argv, char **envp)
+int	cmd_env(char **argv, char **envp)
 {
-    char    *env_variable;
-    char    *key;
-    char    *value;
-    int     i;
+	char	*env_variable;
+	char	*key;
+	char	*value;
+	int		i;
 
-    i = 0;
-    env_variable = envp[i];
+	i = 0;
+	env_variable = envp[i];
 	while (env_variable)
 	{
 		ft_printf("%s\n", env_variable);
@@ -44,7 +44,7 @@ int cmd_env(char **argv, char **envp)
 		if (ft_strcmp(key, "PATH") == 0)
 			ft_printf("%s\n", value);
 		i++;
-		env_variable = env[i];
+		env_variable = envp[i];
 	}
 	return (0);
 }
