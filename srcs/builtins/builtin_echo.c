@@ -6,7 +6,7 @@
 /*   By: rdalal <rdalal@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/21 19:48:47 by rdalal            #+#    #+#             */
-/*   Updated: 2025/01/21 20:00:59 by rdalal           ###   ########.fr       */
+/*   Updated: 2025/01/21 20:17:51 by rdalal           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 /*
 need to make a function to check the -n condition in echo
-shouldn't take too long can fix it on the train
+shouldn't take too long can fix it quickly later but for now it is ok
 void	n_check(char **argv)
 {
 	int	j;
