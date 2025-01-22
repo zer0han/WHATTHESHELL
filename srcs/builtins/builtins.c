@@ -6,7 +6,7 @@
 /*   By: rdalal <rdalal@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/06 16:25:27 by rdalal            #+#    #+#             */
-/*   Updated: 2025/01/15 14:54:39 by rdalal           ###   ########.fr       */
+/*   Updated: 2025/01/22 15:03:13 by rdalal           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,6 +60,7 @@ int	cmd_pwd(char **args)
 	use getcwd() function here
 	getcwd(): string|false
 	*/
+	(void)args;
 	char	cwd[1024];
 
 	if (getcwd(cwd, sizeof(cwd)) != NULL)
@@ -84,38 +85,14 @@ int	cmd_pwd(char **args)
 	** if no str parameter is specified, new line (\n) is displayed
 	echo -n
 	echo -nnnnnn
-	**-n/-nnnnnn (followed only by char 'n)
+	**-n/-nnnnnn (followed only by char 'n')
 	***valid option
 	***remove \n
 	**if not followed by non 'n' like -nP -nL -n-n
 	***invalid
 	*/
 
-int	cmd_echo(char **argv)
-{
-	int	i;
-	int	new_line;
 
-	i = 1;
-	new_line = 1;
-	if (argv[1] && ft_strncmp(argv[1], "-n", 2) == 0)
-	{
-		new_line = 0;
-		i = 2;
-	}
-	while (argv[i])
-	{
-		if ((i > 2) || (i == 2 && new_line))
-		{
-			ft_printf(" ");
-		}
-		ft_printf("%s", argv[i]);
-		i++;
-	}
-	if (new_line)
-		ft_printf("\n");
-	return (0);
-}
 
 
 /***cmd_export
@@ -159,17 +136,26 @@ declare -x SHELL="/bin/bash"
  ** undefine shell function in bash
  */
 
-/***env***/
+
+
 int	cmd_env(char **argv, char **envp)
 {
-/*
-*if no flags or parameters specified, the env command displays your current environment, showing one Name=Value per line
-**Print out a list of all the env variables
+	int		i;
+	char	*env_variable;
+	char	*key;
+	char	*value;
 
-*'-i' or '-ignore-environment' or '-'
-**runs a command with an empty environment
-
-[-i | -] [Name=Value]... [Command [Argument ...]]
-*/	
+	i = 0;
+	env_variable = envp[i];
+	while (env_variable)
+	{
+		ft_printf("%s\n", env_variable);
+		key = strtok(env_variable, "=");
+		value = strtok(NULL, "=");
+		if (strcmp(key, "PATH") == 0)
+			ft_prinf("%s\n", value);
+		i++;
+		env_variable = envp[i];
+	}
+	return (0);
 }
-

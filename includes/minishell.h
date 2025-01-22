@@ -6,7 +6,7 @@
 /*   By: rdalal <rdalal@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/10 19:08:44 by rdalal            #+#    #+#             */
-/*   Updated: 2025/01/14 14:23:54 by rdalal           ###   ########.fr       */
+/*   Updated: 2025/01/20 15:17:51 by rdalal           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,7 @@
 # include <fcntl.h>
 # include <limits.h>
 # include <stdlib.h>
+# include <signal.h>
 # include <sys/wait.h>
 # include <sys/types.h>
 # include <sys/time.h>
@@ -69,7 +70,7 @@ int	cmd_cd(char **agrv);
 
 int	cmd_pwd(char **argv);
 
-int	cmd_echo(char **argv);
+int	cmd_echo(int argc, char **argv);
 
 int	cmd_export(char **argv, char **envp);
 
