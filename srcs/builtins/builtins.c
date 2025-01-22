@@ -6,7 +6,7 @@
 /*   By: rdalal <rdalal@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/06 16:25:27 by rdalal            #+#    #+#             */
-/*   Updated: 2025/01/14 17:20:17 by rdalal           ###   ########.fr       */
+/*   Updated: 2025/01/15 14:54:39 by rdalal           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,7 +51,7 @@ int	cmd_cd(char **argv)
 }
 
 /***pwd***/
-int	cmd_pwd(t_token **args)
+int	cmd_pwd(char **args)
 {
 	/*
 	default behaviour of builtin pwd is same as using "pwd -L"
