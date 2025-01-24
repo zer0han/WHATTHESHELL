@@ -6,7 +6,7 @@
 /*   By: rdalal <rdalal@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/18 18:41:24 by rdalal            #+#    #+#             */
-/*   Updated: 2025/01/20 16:27:19 by rdalal           ###   ########.fr       */
+/*   Updated: 2025/01/22 16:25:05 by rdalal           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,14 +74,23 @@ int	cmd_echo(int argc, char **argv)
 {
 	int	i;
 	int	nl;
+	int	j;
 
 	i = 1;
 	nl = 1;
-	if (argc > 1 && strcmp(argv[1], "-n") == 0)
+	j = 1;
+	if (argc > 1 && argv[1][0] == '-')
 	{
-		nl = 0;
-		i++;
+		while (argv[1][j] && argv[1][j] == 'n')
+			j++;
+		if (argv[1][j] == '\0')
+		{
+			nl = 0;
+			i++;
+		}
 	}
+	if (i < argc)
+		nl = 1;
 	while (i < argc)
 	{
 		printf("%s", argv[i]);
