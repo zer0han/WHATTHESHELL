@@ -6,11 +6,30 @@
 /*   By: rdalal <rdalal@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/21 19:48:47 by rdalal            #+#    #+#             */
-/*   Updated: 2025/01/24 14:22:46 by rdalal           ###   ########.fr       */
+/*   Updated: 2025/01/28 18:10:13 by rdalal           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
+
+
+/***echo***/
+	/*
+	[options] = various options available for modifying the behavior of the echo command
+	[string] = it is the string that we we want to display
+
+	echo [option] [string]
+	** the echo command writes char strings to STDOUTPUT
+	** str are separated by spaces, and a new-line char follows the str parameter specified
+	** if no str parameter is specified, new line (\n) is displayed
+	echo -n
+	echo -nnnnnn
+	**-n/-nnnnnn (followed only by char 'n')
+	***valid option
+	***remove \n
+	**if not followed by non 'n' like -nP -nL -n-n
+	***invalid
+*/
 
 /*
 need to make a function to check the -n condition in echo
@@ -83,6 +102,3 @@ int	cmd_echo(int argc, char **argv)
 		printf("\n");
 	return (0);
 }
-
-
-
