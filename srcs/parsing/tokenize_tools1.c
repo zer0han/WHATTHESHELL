@@ -6,7 +6,7 @@
 /*   By: gmechaly <gmechaly@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/07 13:50:56 by gmechaly          #+#    #+#             */
-/*   Updated: 2025/01/14 15:23:52 by gmechaly         ###   ########.fr       */
+/*   Updated: 2025/01/21 14:19:20 by gmechaly         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,8 +18,6 @@ int	is_space(char s)
 		return (1);
 	return (0);
 }
-
-/*pas sur de cette fonction*/
 
 int	ft_search_unquote(char *line, int *count, char quote)
 {
