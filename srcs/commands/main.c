@@ -6,7 +6,7 @@
 /*   By: rdalal <rdalal@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/18 18:41:24 by rdalal            #+#    #+#             */
-/*   Updated: 2025/01/19 19:41:26 by rdalal           ###   ########.fr       */
+/*   Updated: 2025/01/20 16:27:19 by rdalal           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,6 +56,20 @@ int	cmd_pwd(t_token **args)
 	}
 }
 
+int	cmd_env(char **argv, char **envp)
+{
+	int		i;
+
+	i = 0;
+	(void)argv;
+	while (envp[i])
+	{
+		printf("%s\n", envp[i]);
+		i++;
+	}
+	return (0);
+}
+
 int	cmd_echo(int argc, char **argv)
 {
 	int	i;
@@ -103,11 +117,11 @@ int	cmd_cd(char **argv)
 	return (0);
 }
 
-int	main(void)
+int	main(int argc, char **argv, char **envp)
 {
 	char	*input;
-	char	*argv[1003];
-	int		argc;
+	char	*token_argv[1024];
+	int		token_argc;
 
 	while (1)
 	{
@@ -116,19 +130,21 @@ int	main(void)
 			break ;
 		if (*input)
 			add_history(input);
-		argc = 0;
-		argv[argc] = strtok(input, " ");
-		while (argv[argc] != NULL)
+		token_argc = 0;
+		token_argv[token_argc] = strtok(input, " ");
+		while (token_argv[token_argc] != NULL)
 		{
-			argc++;
-			argv[argc] = strtok(NULL, " ");
+			token_argc++;
+			token_argv[token_argc] = strtok(NULL, " ");
 		}
 		if (strcmp(input, "pwd") == 0)
 			cmd_pwd(NULL);
 		else if (strcmp(input, "cd") == 0)
-			cmd_cd(argv);
+			cmd_cd(token_argv);
 		else if (strcmp(input, "echo") == 0)
-			cmd_echo(argc, argv);
+			cmd_echo(token_argc, token_argv);
+		else if (strcmp(input, "env") == 0)
+			cmd_env(token_argv, envp);
 		else
 			printf("Input entered: %s\n", input);
 		free (input);

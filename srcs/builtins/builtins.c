@@ -6,7 +6,7 @@
 /*   By: rdalal <rdalal@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/06 16:25:27 by rdalal            #+#    #+#             */
-/*   Updated: 2025/01/19 20:48:15 by rdalal           ###   ########.fr       */
+/*   Updated: 2025/01/22 15:03:13 by rdalal           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -92,29 +92,7 @@ int	cmd_pwd(char **args)
 	***invalid
 	*/
 
-int	cmd_echo(int argc, char **argv)
-{
-	int	i;
-	int	new_line;
 
-	i = 1;
-	new_line = 1;
-	if (argc > 1 && strcmp(argv[1], "-n") == 0)
-	{
-		new_line = 0;
-		i++;
-	}
-	while (i < argc)
-	{
-		ft_printf("%s", argv[i]);
-		if (i < argc - 1)
-			ft_printf(" ");
-		i++;
-	}
-	if (new_line)
-		ft_printf("\n");
-	return (0);
-}
 
 
 /***cmd_export

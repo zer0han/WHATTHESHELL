@@ -21,6 +21,7 @@
 # include <fcntl.h>
 # include <limits.h>
 # include <stdlib.h>
+# include <signal.h>
 # include <sys/wait.h>
 # include <sys/types.h>
 # include <sys/time.h>
@@ -68,7 +69,7 @@ int		cmd_cd(char **agrv);
 
 int		cmd_pwd(char **argv);
 
-int		cmd_echo(char **argv);
+int 	cmd_echo(int argc, char **argv);
 
 int		cmd_export(char **argv, char **envp);
 
