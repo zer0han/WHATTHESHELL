@@ -6,34 +6,14 @@
 /*   By: rdalal <rdalal@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/14 14:07:48 by rdalal            #+#    #+#             */
-/*   Updated: 2025/01/19 19:03:23 by rdalal           ###   ########.fr       */
+/*   Updated: 2025/01/28 18:13:11 by rdalal           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
 
-int	exitcode_check(char *code)
-{
-	char	*temp;
-	char	nbr;
-
-	temp = code;
-	if ((*temp == '+' || *temp == '-') && *(temp + 1))
-		temp++;
-	while (*temp)
-	{
-		if (!ft_isdigit(*temp++))
-			return (1);
-	}
-	nbr = ft_atol(code);
-	if ((nbr > 0 && (LONG_MAX / nbr < 1)) || \
-		(nbr < 0 && (LONG_MIN / ft_atol(code) < 1)))
-		return (1);
-	return (0);
-}
-
 /***builtin exit***/
-	/* exit [N (exit_nbr)]
+/* exit [N (exit_nbr)]
 	check if there are more than one arguments and if the first argument is not a valid exit code
 	print error if not the correct number of arguments and return with exit code 1
 	set default exit code at 0
@@ -51,23 +31,71 @@ int	exitcode_check(char *code)
 	and ensure the value is a nbr and is in the valid range of the exit codes.
 	can be something like 
 	int exitcode_check(char *value)
-	*/
+*/
 
-int	cmd_exit(t_token *code, t_token *args)
+void	free_shell(t_token *cmd_line)
+{
+	t_token	*temp;
+	t_token	*current;
+
+	if (!cmd_line)
+		return ;
+	current = cmd_line;
+	while (current)
+	{
+		temp = current->next;
+		current->value = 0;
+		free(current);
+		current = temp;
+	}
+	cmd_line = NULL;
+}
+
+void	free_errors(t_token *cmd_line)
+{
+	if (cmd_line && cmd_line->next)
+	{
+		free_shell(cmd_line);
+	}
+	printf("error\n");
+	exit (1);
+}
+
+int	exitcode_check(char *code)
+{
+	char	*temp;
+	char	nbr;
+
+	temp = code;
+	if ((*temp == '+' || *temp == '-') && *(temp + 1))
+		temp++;
+	while (*temp)
+	{
+		if (!isdigit(*temp++))
+			return (1);
+	}
+	nbr = atol(code);
+	if ((nbr > 0 && (LONG_MAX / nbr < 1)) || \
+		(nbr < 0 && (LONG_MIN / atol(code) < 1)))
+		return (1);
+	return (0);
+}
+
+int	cmd_exit(t_data *code, t_token *args)
 {
 	int	exit_code;
 
-	if (args && args->next && !exitcode_check(args->value))
-		return(ft_putstr_fd("minishell: exit: too many arguments\n", STDERR_FILENO), 1);
+	if (args && args->next && !exitcode_check(args->input))
+		return(printf("minishell: exit: too many arguments\n", STDERR_FILENO), 1);
 	exit_code = 0;
-	if (args && !exitcode_check(args->value))
-		exit_code = ft_atoi(args->value);
-	else if (args && exitcode_check(args->value))
+	if (args && !exitcode_check(args->input))
+		exit_code = atoi(args->input);
+	else if (args && exitcode_check(args->input))
 	{
-		exitcode_check (args->value);
+		exitcode_check (args->input);
 		exit_code = 2;
 	}
-	close(code);
-	//free all shell or tokens here(code)
+	//close(code);
+	free_shell(args);
 	exit(exit_code);
 }
