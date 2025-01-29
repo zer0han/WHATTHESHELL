@@ -6,7 +6,7 @@
 /*   By: rdalal <rdalal@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/18 18:41:24 by rdalal            #+#    #+#             */
-/*   Updated: 2025/01/28 18:56:17 by rdalal           ###   ########.fr       */
+/*   Updated: 2025/01/29 17:06:04 by rdalal           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,14 +80,37 @@ int	cmd_pwd(t_token **args)
 	}
 }
 /***env***/
-int	cmd_env(char **argv, char **envp)
+
+void	sort_export_env(char **object)
+{
+	int		i;
+	int		j;
+	char	*temp;
+
+	i = 0;
+	while (object[i] && object [i + 1])
+	{
+		j = i + 1;
+		if(strcmp(object[i], object[j]) > 0)
+		{
+			temp = object[i];
+			object[i] = object[j];
+			object[j] = temp;
+			i = 0;
+		}
+		else
+			i++;
+	}
+}
+
+int	cmd_env(char **envp)
 {
 	int		i;
 
 	i = 0;
-	(void)argv;
 	while (envp[i])
 	{
+		sort_export_env(envp);
 		printf("%s\n", envp[i]);
 		i++;
 	}
@@ -221,6 +244,20 @@ int	cmd_exit(t_data *code, t_token *args)
 	exit(exit_code);
 }
 
+int	cmd_export(char **envp)
+{
+	int	i;
+
+	i = 0;
+	while (envp[i])
+	{
+		sort_export_env(envp);
+		printf("export %s\n", envp[i]);
+		i++;
+	}
+	return (0);
+}
+
 int	main(int argc, char **argv, char **envp) 
 {
 	char	*input;
@@ -266,9 +303,11 @@ int	main(int argc, char **argv, char **envp)
 		else if (strcmp(input, "echo") == 0)
 			cmd_echo(token_argc, token_argv);
 		else if (strcmp(input, "env") == 0)
-			cmd_env(token_argv, envp);
+			cmd_env(envp);
 		else if (strcmp(input, "exit") == 0)
 			cmd_exit(&ctx, args);
+		else if (strcmp(input, "export") == 0)
+			cmd_export(envp);
 		else
 			printf("Input entered: %s\n", input);
 		while (args)

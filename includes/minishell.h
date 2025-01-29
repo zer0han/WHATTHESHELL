@@ -6,7 +6,7 @@
 /*   By: rdalal <rdalal@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/10 19:08:44 by rdalal            #+#    #+#             */
-/*   Updated: 2025/01/29 14:14:18 by rdalal           ###   ########.fr       */
+/*   Updated: 2025/01/29 19:39:34 by rdalal           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,6 @@
 # include <sys/time.h>
 # include <sys/stat.h>
 # include <sys/resource.h>
-# include <signal.h>
 # include "../libft/includes/ft_printf.h"
 # include "../libft/includes/get_next_line.h"
 # include "../libft/includes/libft.h"
@@ -47,7 +46,7 @@ typedef struct s_data
 {
 	char			*args;
 	int				nbr;
-	struct s_data	*cmd;
+	struct s_data	*cmd;	
 }					t_data;
 
 typedef struct s_token
@@ -62,22 +61,33 @@ typedef struct s_token
 /*functions here*/
 
 
-/***builtins***/
+/*************EXECUTION*************/
 
-//change the prototypes and use t_token node instead of char
+/*	helper		*/
+void	sort_export_env(char **object);
+
+void	free_shell(t_token *cmd_line);
+
+void	free_errors(t_token *cmd_line);
+
+int		exitcode_check(char *code);
+
+int		valid_id(char *var);
+
+/*	builtins	*/
 int		cmd_cd(char **agrv);
 
-int		cmd_pwd(char **argv);
+int		cmd_pwd(char **args);
 
-int 	cmd_echo(int argc, char **argv);
+int		cmd_echo(int argc, char **argv);
 
-int		cmd_export(char **argv, char **envp);
+int		cmd_export(char **envp);
 
-int		cmd_unset(char **argv, char **envp);
+int		cmd_unset(char **envp, char *var);
 
-int		cmd_env(char **argv, char **envp);
+int		cmd_env(char **envp);
 
-//int	cmd_exit(char **argv);
+int		cmd_exit(t_data *code, t_token *args);
 
 /*************PARSING*************/
 

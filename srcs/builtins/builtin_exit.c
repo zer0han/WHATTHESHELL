@@ -6,11 +6,11 @@
 /*   By: rdalal <rdalal@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/14 14:07:48 by rdalal            #+#    #+#             */
-/*   Updated: 2025/01/29 14:13:16 by rdalal           ###   ########.fr       */
+/*   Updated: 2025/01/29 18:19:18 by rdalal           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../includes/minishell.h"
+#include "minishell.h"
 
 /***builtin exit***/
 /* exit [N (exit_nbr)]
