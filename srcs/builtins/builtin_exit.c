@@ -6,7 +6,7 @@
 /*   By: rdalal <rdalal@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/14 14:07:48 by rdalal            #+#    #+#             */
-/*   Updated: 2025/01/28 18:13:11 by rdalal           ###   ########.fr       */
+/*   Updated: 2025/01/29 14:13:16 by rdalal           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,7 +43,7 @@ void	free_shell(t_token *cmd_line)
 	current = cmd_line;
 	while (current)
 	{
-		temp = current->next;
+		temp = current->right;
 		current->value = 0;
 		free(current);
 		current = temp;
@@ -53,7 +53,7 @@ void	free_shell(t_token *cmd_line)
 
 void	free_errors(t_token *cmd_line)
 {
-	if (cmd_line && cmd_line->next)
+	if (cmd_line && cmd_line->right)
 	{
 		free_shell(cmd_line);
 	}
@@ -85,7 +85,7 @@ int	cmd_exit(t_data *code, t_token *args)
 {
 	int	exit_code;
 
-	if (args && args->next && !exitcode_check(args->input))
+	if (args && args->right && !exitcode_check(args->input))
 		return(printf("minishell: exit: too many arguments\n", STDERR_FILENO), 1);
 	exit_code = 0;
 	if (args && !exitcode_check(args->input))
