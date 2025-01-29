@@ -6,14 +6,11 @@
 /*   By: rdalal <rdalal@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/06 16:25:27 by rdalal            #+#    #+#             */
-/*   Updated: 2025/01/28 18:10:33 by rdalal           ###   ########.fr       */
+/*   Updated: 2025/01/29 19:34:24 by rdalal           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../includes/minishell.h"
-
-/*just error and basic struct here for the builtins can expand more on them
-also have to write a function for the executions of the builtins*/
+#include "minishell.h"
 
 /* 
 cd [options] [directory]
@@ -76,33 +73,27 @@ int	cmd_pwd(char **args)
 	}
 }
 
+/***env***/
 
-/***unset***/
- /* unset [variable_name]
- * unset [-options] [variable_name]
- ** undefine a variable in bash
- * unset -f [function_name]
- ** undefine shell function in bash
- */
+/*
+*if no flags or parameters specified, the env command displays your current environment, showing one Name=Value per line
+**Print out a list of all the env variables
 
-int	cmd_env(char **argv, char **envp)
+*'-i' or '-ignore-environment' or '-'
+**runs a command with an empty environment
+
+[-i | -] [Name=Value]... [Command [Argument ...]]
+*/
+int	cmd_env(char **envp)
 {
-	int		i;
-	char	*env_variable;
-	char	*key;
-	char	*value;
+	int	i;
 
 	i = 0;
-	env_variable = envp[i];
-	while (env_variable)
+	while (envp[i])
 	{
-		ft_printf("%s\n", env_variable);
-		key = strtok(env_variable, "=");
-		value = strtok(NULL, "=");
-		if (strcmp(key, "PATH") == 0)
-			ft_prinf("%s\n", value);
+		sort_export_env(envp);
+		printf("%s\n", envp[i]);
 		i++;
-		env_variable = envp[i];
 	}
 	return (0);
 }
