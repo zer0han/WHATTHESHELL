@@ -6,7 +6,7 @@
 /*   By: rdalal <rdalal@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/29 19:13:16 by rdalal            #+#    #+#             */
-/*   Updated: 2025/01/30 21:10:31 by rdalal           ###   ########.fr       */
+/*   Updated: 2025/01/30 21:20:46 by rdalal           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,3 +62,4 @@ int	cmd_unset(char **envp, char *var)
 	return (0);
 }
 yoooooooooooooooooo
+pizza im hungry
