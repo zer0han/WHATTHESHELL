@@ -6,7 +6,7 @@
 /*   By: rdalal <rdalal@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/18 18:41:24 by rdalal            #+#    #+#             */
-/*   Updated: 2025/01/30 16:29:04 by rdalal           ###   ########.fr       */
+/*   Updated: 2025/01/30 18:38:31 by rdalal           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -283,10 +283,7 @@ int	cmd_unset(char **envp, char *var)
 	if (!var)
 		return (1);
 	if (!valid_id(var))
-	{
-		printf("unset: %s: not a valid id\n", var);
 		return(1);
-	}
 	while (envp[i])
 	{
 		if (strncmp(envp[i], var, strlen(var)) == 0 && envp[i][strlen(var)] == '=')
