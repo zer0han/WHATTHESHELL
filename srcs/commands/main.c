@@ -6,7 +6,7 @@
 /*   By: rdalal <rdalal@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/18 18:41:24 by rdalal            #+#    #+#             */
-/*   Updated: 2025/01/29 17:06:04 by rdalal           ###   ########.fr       */
+/*   Updated: 2025/01/30 16:29:04 by rdalal           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,8 +79,8 @@ int	cmd_pwd(t_token **args)
 		return (1);
 	}
 }
-/***env***/
 
+/***env***/
 void	sort_export_env(char **object)
 {
 	int		i;
@@ -258,6 +258,52 @@ int	cmd_export(char **envp)
 	return (0);
 }
 
+/******UNSET*****/
+int	valid_id(char *var)
+{
+	if (!var || (!(*var >= 'A' && *var <= 'Z') && \
+		!(*var >= 'a' && *var <= 'z')))
+		return (0);
+	var++;
+	while (*var)
+	{
+		if (!((*var >= 'A' && *var <= 'Z') || !(*var >= 'a' && *var <= 'z')) \
+			|| (*var >= '0' && *var <= '9') || (*var == '_'))
+			return (0);
+		var++;
+	}
+	return (1);
+}
+
+int	cmd_unset(char **envp, char *var)
+{
+	int	i;
+
+	i = 0;
+	if (!var)
+		return (1);
+	if (!valid_id(var))
+	{
+		printf("unset: %s: not a valid id\n", var);
+		return(1);
+	}
+	while (envp[i])
+	{
+		if (strncmp(envp[i], var, strlen(var)) == 0 && envp[i][strlen(var)] == '=')
+		{
+			free(envp[i]);
+			while (envp[i])
+			{
+				envp[i] = envp[i + 1];
+				i++;
+			}
+			return (0);
+		}
+		i++;
+	}
+	return (0);
+}
+
 int	main(int argc, char **argv, char **envp) 
 {
 	char	*input;
@@ -308,6 +354,13 @@ int	main(int argc, char **argv, char **envp)
 			cmd_exit(&ctx, args);
 		else if (strcmp(input, "export") == 0)
 			cmd_export(envp);
+		else if (strcmp(input, "unset") == 0)
+		{
+			if (token_argc > 1)
+				cmd_unset(envp, input);
+			else
+				printf("unset: missing arg\n");
+		}
 		else
 			printf("Input entered: %s\n", input);
 		while (args)
