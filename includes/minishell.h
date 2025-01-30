@@ -6,7 +6,7 @@
 /*   By: gmechaly <gmechaly@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/10 19:08:44 by rdalal            #+#    #+#             */
-/*   Updated: 2025/01/28 18:52:10 by gmechaly         ###   ########.fr       */
+/*   Updated: 2025/01/30 16:54:41 by gmechaly         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -96,8 +96,8 @@ t_token	*ft_lastnode(t_token *tokens);
 /*	tokenize_tools3.c	*/
 t_token	*is_special_str(t_token **tokens, char *str);
 void	*assign_token_type(t_token **tokens);
-void	*assign_token_type2(t_token **tokens);
-void	*assign_token_type3(t_token **tokens);
+void	*assign_token_type2(t_token **tokens, t_token *node);
+void	*assign_token_type3(t_token **tokens, t_token *node);
 
 /*	tokenize_tools4.c	*/
 void	assign_missing_cmds(t_token **tokens);
@@ -116,5 +116,11 @@ char	*get_path(char *cmd);
 void	free_tab(char **tab, int code);
 char	*ft_fstrjoin(char *s1, char *s2);
 int		is_builtin(char *cmd);
+
+/*************EXPANSION*************/
+char	*get_var_name(char *input_i);
+int		new_input_len(char *input);
+void	replace_var_by_value(char *input, char *ninput, int *i, int *j);
+char	*expand_variables(char *input);
 
 #endif
