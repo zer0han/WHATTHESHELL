@@ -6,7 +6,7 @@
 /*   By: gmechaly <gmechaly@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/21 14:05:00 by gmechaly          #+#    #+#             */
-/*   Updated: 2025/01/28 14:53:43 by gmechaly         ###   ########.fr       */
+/*   Updated: 2025/01/30 16:54:19 by gmechaly         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,6 @@ void	*assign_token_type(t_token **tokens)
 		{
 			node->right->type = "delimiter";
 			node->type = "heredoc";
-			node->left->type = "cmd";
 		}
 		else
 			return (NULL);
@@ -53,13 +52,11 @@ void	*assign_token_type(t_token **tokens)
 		else
 			return (NULL);
 	}
-	return (assign_token_type2(tokens));	
+	return (assign_token_type2(tokens, node));
 }
 
-void	*assign_token_type2(t_token **tokens)
+void	*assign_token_type2(t_token **tokens, t_token *node)
 {
-	t_token	*node;
-
 	node = is_special_str(tokens, "|");
 	if (node != NULL)
 	{
@@ -83,13 +80,11 @@ void	*assign_token_type2(t_token **tokens)
 		else
 			return (NULL);
 	}
-	return (assign_token_type3(tokens));
+	return (assign_token_type3(tokens, node));
 }
 
-void	*assign_token_type3(t_token **tokens)
+void	*assign_token_type3(t_token **tokens, t_token *node)
 {
-	t_token	*node;
-
 	node = is_special_str(tokens, ">");
 	if (node != NULL)
 	{
@@ -100,6 +95,13 @@ void	*assign_token_type3(t_token **tokens)
 		}
 		else
 			return (NULL);
+	}
+	node = *tokens;
+	while (node)
+	{
+		if (node->input[0] == '$')
+			node->type = "variable to expand";
+		node = node->right;
 	}
 	return (*tokens);
 }
