@@ -6,7 +6,7 @@
 /*   By: rdalal <rdalal@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/29 19:13:16 by rdalal            #+#    #+#             */
-/*   Updated: 2025/01/30 21:20:46 by rdalal           ###   ########.fr       */
+/*   Updated: 2025/02/03 18:12:05 by rdalal           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@
 
 int	valid_id(char *var)
 {
-	if (!var || (!(*var >= 'A' && *var <= 'Z') && \
+	if (!var || !((*var >= 'A' && *var <= 'Z') || \
 		!(*var >= 'a' && *var <= 'z')))
 		return (0);
 	var++;
@@ -39,16 +39,20 @@ int	valid_id(char *var)
 int	cmd_unset(char **envp, char *var)
 {
 	int	i;
+	int var_len;
 
 	i = 0;
+	var_len = ft_strlen(var);
 	if (!var)
 		return (1);
 	if (!valid_id(var))
 		return(1);
 	while (envp[i])
 	{
-		if (ft_strncmp(envp[i], var, ft_strlen(var)) == 0 && envp[i][ft_strlen(var)] == '=')
+		if (ft_strncmp(envp[i], var, var_len) == 0 && (envp[i][var_len] == '=' \
+			|| envp[i][var_len] == '\0'))
 		{
+			printf("match found: \"%s\" for the var \"%s\"\n", envp[i], var); //debug check
 			free(envp[i]);
 			while (envp[i])
 			{
@@ -59,7 +63,6 @@ int	cmd_unset(char **envp, char *var)
 		}
 		i++;
 	}
+	printf("variable \"%s\" not found in envp, \n", var); //debug check
 	return (0);
 }
-yoooooooooooooooooo
-pizza im hungry

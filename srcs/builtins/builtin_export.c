@@ -6,7 +6,7 @@
 /*   By: rdalal <rdalal@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/28 18:07:44 by rdalal            #+#    #+#             */
-/*   Updated: 2025/01/30 19:20:46 by rdalal           ###   ########.fr       */
+/*   Updated: 2025/02/03 18:19:28 by rdalal           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,11 +78,11 @@ int	update_env(char **envp, char *var, char value)
 		if (ft_strncmp(envp[i], var, ft_strlen(var)) == 0 && \
 			envp[i][f_strlen(var)] == '=')
 		{
-			free (envp[i]);
+			//free (envp[i]);
 			envp[i] = malloc(ft_strlen(var) + ft_strlen(value) + 2);
 			if (!envp[i])
 				return (1);
-			printf(envp[i], "%s=%s", var, value);
+			sprintf(envp[i], "%s=%s", var, value);
 			return (0);
 		}
 		i++;
@@ -111,9 +111,9 @@ int	add_env(char ***envp, char *var, char *value)
 	new_env[count] = malloc(ft_strlen(var) + ft_strlen(value) + 2);
 	if (!new_env[count])
 		return (1);
-	printf(new_env[count], "%s=%s", var, value);
+	sprintf(new_env[count], "%s=%s", var, value);
 	new_env[count + 1] = NULL;
-	free(*envp);
+	//free(*envp);
 	*envp = new_env;
 	return (0);
 }
@@ -122,6 +122,7 @@ int	cmd_export(char ***envp, char **args)
 {
 	int		i;
 	int		j;
+	char	*equal_sign;
 	char	*var;
 	char	*value;
 
@@ -138,9 +139,24 @@ int	cmd_export(char ***envp, char **args)
 	}
 	while (args[i])
 	{
-		if (ft_strchr(args[i], '='))
-			args[i] = '\0'; //to split the var and the value (var=value)
-		
+		equal_sign = ft_strchr(args[i], '=');
+		if (equal_sign)
+		{
+			*equal_sign = '\0'; //to split the var and the value (var=value)
+			var = args[i];
+			value = equal_sign + 1;
+			if (!valid_id(var))
+				return (ft_putstr_fd("export: not a valid argument", STDERR_FILENO), 1);
+			if (update_env(*envp, var, value))
+				add_env(envp, var, value);
+		}
+		else
+		{
+			if (!valid_id(args[i]))
+				return (ft_putstr_fd("export: not a valid argument", STDERR_FILENO), 1);
+		}
+		i++;
 	}
 	return (0);
 }
+
