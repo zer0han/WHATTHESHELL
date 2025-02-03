@@ -6,7 +6,7 @@
 /*   By: gmechaly <gmechaly@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/15 17:40:07 by gmechaly          #+#    #+#             */
-/*   Updated: 2025/01/20 20:06:26 by gmechaly         ###   ########.fr       */
+/*   Updated: 2025/01/24 16:36:16 by gmechaly         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,41 +14,13 @@
 
 /*		**	RAPPEL	**
 *	typedef struct s_token {
-*	char			*input;
+*	char			*input; NEEDS TO BE FREED
 *	char			*type;
 *	int				value;
 *	struct s_token	*left;
 *	struct s_token	*right;
 *	}			t_token;
 */
-
-	/*UNFINISHED*/
-char	*ft_parse_token(char *token)
-{
-	if (!ft_strncmp(token, "echo", 4) || !ft_strncmp(token, "cd", 2) \
-		|| !ft_strncmp(token, "pwd", 3) || !ft_strncmp(token, "export", 6) \
-		|| !ft_strncmp(token, "unset", 5) || !ft_strncmp(token, "env", 3) \
-		|| !ft_strncmp(token, "exit", 4) || getenv(token) != NULL)
-		return ("cmd");
-	else if (token[0] == '-')
-		return ("arg");
-	else if (!ft_strncmp(token, "|", 1))
-		return ("pipe");
-	else if (!ft_strncmp(token, "<", 1) || !ft_strncmp(token, ">", 1))
-		return ("redirection");
-	else if (!ft_strncmp(token, "<<", 2))
-		return ("delimiter");
-	else if (!ft_strncmp(token, ">>", 2))
-		return ("append mode");
-	else if (token[0] == '\'')
-		return ("single quote");
-	else if (token[0] == '\"')
-		return ("double quote");
-	else if (!ft_strncmp(token, "infile", 6) || !ft_strncmp(token, "outfile", 7)) //this line is temporary
-		return ("file");
-	else
-		return (NULL);
-}
 
 t_token	*create_node(t_token **tokens, char *char_token)
 {
@@ -58,9 +30,7 @@ t_token	*create_node(t_token **tokens, char *char_token)
 	if (node == NULL)
 		return (NULL);
 	node->input = ft_strdup(char_token);
-	// node->type = ft_parse_token(char_token);
-	// if (node->type == NULL)
-	// 	return (NULL);
+	node->type = NULL;
 	if (!(*tokens))
 	{
 		tokens = &node;
@@ -75,6 +45,22 @@ t_token	*create_node(t_token **tokens, char *char_token)
 	return (*tokens);
 }
 
+// static void	ft_print_tokens(t_token **tokens)
+// {
+// 	t_token	*node;
+// 	int		i;
+
+// 	i = 0;
+// 	node = *tokens;
+// 	while (node)
+// 	{
+// 		printf("input %d : %s\n", i, node->input);
+// 		printf("type : %s\n\n", node->type);
+// 		node = node->right;
+// 		i++;
+// 	}
+// }
+
 t_token	*ft_tokenize(char *input)
 {
 	char	**char_tokens;
@@ -88,7 +74,6 @@ t_token	*ft_tokenize(char *input)
 	i = 0;
 	while (char_tokens[i] != NULL)
 	{
-		printf("char_tokens[%d] = %s\n", i, char_tokens[i]);
 		tokens = create_node(&tokens, char_tokens[i]);
 		if (tokens == NULL)
 			return (free_string_tab(&char_tokens[i]), NULL);
@@ -96,6 +81,9 @@ t_token	*ft_tokenize(char *input)
 		i++;
 	}
 	free (char_tokens);
-	printf("end of tokenize\n");
+	if (assign_token_type(&tokens) == NULL)
+		return (printf("failed assigning token types\n"), NULL);
+	assign_missing_cmds(&tokens);
+	assign_options_and_args(&tokens);
 	return (tokens);
 }

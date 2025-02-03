@@ -6,14 +6,11 @@
 /*   By: rdalal <rdalal@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/06 16:25:27 by rdalal            #+#    #+#             */
-/*   Updated: 2025/01/21 19:50:23 by rdalal           ###   ########.fr       */
+/*   Updated: 2025/01/29 19:34:24 by rdalal           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../includes/minishell.h"
-
-/*just error and basic struct here for the builtins can expand more on them
-also have to write a function for the executions of the builtins*/
+#include "minishell.h"
 
 /* 
 cd [options] [directory]
@@ -50,16 +47,17 @@ int	cmd_cd(char **argv)
 	return (0);
 }
 
-/***pwd***/
-int	cmd_pwd(char **args)
-{
-	/*
+/***pwd***/	
+/*
 	default behaviour of builtin pwd is same as using "pwd -L"
 	pwd -L: prints the symbolic path
 	pwd -P: prints the actual path
 	use getcwd() function here
 	getcwd(): string|false
-	*/
+*/
+int	cmd_pwd(char **args)
+{
+
 	(void)args;
 	char	cwd[1024];
 
@@ -74,88 +72,28 @@ int	cmd_pwd(char **args)
 		return (1);
 	}
 }
-/***echo***/
-	/*
-	[options] = various options available for modifying the behavior of the echo command
-	[string] = it is the string that we we want to display
 
-	echo [option] [string]
-	** the echo command writes char strings to STDOUTPUT
-	** str are separated by spaces, and a new-line char follows the str parameter specified
-	** if no str parameter is specified, new line (\n) is displayed
-	echo -n
-	echo -nnnnnn
-	**-n/-nnnnnn (followed only by char 'n')
-	***valid option
-	***remove \n
-	**if not followed by non 'n' like -nP -nL -n-n
-	***invalid
-	*/
+/***env***/
 
+/*
+*if no flags or parameters specified, the env command displays your current environment, showing one Name=Value per line
+**Print out a list of all the env variables
 
+*'-i' or '-ignore-environment' or '-'
+**runs a command with an empty environment
 
-
-/***cmd_export
-*export
-**to view all the exported variables.
-
-*export -p
-**to view all the exported variables on current shell
-
-*export -f [function name]
-**to export shell function
-*Must be used if the names refer to functions.
-*If -f is not used, the export will assume the names are variables.
-
-*export -n [variable_name]
-**Named variables (or functions, with -f) will no longer be exported
-**No output will be seen on screen, to see exported variable grep from exported ones is used
-
-*export without argument, the environment variables are displayed in alphabetical order.
-**each variable is printed in the format
-** declare -x VAR="value"
-**sorting the environment ensures consistent behavior when user calls export
-
-*export with arguments
-**if args passed like export VAR=value, the variable is added or updated in the environment list without
-needing sorting immediately
-
-output
-
-declare -x HOME="/home/user"
-declare -x PATH="/usr/bin"
-declare -x SHELL="/bin/bash"
-
-***/
-
-/***unset***/
- /* unset [variable_name]
- * unset [-options] [variable_name]
- ** undefine a variable in bash
- * unset -f [function_name]
- ** undefine shell function in bash
- */
-
-
-
-int	cmd_env(char **argv, char **envp)
+[-i | -] [Name=Value]... [Command [Argument ...]]
+*/
+int	cmd_env(char **envp)
 {
-	int		i;
-	char	*env_variable;
-	char	*key;
-	char	*value;
+	int	i;
 
 	i = 0;
-	env_variable = envp[i];
-	while (env_variable)
+	while (envp[i])
 	{
-		ft_printf("%s\n", env_variable);
-		key = strtok(env_variable, "=");
-		value = strtok(NULL, "=");
-		if (strcmp(key, "PATH") == 0)
-			ft_prinf("%s\n", value);
+		sort_export_env(envp);
+		printf("%s\n", envp[i]);
 		i++;
-		env_variable = envp[i];
 	}
 	return (0);
 }
