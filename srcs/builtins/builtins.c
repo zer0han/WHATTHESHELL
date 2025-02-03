@@ -6,7 +6,7 @@
 /*   By: rdalal <rdalal@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/06 16:25:27 by rdalal            #+#    #+#             */
-/*   Updated: 2025/01/29 19:34:24 by rdalal           ###   ########.fr       */
+/*   Updated: 2025/02/03 22:09:08 by rdalal           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,7 @@ int	cmd_cd(char **argv)
 		dir = getenv("HOME");
 		if (!dir)
 		{
-			ft_printf("cd: missing arguement\n");
+			printf("cd: missing arguement\n");
 			return (1);
 		}
 	}
@@ -57,13 +57,12 @@ int	cmd_cd(char **argv)
 */
 int	cmd_pwd(char **args)
 {
-
 	(void)args;
 	char	cwd[1024];
 
 	if (getcwd(cwd, sizeof(cwd)) != NULL)
 	{
-		ft_printf("%s\n", cwd);
+		printf("%s\n", cwd);
 		return (0);
 	}
 	else

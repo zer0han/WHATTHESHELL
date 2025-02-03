@@ -6,7 +6,7 @@
 /*   By: rdalal <rdalal@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/28 18:07:44 by rdalal            #+#    #+#             */
-/*   Updated: 2025/02/03 18:19:28 by rdalal           ###   ########.fr       */
+/*   Updated: 2025/02/03 22:24:27 by rdalal           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,6 +88,17 @@ int	update_env(char **envp, char *var, char value)
 		i++;
 	}
 	return (1);
+}
+
+int	ft_strlen(char *str)
+{
+	int	i;
+
+	i = 0;
+	while (str[i])
+	{
+		
+	}
 }
 
 int	add_env(char ***envp, char *var, char *value)
