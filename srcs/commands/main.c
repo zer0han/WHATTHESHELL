@@ -6,7 +6,7 @@
 /*   By: rdalal <rdalal@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/18 18:41:24 by rdalal            #+#    #+#             */
-/*   Updated: 2025/02/03 18:12:18 by rdalal           ###   ########.fr       */
+/*   Updated: 2025/02/03 22:18:51 by rdalal           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -198,9 +198,7 @@ void	free_shell(t_token *cmd_line)
 void	free_errors(t_token *cmd_line)
 {
 	if (cmd_line && cmd_line->right)
-	{
 		free_shell(cmd_line);
-	}
 	printf("error\n");
 	exit (1);
 }
@@ -230,7 +228,7 @@ int	cmd_exit(t_data *code, t_token *args)
 	int	exit_code;
 
 	if (args && args->right && !exitcode_check(args->input))
-		return(printf("minishell: exit: too many arguments\n", STDERR_FILENO), 1);
+		return(printf("minishell: exit: too many arguments\n"), 1);
 	exit_code = 0;
 	if (args && !exitcode_check(args->input))
 		exit_code = atoi(args->input);
@@ -339,14 +337,14 @@ int	cmd_export(char ***envp, char **args)
 			var = args[i];
 			value = e_s + 1;
 			if (!valid_id(var))
-				return (printf("export: not a valid argument1\n", STDERR_FILENO), 1);
+				return (printf("export: not a valid argument1\n"), 1);
 			if (update_env(*envp, var, value))
 				add_env(envp, var, value);
 		}
 		else 
 		{
 			if (!valid_id(args[i]))
-				return (printf("export: not a valid argument2\n", STDERR_FILENO), 1);
+				return (printf("export: not a valid argument2\n"), 1);
 		}
 		i++;
 	}
