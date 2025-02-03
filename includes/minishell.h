@@ -6,7 +6,7 @@
 /*   By: rdalal <rdalal@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/10 19:08:44 by rdalal            #+#    #+#             */
-/*   Updated: 2025/02/03 21:54:45 by rdalal           ###   ########.fr       */
+/*   Updated: 2025/02/03 22:29:59 by rdalal           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,7 +46,7 @@ typedef struct s_data
 {
 	char			*args;
 	int				nbr;
-	struct s_data	*cmd;	
+	struct s_data	*cmd;
 }					t_data;
 
 typedef struct s_token
