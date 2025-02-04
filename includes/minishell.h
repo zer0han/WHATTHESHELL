@@ -6,7 +6,7 @@
 /*   By: rdalal <rdalal@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/10 19:08:44 by rdalal            #+#    #+#             */
-/*   Updated: 2025/02/03 22:29:59 by rdalal           ###   ########.fr       */
+/*   Updated: 2025/02/04 15:08:59 by rdalal           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,6 +74,10 @@ int		exitcode_check(char *code);
 
 int		valid_id(char *var);
 
+int		update_env(char **envp, char *var, char *value);
+
+int		add_env(char ***envp, char *var, char *value);
+
 /*	builtins	*/
 int		cmd_cd(char **agrv);
 
@@ -81,7 +85,7 @@ int		cmd_pwd(char **args);
 
 int		cmd_echo(int argc, char **argv);
 
-int		cmd_export(char **envp);
+int		cmd_export(char ***envp, char **args);
 
 int		cmd_unset(char **envp, char *var);
 
