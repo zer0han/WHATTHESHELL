@@ -6,7 +6,7 @@
 /*   By: rdalal <rdalal@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/18 18:41:24 by rdalal            #+#    #+#             */
-/*   Updated: 2025/02/05 16:58:44 by rdalal           ###   ########.fr       */
+/*   Updated: 2025/02/05 19:54:43 by rdalal           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -441,7 +441,7 @@ int	main(int argc, char **argv, char **envp)
 				printf("unset: missing arg\n");
 		}
 		else
-			printf("Input entered: %s\n", token_argv);
+			printf("Input entered: %s\n", *token_argv);
 		while (args)
 		{
 			temp = args->right;
