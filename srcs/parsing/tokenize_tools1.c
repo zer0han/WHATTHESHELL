@@ -6,11 +6,11 @@
 /*   By: gmechaly <gmechaly@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/07 13:50:56 by gmechaly          #+#    #+#             */
-/*   Updated: 2025/01/21 14:19:20 by gmechaly         ###   ########.fr       */
+/*   Updated: 2025/02/05 19:59:09 by gmechaly         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../includes/minishell.h"
+#include "../../includes/minishell.h"
 
 int	is_space(char s)
 {

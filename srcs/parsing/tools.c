@@ -6,11 +6,11 @@
 /*   By: gmechaly <gmechaly@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/23 19:53:43 by gmechaly          #+#    #+#             */
-/*   Updated: 2025/01/28 17:44:20 by gmechaly         ###   ########.fr       */
+/*   Updated: 2025/02/05 19:59:38 by gmechaly         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../includes/minishell.h"
+#include "../../includes/minishell.h"
 
 char	*get_path(char *cmd)
 {

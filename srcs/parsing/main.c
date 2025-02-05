@@ -6,11 +6,11 @@
 /*   By: gmechaly <gmechaly@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/20 15:27:16 by gmechaly          #+#    #+#             */
-/*   Updated: 2025/01/28 14:36:00 by gmechaly         ###   ########.fr       */
+/*   Updated: 2025/02/05 19:59:04 by gmechaly         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../includes/minishell.h"
+#include "../../includes/minishell.h"
 
 int	main(void)
 {
