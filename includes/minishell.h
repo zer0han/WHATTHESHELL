@@ -6,7 +6,7 @@
 /*   By: rdalal <rdalal@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/10 19:08:44 by rdalal            #+#    #+#             */
-/*   Updated: 2025/01/30 16:54:41 by gmechaly         ###   ########.fr       */
+/*   Updated: 2025/02/05 15:18:31 by rdalal           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,7 @@
 # include <stdio.h>
 # include <unistd.h>
 # include <string.h>
+# include <strings.h>
 # include <fcntl.h>
 # include <limits.h>
 # include <stdlib.h>
@@ -46,7 +47,7 @@ typedef struct s_data
 {
 	char			*args;
 	int				nbr;
-	struct s_data	*cmd;	
+	struct s_data	*cmd;
 }					t_data;
 
 typedef struct s_token
@@ -74,6 +75,10 @@ int		exitcode_check(char *code);
 
 int		valid_id(char *var);
 
+int		update_env(char **envp, char *var, char *value);
+
+int		add_env(char ***envp, char *var, char *value);
+
 /*	builtins	*/
 int		cmd_cd(char **agrv);
 
@@ -81,7 +86,7 @@ int		cmd_pwd(char **args);
 
 int		cmd_echo(int argc, char **argv);
 
-int		cmd_export(char **envp);
+int		cmd_export(char ***envp, char **args);
 
 int		cmd_unset(char **envp, char *var);
 

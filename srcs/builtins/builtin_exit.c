@@ -6,7 +6,7 @@
 /*   By: rdalal <rdalal@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/14 14:07:48 by rdalal            #+#    #+#             */
-/*   Updated: 2025/01/29 18:19:18 by rdalal           ###   ########.fr       */
+/*   Updated: 2025/02/03 22:14:11 by rdalal           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,13 +39,13 @@ void	free_shell(t_token *cmd_line)
 	t_token	*current;
 
 	if (!cmd_line)
-		return ;
+		return;
 	current = cmd_line;
 	while (current)
 	{
 		temp = current->right;
 		current->value = 0;
-		free(current);
+		free (current);
 		current = temp;
 	}
 	cmd_line = NULL;
@@ -54,9 +54,7 @@ void	free_shell(t_token *cmd_line)
 void	free_errors(t_token *cmd_line)
 {
 	if (cmd_line && cmd_line->right)
-	{
 		free_shell(cmd_line);
-	}
 	printf("error\n");
 	exit (1);
 }
@@ -71,12 +69,12 @@ int	exitcode_check(char *code)
 		temp++;
 	while (*temp)
 	{
-		if (!isdigit(*temp++))
+		if (!ft_isdigit(*temp++))
 			return (1);
 	}
-	nbr = atol(code);
+	nbr = ft_atol(code);
 	if ((nbr > 0 && (LONG_MAX / nbr < 1)) || \
-		(nbr < 0 && (LONG_MIN / atol(code) < 1)))
+		(nbr < 0 && (LONG_MIN / ft_atol(code) < 1)))
 		return (1);
 	return (0);
 }
@@ -85,17 +83,18 @@ int	cmd_exit(t_data *code, t_token *args)
 {
 	int	exit_code;
 
-	if (args && args->right && !exitcode_check(args->input))
-		return(printf("minishell: exit: too many arguments\n", STDERR_FILENO), 1);
+	if (args && args->right && !exitcode_check(args->value))
+		return(ft_putstr_fd("minishell: exit: too many arguments\n", STDERR_FILENO), 1);
 	exit_code = 0;
 	if (args && !exitcode_check(args->input))
-		exit_code = atoi(args->input);
+		exit_code = ft_atoi(args->input);
 	else if (args && exitcode_check(args->input))
 	{
-		exitcode_check (args->input);
+		exitcode_check (args->value);
 		exit_code = 2;
 	}
-	//close(code);
+	close(code->nbr);
 	free_shell(args);
 	exit(exit_code);
 }
+
