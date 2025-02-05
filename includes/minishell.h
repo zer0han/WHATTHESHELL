@@ -6,7 +6,7 @@
 /*   By: rdalal <rdalal@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/10 19:08:44 by rdalal            #+#    #+#             */
-/*   Updated: 2025/02/04 15:08:59 by rdalal           ###   ########.fr       */
+/*   Updated: 2025/02/05 15:18:31 by rdalal           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,7 @@
 # include <stdio.h>
 # include <unistd.h>
 # include <string.h>
+# include <strings.h>
 # include <fcntl.h>
 # include <limits.h>
 # include <stdlib.h>
