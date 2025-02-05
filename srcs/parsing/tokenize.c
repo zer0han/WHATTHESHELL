@@ -6,11 +6,11 @@
 /*   By: gmechaly <gmechaly@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/15 17:40:07 by gmechaly          #+#    #+#             */
-/*   Updated: 2025/01/24 16:36:16 by gmechaly         ###   ########.fr       */
+/*   Updated: 2025/02/05 19:59:34 by gmechaly         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../includes/minishell.h"
+#include "../../includes/minishell.h"
 
 /*		**	RAPPEL	**
 *	typedef struct s_token {

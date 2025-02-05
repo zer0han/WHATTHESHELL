@@ -6,11 +6,11 @@
 /*   By: gmechaly <gmechaly@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/23 14:02:50 by gmechaly          #+#    #+#             */
-/*   Updated: 2025/01/28 18:15:16 by gmechaly         ###   ########.fr       */
+/*   Updated: 2025/02/05 19:59:29 by gmechaly         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../includes/minishell.h"
+#include "../../includes/minishell.h"
 
 void	assign_missing_cmds(t_token **tokens)
 {
