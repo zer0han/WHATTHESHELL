@@ -6,7 +6,7 @@
 /*   By: rdalal <rdalal@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/21 19:48:47 by rdalal            #+#    #+#             */
-/*   Updated: 2025/01/29 18:19:13 by rdalal           ###   ########.fr       */
+/*   Updated: 2025/02/05 16:30:35 by rdalal           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,6 +70,7 @@ void	n_check(char **argv)
 		ft_printf("\n");
 	return (0);
 }*/
+
 int	cmd_echo(int argc, char **argv)
 {
 	int	i;
