@@ -6,7 +6,7 @@
 /*   By: rdalal <rdalal@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/05 13:30:19 by rdalal            #+#    #+#             */
-/*   Updated: 2025/02/05 19:32:19 by rdalal           ###   ########.fr       */
+/*   Updated: 2025/02/06 18:52:16 by rdalal           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,66 @@
 ** token->type is redirection
 ** token->right is a pointer to another t_token holding the filename (in its input feild)
 */
+
+/*
+* Heredoc redirection: this is more complex
+* a full implementation would read lines until a delimiter is found
+* for simplicity, we will just print a message
+* in the finished implimentation
+** create a temp file
+** read from the stdin until the delimiter is found
+** then open that file for reading and dup2 it to STDIN
+* expects heredoc_token->right->input to have the delimiter.
+* reads input lines from the user until the delimiter is reached
+* does not add lines to history
+* writes the content to a temp file
+* redirects STDIN to the temp file
+*/
+
+void	heredoc_redirection(t_token *hd_token)
+{
+	char	*delimiter;
+	char	*line;
+	char	*temp_name;
+	int		fd_temp;
+
+	temp_name = "file_name"; //use a unique file in minishell to check the heredoc redirection
+	if (!hd_token || !hd_token->right || !hd_token->right->input)
+	{
+		ft_putstr_fd("Heredoc: missing delimiter\n", STDERR_FILENO);
+		exit (1);
+	}
+	delimiter = hd_token->right->input;
+	fd_temp = open(temp_name, O_WRONLY | O_CREAT | O_TRUNC, 0644);
+	if (fd_temp == -1)
+	{
+		perror("open temp file here");
+		exit (1);
+	}
+	while (1)
+	{
+		line = readline("> ");
+		if (!line)
+			break ;
+		if (ft_strcmp(line, delimiter) == 0)
+		{
+			free (line);
+			break ;
+		}
+		write(fd_temp, line, ft_strlen(line));
+		write(fd_temp, "\n", 1);
+		free (line);
+	}
+	close (fd_temp);
+	fd_temp = open (temp_name, O_RDONLY);
+	if (fd_temp == -1)
+	{
+		perror("open temp file for heredoc reading\n");
+		exit (1);
+	}
+	dup2(fd_temp, STDIN_FILENO);
+	close (fd_temp);
+}
 
 void	redirection_process(t_token *tokens)
 {
@@ -36,7 +96,7 @@ void	redirection_process(t_token *tokens)
 				if (current->right && current->right->input)
 				{
 					fd = open(current->right->input, O_WRONLY | O_CREAT | O_TRUNC, 0644);
-					if (fd = -1)
+					if (fd == -1)
 					{
 						perror("open");
 						exit(1);
@@ -60,7 +120,7 @@ void	redirection_process(t_token *tokens)
 					close(fd);
 				}
 			}
-			else if(ft_strcmp(current->input, "<") == 0)
+			else if (ft_strcmp(current->input, "<") == 0)
 			{
 				//input redirection: open file for reading
 				if (current->right && current->right->input)
@@ -76,18 +136,7 @@ void	redirection_process(t_token *tokens)
 				}
 			}
 			else if (ft_strcmp(current->input, "<<") == 0)
-			{
-				/*
-				* Heredoc redirection: this is more complex
-				* a full implementation would read lines until a delimiter is found
-				* for simplicity, we will just print a message
-				* in the finished implimentation
-				** create a temp file
-				** read fromt stdin until the delimiter is found
-				** then open that file for reading and dup2 it to STDIN
-				*/
-				printf ("Heredoc redirection is not yet finished\n");
-			}
+				heredoc_redirection(current);
 		}
 		current = current->right;
 	}
