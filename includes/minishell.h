@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rdalal <rdalal@student.42.fr>              +#+  +:+       +#+        */
+/*   By: gmechaly <gmechaly@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/10 19:08:44 by rdalal            #+#    #+#             */
-/*   Updated: 2025/02/06 19:17:05 by rdalal           ###   ########.fr       */
+/*   Updated: 2025/02/06 20:13:14 by gmechaly         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -106,7 +106,7 @@ void	redirection_process(t_token *tokens);
 void	alloc_fail(char **result, int iword);
 char	*ft_strncdup(char const *src);
 int		ft_count_tokens(char *line);
-int		ft_search_unquote(char *line, int *count, char quote);
+int		ft_search_unquote(char *line, char quote);
 int		is_space(char s);
 
 /*	tokenize_tools2.c	*/
@@ -115,6 +115,7 @@ char	**ft_split_for_tokens(char *line);
 t_token	*ft_lastnode(t_token *tokens);
 
 /*	tokenize_tools3.c	*/
+int		is_quote(char c);
 t_token	*is_special_str(t_token **tokens, char *str);
 void	*assign_token_type(t_token **tokens);
 void	*assign_token_type2(t_token **tokens, t_token *node);
@@ -124,6 +125,7 @@ void	*assign_token_type3(t_token **tokens, t_token *node);
 void	assign_missing_cmds(t_token **tokens);
 void	assign_options_and_args(t_token **tokens);
 void	parse_after_cmds(t_token **node);
+void	*parse_tokens(t_token **tokens);
 
 /*	tokenize.c	*/
 t_token	*create_node(t_token **tokens, char *char_token);
@@ -131,6 +133,7 @@ t_token	*ft_tokenize(char *input);
 
 /*	free.c	*/
 void	free_string_tab(char **str_tab);
+void	free_tokens(t_token *tokens);
 
 /*	tools.c	*/
 char	*get_path(char *cmd);
@@ -139,9 +142,15 @@ char	*ft_fstrjoin(char *s1, char *s2);
 int		is_builtin(char *cmd);
 
 /*************EXPANSION*************/
+
+/*	variable_exp.c	*/
 char	*get_var_name(char *input_i);
 int		new_input_len(char *input);
 void	replace_var_by_value(char *input, char *ninput, int *i, int *j);
+void	copy_squote(char *input, char *ninput, int *i, int *j);
 char	*expand_variables(char *input);
+
+/*	 variable_exp_tools.c	*/
+void	handle_quote_after_dollar(char *input, char *ninput, int *i, int *j);
 
 #endif
