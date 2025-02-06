@@ -6,7 +6,7 @@
 /*   By: rdalal <rdalal@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/10 19:08:44 by rdalal            #+#    #+#             */
-/*   Updated: 2025/02/05 15:18:31 by rdalal           ###   ########.fr       */
+/*   Updated: 2025/02/06 19:17:05 by rdalal           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -93,6 +93,12 @@ int		cmd_unset(char **envp, char *var);
 int		cmd_env(char **envp);
 
 int		cmd_exit(t_data *code, t_token *args);
+
+/*    redirection    */
+
+void	heredoc_redirection(t_token *hd_token);
+
+void	redirection_process(t_token *tokens);
 
 /*************PARSING*************/
 

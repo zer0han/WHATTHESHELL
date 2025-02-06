@@ -6,7 +6,7 @@
 /*   By: rdalal <rdalal@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/18 18:41:24 by rdalal            #+#    #+#             */
-/*   Updated: 2025/02/05 19:54:43 by rdalal           ###   ########.fr       */
+/*   Updated: 2025/02/06 19:36:04 by rdalal           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -421,6 +421,7 @@ int	main(int argc, char **argv, char **envp)
 			current = new_token;
 			i++;
 		}
+		redirection_process(args);
 		if (strcmp(input, "pwd") == 0)
 			cmd_pwd(NULL);
 		else if (strcmp(input, "cd") == 0)
