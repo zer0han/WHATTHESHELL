@@ -6,7 +6,7 @@
 /*   By: rdalal <rdalal@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/21 19:48:47 by rdalal            #+#    #+#             */
-/*   Updated: 2025/02/05 16:30:35 by rdalal           ###   ########.fr       */
+/*   Updated: 2025/02/07 16:59:35 by rdalal           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,33 +71,33 @@ void	n_check(char **argv)
 	return (0);
 }*/
 
-int	cmd_echo(int argc, char **argv)
+int	cmd_echo(t_token *tokens)
 {
-	int	i;
-	int	nl;
-	int	j;
+	int		nl;
+	int		j;
+	t_token	*args;
 
-	i = 1;
 	nl = 1;
-	j = 1;
-	if (argc > 1 && argv[1][0] == '-')
+	if (!tokens || ft_strcmp(tokens->input, "echo") != 0)
+		return (1);
+	args = tokens->right;
+	if (tokens->right->input[0] == '-')
 	{
-		while (argv[1][j] && argv[1][j] == 'n')
+		j = 1;
+		while (args->input[j] && args->input[j] == 'n')
 			j++;
-		if (argv[1][j] == '\0')
+		if (args->input[j] == '\0')
 		{
 			nl = 0;
-			i++;
+			args = args->right;
 		}
 	}
-	if (i < argc)
-		nl = 1;
-	while (i < argc)
+	while (args)
 	{
-		printf("%s", argv[i]);
-		if (i < argc - 1)
+		printf("%s", args->input);
+		if (args->right)
 			printf(" ");
-		i++;
+		args = args->right;
 	}
 	if (nl)
 		printf("\n");

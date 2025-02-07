@@ -6,7 +6,7 @@
 /*   By: rdalal <rdalal@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/28 18:07:44 by rdalal            #+#    #+#             */
-/*   Updated: 2025/02/04 15:08:52 by rdalal           ###   ########.fr       */
+/*   Updated: 2025/02/07 20:02:52 by rdalal           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,17 +90,6 @@ int	update_env(char **envp, char *var, char *value)
 	return (1);
 }
 
-int	ft_strlen(char *str)
-{
-	int	i;
-
-	i = 0;
-	while (str[i])
-	{
-		
-	}
-}
-
 int	add_env(char ***envp, char *var, char *value)
 {
 	int		count;
@@ -129,44 +118,45 @@ int	add_env(char ***envp, char *var, char *value)
 	return (0);
 }
 
-int	cmd_export(char ***envp, char **args)
+int	cmd_export(char ***envp, t_token *tokens)
 {
-	int		i;
 	int		j;
 	char	*equal_sign;
 	char	*var;
 	char	*value;
+	t_token	*arg;
 
-	i = 1;
-	if (!args[1])
+	if (!tokens || !tokens->right)
 	{
 		j = 0;
+		sort_export_env(*envp);
 		while ((*envp)[j])
-		{
-			sort_export_env(*envp);
 			printf("export %s\n", (*envp)[j++]);
-		}
 		return (0);
 	}
-	while (args[i])
+	arg = tokens->right;
+	while (arg)
 	{
-		equal_sign = ft_strchr(args[i], '=');
+		equal_sign = ft_strchr(arg->input, '=');
 		if (equal_sign)
 		{
-			*equal_sign = '\0'; //to split the var and the value (var=value)
-			var = args[i];
+			*equal_sign = '\0';
+			var = arg->input;
 			value = equal_sign + 1;
 			if (!valid_id(var))
 				return (ft_putstr_fd("export: not a valid argument", STDERR_FILENO), 1);
 			if (update_env(*envp, var, value))
-				add_env(envp, var, value);
+			{
+				if (add_env(envp, var, value))
+					return (1);
+			}
 		}
 		else
 		{
-			if (!valid_id(args[i]))
+			if (!valid_id(arg->input))
 				return (ft_putstr_fd("export: not a valid argument", STDERR_FILENO), 1);
 		}
-		i++;
+		arg = arg->right;
 	}
 	return (0);
 }

@@ -6,7 +6,7 @@
 /*   By: rdalal <rdalal@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/06 16:25:27 by rdalal            #+#    #+#             */
-/*   Updated: 2025/02/03 22:09:08 by rdalal           ###   ########.fr       */
+/*   Updated: 2025/02/07 16:05:44 by rdalal           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,11 +24,11 @@ cd ~
 
 int chdir(const char *path);
 */
-int	cmd_cd(char **argv)
+int	cmd_cd(t_token *args)
 {
 	const char	*dir;
 
-	if (!argv[1])
+	if (!args->right)
 	{
 		dir = getenv("HOME");
 		if (!dir)
@@ -38,7 +38,7 @@ int	cmd_cd(char **argv)
 		}
 	}
 	else
-		dir = argv[1];
+		dir = args->right->input;
 	if (chdir(dir) != 0)
 	{
 		perror("cd");
@@ -55,7 +55,7 @@ int	cmd_cd(char **argv)
 	use getcwd() function here
 	getcwd(): string|false
 */
-int	cmd_pwd(char **args)
+int	cmd_pwd(t_token *args)
 {
 	(void)args;
 	char	cwd[1024];
@@ -83,8 +83,9 @@ int	cmd_pwd(char **args)
 
 [-i | -] [Name=Value]... [Command [Argument ...]]
 */
-int	cmd_env(char **envp)
+int	cmd_env(t_token *args, char **envp)
 {
+	(void) args;
 	int	i;
 
 	i = 0;
