@@ -6,7 +6,7 @@
 /*   By: rdalal <rdalal@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/29 19:13:16 by rdalal            #+#    #+#             */
-/*   Updated: 2025/02/03 18:12:05 by rdalal           ###   ########.fr       */
+/*   Updated: 2025/02/07 20:19:11 by rdalal           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,23 +36,20 @@ int	valid_id(char *var)
 	return (1);
 }
 
-int	cmd_unset(char **envp, char *var)
+int	env_remover(char **envp, char *var)
 {
 	int	i;
 	int var_len;
 
 	i = 0;
 	var_len = ft_strlen(var);
-	if (!var)
-		return (1);
-	if (!valid_id(var))
+	if (!var || !valid_id(var))
 		return(1);
 	while (envp[i])
 	{
 		if (ft_strncmp(envp[i], var, var_len) == 0 && (envp[i][var_len] == '=' \
 			|| envp[i][var_len] == '\0'))
 		{
-			printf("match found: \"%s\" for the var \"%s\"\n", envp[i], var); //debug check
 			free(envp[i]);
 			while (envp[i])
 			{
@@ -63,6 +60,20 @@ int	cmd_unset(char **envp, char *var)
 		}
 		i++;
 	}
-	printf("variable \"%s\" not found in envp, \n", var); //debug check
+	return (0);
+}
+
+int	cmd_unset(char ***envp, t_token *tokens)
+{
+	t_token	*arg;
+
+	if (!tokens || !tokens->right)
+		return (0);
+	arg = tokens->right;
+	while (arg)
+	{
+		env_remover(*envp, arg->input);
+		arg = arg->right;
+	}
 	return (0);
 }

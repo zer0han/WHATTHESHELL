@@ -6,7 +6,7 @@
 /*   By: rdalal <rdalal@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/18 17:51:24 by rdalal            #+#    #+#             */
-/*   Updated: 2025/01/24 16:02:28 by rdalal           ###   ########.fr       */
+/*   Updated: 2025/02/07 19:01:36 by rdalal           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,7 @@ void	free_shell(t_token **cmd_line)
 	current = *cmd_line;
 	while (current)
 	{
-		temp = current->next;
+		temp = current->right;
 		current->value = 0;
 		free(current);
 		current = temp;
