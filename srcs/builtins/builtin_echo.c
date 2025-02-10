@@ -6,7 +6,7 @@
 /*   By: rdalal <rdalal@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/21 19:48:47 by rdalal            #+#    #+#             */
-/*   Updated: 2025/02/07 16:59:35 by rdalal           ###   ########.fr       */
+/*   Updated: 2025/02/10 17:29:03 by rdalal           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,6 +76,7 @@ int	cmd_echo(t_token *tokens)
 	int		nl;
 	int		j;
 	t_token	*args;
+	char	*expanded;
 
 	nl = 1;
 	if (!tokens || ft_strcmp(tokens->input, "echo") != 0)
