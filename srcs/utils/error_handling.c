@@ -6,7 +6,7 @@
 /*   By: rdalal <rdalal@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/18 17:51:24 by rdalal            #+#    #+#             */
-/*   Updated: 2025/02/07 19:01:36 by rdalal           ###   ########.fr       */
+/*   Updated: 2025/02/11 14:07:43 by rdalal           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,6 +35,19 @@ void	free_shell(t_token **cmd_line)
 		current = temp;
 	}
 	*cmd_line = NULL;
+}
+
+void	free_array(char **args)
+{
+	int	i;
+
+	i = 0;
+	while (args[i])
+	{
+		free(args[i]);
+		i++;
+	}
+	free(args);
 }
 
 void	free_errors(t_token **cmd_line)

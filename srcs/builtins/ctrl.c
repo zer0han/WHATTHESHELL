@@ -6,7 +6,7 @@
 /*   By: rdalal <rdalal@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/06 18:18:46 by rdalal            #+#    #+#             */
-/*   Updated: 2025/01/06 18:19:38 by rdalal           ###   ########.fr       */
+/*   Updated: 2025/02/11 18:29:59 by rdalal           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,3 +16,4 @@ crtl-c : displays a new prompt on new line
 crtl-d exits the shell
 crtl-\ does nothing
 */
+
