@@ -6,11 +6,18 @@
 /*   By: gmechaly <gmechaly@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/21 14:05:00 by gmechaly          #+#    #+#             */
-/*   Updated: 2025/01/30 16:54:19 by gmechaly         ###   ########.fr       */
+/*   Updated: 2025/02/06 18:28:57 by gmechaly         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
+
+int	is_quote(char c)
+{
+	if (c == '\'' || c == '\"')
+		return (1);
+	return (0);
+}
 
 t_token	*is_special_str(t_token **tokens, char *str)
 {
@@ -33,7 +40,7 @@ void	*assign_token_type(t_token **tokens)
 	node = is_special_str(tokens, "<<");
 	if (node != NULL)
 	{
-		if (node->right && node->left)
+		if (node->right)
 		{
 			node->right->type = "delimiter";
 			node->type = "heredoc";
@@ -71,11 +78,10 @@ void	*assign_token_type2(t_token **tokens, t_token *node)
 	node = is_special_str(tokens, "<");
 	if (node != NULL)
 	{
-		if (node->right && node->left)
+		if (node->right)
 		{
-			node->right->type = "cmd";
 			node->type = "redirection";
-			node->left->type = "file";
+			node->right->type = "file";
 		}
 		else
 			return (NULL);
@@ -95,13 +101,6 @@ void	*assign_token_type3(t_token **tokens, t_token *node)
 		}
 		else
 			return (NULL);
-	}
-	node = *tokens;
-	while (node)
-	{
-		if (node->input[0] == '$')
-			node->type = "variable to expand";
-		node = node->right;
 	}
 	return (*tokens);
 }

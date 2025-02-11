@@ -6,7 +6,7 @@
 /*   By: gmechaly <gmechaly@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/15 17:40:07 by gmechaly          #+#    #+#             */
-/*   Updated: 2025/01/24 16:36:16 by gmechaly         ###   ########.fr       */
+/*   Updated: 2025/02/06 20:08:06 by gmechaly         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,22 +45,6 @@ t_token	*create_node(t_token **tokens, char *char_token)
 	return (*tokens);
 }
 
-// static void	ft_print_tokens(t_token **tokens)
-// {
-// 	t_token	*node;
-// 	int		i;
-
-// 	i = 0;
-// 	node = *tokens;
-// 	while (node)
-// 	{
-// 		printf("input %d : %s\n", i, node->input);
-// 		printf("type : %s\n\n", node->type);
-// 		node = node->right;
-// 		i++;
-// 	}
-// }
-
 t_token	*ft_tokenize(char *input)
 {
 	char	**char_tokens;
@@ -84,6 +68,7 @@ t_token	*ft_tokenize(char *input)
 	if (assign_token_type(&tokens) == NULL)
 		return (printf("failed assigning token types\n"), NULL);
 	assign_missing_cmds(&tokens);
+	printf("test\n");
 	assign_options_and_args(&tokens);
 	return (tokens);
 }

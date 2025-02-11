@@ -6,7 +6,7 @@
 /*   By: gmechaly <gmechaly@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/07 13:50:56 by gmechaly          #+#    #+#             */
-/*   Updated: 2025/01/21 14:19:20 by gmechaly         ###   ########.fr       */
+/*   Updated: 2025/02/05 19:50:29 by gmechaly         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,19 +19,15 @@ int	is_space(char s)
 	return (0);
 }
 
-int	ft_search_unquote(char *line, int *count, char quote)
+int	ft_search_unquote(char *line, char quote)
 {
 	int	i;
 
 	i = 1;
-	i++;
 	while (line[i] && line[i] != quote)
 		i++;
 	if (line[i] == quote)
-	{
-		(*count)++;
 		return (i);
-	}
 	return (INT_MIN);
 }
 
@@ -47,7 +43,10 @@ int	ft_count_tokens(char *line)
 	while (line[i])
 	{
 		if (line[i] == '\'' || line[i] == '\"')
-			i += ft_search_unquote(&line[i], &count, line[i]);
+		{
+			i += ft_search_unquote(&line[i], line[i]);
+			count++;
+		}
 		else if (is_space(line[i]) == 0 && is_space(line[i + 1]) == 1)
 			count++;
 		else if (ft_isalnum(line[i]) && !ft_isalnum(line[i + 1]))
