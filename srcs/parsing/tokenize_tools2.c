@@ -6,7 +6,7 @@
 /*   By: gmechaly <gmechaly@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/10 19:40:18 by gmechaly          #+#    #+#             */
-/*   Updated: 2025/01/16 17:27:09 by gmechaly         ###   ########.fr       */
+/*   Updated: 2025/02/11 19:03:16 by gmechaly         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,6 +60,9 @@ char	**ft_split_for_tokens(char *line)
 		return (NULL);
 	while (line[i])
 	{
+		result[iword] = assign_nosep_token(&line[i], &i);
+		if (result[iword] != NULL)
+			iword++;
 		if (line[i] == '\"' || line[i] == '\'')
 		{
 			result[iword] = ft_strnqdup(&line[i], line[i]);

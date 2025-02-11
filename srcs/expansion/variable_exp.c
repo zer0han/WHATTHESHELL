@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   variable_exp.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rdalal <rdalal@student.42.fr>              +#+  +:+       +#+        */
+/*   By: gmechaly <gmechaly@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/30 13:52:27 by gmechaly          #+#    #+#             */
-/*   Updated: 2025/02/05 19:58:41 by gmechaly         ###   ########.fr       */
+/*   Updated: 2025/02/11 19:01:25 by gmechaly         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,11 +23,14 @@ char	*get_var_name(char *input_i)
 	while (input_i[i + start] == '$' || is_quote(input_i[i + start]))
 		start++;
 	while (input_i[start + i] && !is_space(input_i[start + i]) \
-		&& !is_quote(input_i[start + i]))
+		&& !is_quote(input_i[start + i]) && input_i[start + i] != '<' \
+		&& input_i[start + i] != '>' && input_i[start + i] != '|')
 		i++;
-	var_name = malloc(sizeof(char) * (i + 1));
+	var_name = (char *)malloc(sizeof(char) * (i + 1));
 	i = start;
-	while (input_i[i] && !is_space(input_i[i]) && !is_quote(input_i[i]))
+	while (input_i[i] && !is_space(input_i[i]) && !is_quote(input_i[i]) && \
+	input_i[start + i] != '<' && input_i[start + i] != '>' \
+	&& input_i[start + i] != '|')
 	{
 		var_name[i] = input_i[i];
 		i++;
@@ -95,7 +98,7 @@ char	*expand_variables(char *input)
 	int		i;
 	int		j;
 
-	ninput = malloc(sizeof(char) * (new_input_len(input) + 1));
+	ninput = (char *)malloc(sizeof(char) * (new_input_len(input) + 1));
 	if (ninput == NULL)
 		return (printf("malloc failed"), NULL);
 	i = 0;
@@ -117,12 +120,12 @@ char	*expand_variables(char *input)
 	return (ninput);
 }
 
-int	main(void)
-{
-	char	*ninput;
+// int	main(void)
+// {
+// 	char	*ninput;
 
-	ninput = expand_variables("echo $HOME \"$HOME\" $\"HOME\"");
-	printf("%s\n", ninput);
-	free(ninput);
-	return (0);
-}
+// 	ninput = expand_variables("echo $HOME \"$HOME\" $\"HOME\"");
+// 	printf("%s\n", ninput);
+// 	free(ninput);
+// 	return (0);
+// }
