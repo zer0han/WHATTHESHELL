@@ -6,7 +6,7 @@
 /*   By: gmechaly <gmechaly@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/16 14:55:26 by gmechaly          #+#    #+#             */
-/*   Updated: 2025/01/29 17:48:24 by gmechaly         ###   ########.fr       */
+/*   Updated: 2025/02/11 19:04:23 by gmechaly         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,7 @@ void	free_tokens(t_token *tokens)
 		else
 		{
 			free(tokens);
-			break;
+			break ;
 		}
 		free(tokens->left);
 	}
