@@ -6,7 +6,7 @@
 /*   By: gmechaly <gmechaly@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/23 14:02:50 by gmechaly          #+#    #+#             */
-/*   Updated: 2025/02/06 20:09:42 by gmechaly         ###   ########.fr       */
+/*   Updated: 2025/02/11 19:02:29 by gmechaly         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,7 +76,7 @@ void	*parse_tokens(t_token **tokens)
 		{
 			path = get_path(node->input);
 			if (path == NULL && !is_builtin(node->input))
-				return (free(path), NULL);
+				return (free(path), printf("%s : invalid cmd\n", node->input), NULL);
 		}
 		else if (!(ft_strncmp(node->type, "file", 4)))
 		{
@@ -84,7 +84,7 @@ void	*parse_tokens(t_token **tokens)
 			(ft_strncmp(node->left->input, ">", ft_strlen(node->left->input))))
 			{
 				if (access(node->input, F_OK | R_OK))
-					return (NULL); // no such file or directory
+					return (printf("%s : no such file or directory\n", node->input), NULL);
 			}
 		}
 		node = node->right;

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rdalal <rdalal@student.42.fr>              +#+  +:+       +#+        */
+/*   By: gmechaly <gmechaly@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/10 19:08:44 by rdalal            #+#    #+#             */
-/*   Updated: 2025/02/11 17:05:51 by rdalal           ###   ########.fr       */
+/*   Updated: 2025/02/11 19:04:53 by gmechaly         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -137,6 +137,10 @@ void	assign_missing_cmds(t_token **tokens);
 void	assign_options_and_args(t_token **tokens);
 void	parse_after_cmds(t_token **node);
 void	*parse_tokens(t_token **tokens);
+
+/*	tokenize_tools5.c	*/
+char	*assign_nosep_token(char *input, int *i);
+int		is_nosep_token(char *input, int *i);
 
 /*	tokenize.c	*/
 t_token	*create_node(t_token **tokens, char *char_token);

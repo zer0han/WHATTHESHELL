@@ -6,7 +6,7 @@
 /*   By: gmechaly <gmechaly@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/07 13:50:56 by gmechaly          #+#    #+#             */
-/*   Updated: 2025/02/05 19:50:29 by gmechaly         ###   ########.fr       */
+/*   Updated: 2025/02/11 19:03:57 by gmechaly         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,7 +42,9 @@ int	ft_count_tokens(char *line)
 		i++;
 	while (line[i])
 	{
-		if (line[i] == '\'' || line[i] == '\"')
+		if (is_nosep_token(&line[i], &i))
+			count++;
+		else if (line[i] == '\'' || line[i] == '\"')
 		{
 			i += ft_search_unquote(&line[i], line[i]);
 			count++;
@@ -66,7 +68,8 @@ char	*ft_strncdup(char const *src)
 
 	len = 0;
 	i = 0;
-	while (is_space(src[len]) == 0)
+	while (src[len] && is_space(src[len]) == 0 \
+	&& src[len] != '<' && src[len] != '>' && src[len] != '|')
 		len++;
 	dest = (char *)malloc(sizeof(char) * (len + 1));
 	if (dest == NULL)
