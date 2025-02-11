@@ -6,11 +6,12 @@
 /*   By: rdalal <rdalal@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/10 17:31:21 by rdalal            #+#    #+#             */
-/*   Updated: 2025/02/11 19:11:36 by rdalal           ###   ########.fr       */
+/*   Updated: 2025/02/11 19:14:53 by rdalal           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+
 
 /*call your the path functions here */
 char	**cmd_prep(t_token *tokens, char **envp, char **cmd_path)
