@@ -6,7 +6,7 @@
 /*   By: gmechaly <gmechaly@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/10 19:08:44 by rdalal            #+#    #+#             */
-/*   Updated: 2025/02/11 19:04:53 by gmechaly         ###   ########.fr       */
+/*   Updated: 2025/02/12 15:35:00 by gmechaly         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -162,10 +162,12 @@ int		is_builtin(char *cmd);
 char	*get_var_name(char *input_i);
 int		new_input_len(char *input);
 void	replace_var_by_value(char *input, char *ninput, int *i, int *j);
-void	copy_squote(char *input, char *ninput, int *i, int *j);
 char	*expand_variables(char *input);
 
 /*	 variable_exp_tools.c	*/
 void	handle_quote_after_dollar(char *input, char *ninput, int *i, int *j);
+void	copy_quote(char *input, char *ninput, int *i, int *j);
+void	copy_dquote(char *input, char *ninput, int *i, int *j);
+void	copy_squote(char *input, char *ninput, int *i, int *j);
 
 #endif
