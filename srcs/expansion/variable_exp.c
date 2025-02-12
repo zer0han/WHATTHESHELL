@@ -6,7 +6,7 @@
 /*   By: gmechaly <gmechaly@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/30 13:52:27 by gmechaly          #+#    #+#             */
-/*   Updated: 2025/02/11 19:01:25 by gmechaly         ###   ########.fr       */
+/*   Updated: 2025/02/12 15:35:58 by gmechaly         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,16 +82,6 @@ void	replace_var_by_value(char *input, char *ninput, int *i, int *j)
 	free(vname);
 }
 
-void	copy_squote(char *input, char *ninput, int *i, int *j)
-{
-	if (input[*i] == '\'')
-		(*i)++;
-	while (input[*i] != '\'' && input[*i])
-		ninput[(*j)++] = input[(*i)++];
-	if (input[*i] == '\'')
-		(*i)++;
-}
-
 char	*expand_variables(char *input)
 {
 	char	*ninput;
@@ -105,13 +95,13 @@ char	*expand_variables(char *input)
 	j = 0;
 	while (input[i])
 	{
-		if (input[i] == '\'' && input[i + 1])
-			copy_squote(input, ninput, &i, &j);
+		if (is_quote(input[i]) && input[i + 1])
+			copy_quote(input, ninput, &i, &j);
 		else if (input[i] == '$' && is_quote(input[i + 1]))
 			handle_quote_after_dollar(input, ninput, &i, &j);
 		else if (input[i] == '$' && input[i + 1] && input[i + 1] != '\"')
 			replace_var_by_value(input, ninput, &i, &j);
-		else if (input[i] != '\'')
+		else if (!is_quote(input[i]))
 			ninput[j++] = input[i++];
 		else
 			break ;
