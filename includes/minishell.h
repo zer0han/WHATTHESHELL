@@ -6,7 +6,7 @@
 /*   By: rdalal <rdalal@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/10 19:08:44 by rdalal            #+#    #+#             */
-/*   Updated: 2025/02/13 15:43:26 by rdalal           ###   ########.fr       */
+/*   Updated: 2025/02/13 17:56:59 by rdalal           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,7 +76,7 @@ typedef struct s_exec
 
 /*************EXECUTION*************/
 
-/*	helper		*/
+/*	helper		    */
 void	sort_export_env(char **object);
 void	free_shell(t_token *cmd_line);
 void	free_array(char **args);
@@ -86,7 +86,7 @@ int		valid_id(char *var);
 int		update_env(char **envp, char *var, char *value);
 int		add_env(char ***envp, char *var, char *value);
 
-/*  external_cmds  */
+/*  external_cmds       */
 
 char	**cmd_prep(t_token *tokens, char **envp, char **cmd_path);
 void	run_cmd(char *cmd_path, char **argv, char **envp);
@@ -94,7 +94,7 @@ void	exec_external(t_token *tokens, char **envp);
 void	dispatch_cmds(t_token *tokens, t_data *code, char ***envp);
 
 
-/*	builtins	*/
+/*	builtins	        */
 int		cmd_cd(t_token *args);
 int		cmd_pwd(t_token *args);
 int		cmd_echo(t_token *tokens);
@@ -103,7 +103,14 @@ int		cmd_unset(char **envp, char *var);
 int		cmd_env(t_token *args, char **envp);
 int		cmd_exit(t_data *code, t_token *args);
 
-/*    redirection    */
+/*  pipes               */
+
+int		make_pipe(int m_pipe[2]);
+void	child_process1(t_exec *exec, int prev_pipe, char ***envp);
+void	child_process2(t_exec *exec, int prev_pipe, int m_pipe[2], char ***envp);
+void	exec_pipeline(t_exec *exec, char ***envp);
+
+/*  redirection         */
 
 void	heredoc_redirection(t_token *hd_token);
 void	redirection_process(t_token *tokens);
