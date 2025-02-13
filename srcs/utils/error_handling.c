@@ -6,7 +6,7 @@
 /*   By: rdalal <rdalal@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/18 17:51:24 by rdalal            #+#    #+#             */
-/*   Updated: 2025/02/11 14:07:43 by rdalal           ###   ########.fr       */
+/*   Updated: 2025/02/12 20:15:29 by rdalal           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,3 +59,5 @@ void	free_errors(t_token **cmd_line)
 	ft_printf("error\n");
 	exit (1);
 }
+
+//close pipis function and cacas

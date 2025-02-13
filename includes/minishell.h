@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gmechaly <gmechaly@student.42.fr>          +#+  +:+       +#+        */
+/*   By: rdalal <rdalal@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/10 19:08:44 by rdalal            #+#    #+#             */
-/*   Updated: 2025/02/12 15:35:00 by gmechaly         ###   ########.fr       */
+/*   Updated: 2025/02/13 15:43:26 by rdalal           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,6 +59,18 @@ typedef struct s_token
 	struct s_token	*right;
 }					t_token;
 
+typedef struct s_exec
+{
+	char			*cmd;
+	t_data			*args;
+	t_token			*redir;
+	int				fd_in;
+	int				fd_out;
+	int				fd_pipe[2];
+	int				pid;
+	struct s_sxec	*next;
+}					t_exec;
+
 /*functions here*/
 
 
@@ -66,49 +78,34 @@ typedef struct s_token
 
 /*	helper		*/
 void	sort_export_env(char **object);
-
 void	free_shell(t_token *cmd_line);
-
 void	free_array(char **args);
-
 void	free_errors(t_token *cmd_line);
-
 int		exitcode_check(char *code);
-
 int		valid_id(char *var);
-
 int		update_env(char **envp, char *var, char *value);
-
 int		add_env(char ***envp, char *var, char *value);
 
 /*  external_cmds  */
 
 char	**cmd_prep(t_token *tokens, char **envp, char **cmd_path);
-
 void	run_cmd(char *cmd_path, char **argv, char **envp);
-
 void	exec_external(t_token *tokens, char **envp);
+void	dispatch_cmds(t_token *tokens, t_data *code, char ***envp);
 
 
 /*	builtins	*/
 int		cmd_cd(t_token *args);
-
 int		cmd_pwd(t_token *args);
-
 int		cmd_echo(t_token *tokens);
-
 int		cmd_export(char ***envp, char **args);
-
 int		cmd_unset(char **envp, char *var);
-
 int		cmd_env(t_token *args, char **envp);
-
 int		cmd_exit(t_data *code, t_token *args);
 
 /*    redirection    */
 
 void	heredoc_redirection(t_token *hd_token);
-
 void	redirection_process(t_token *tokens);
 
 /*************PARSING*************/

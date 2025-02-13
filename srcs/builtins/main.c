@@ -6,7 +6,7 @@
 /*   By: rdalal <rdalal@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/18 18:41:24 by rdalal            #+#    #+#             */
-/*   Updated: 2025/02/07 18:57:48 by rdalal           ###   ########.fr       */
+/*   Updated: 2025/02/12 15:40:27 by rdalal           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -457,24 +457,4 @@ int	main(int argc, char **argv, char **envp)
 	return (0);
 }
 
-
-/*void	cmd_line(int token_ac, char *input, char *token_av[1024], char **envp)
-{
-	
-		token_ac = 0;
-		token_av[token_ac] = strtok(input, " ");
-		if (strcmp(input, "pwd") == 0)
-			cmd_pwd(NULL);
-		else if (strcmp(input, "cd") == 0)
-			cmd_cd(token_av);
-		else if (strcmp(input, "echo") == 0)
-			cmd_echo(token_ac, token_av);
-		else if (strcmp(input, "env") == 0)
-			cmd_env(token_av, envp);
-		else if (strcmp(input, "exit") == 0)
-			cmd_exit();
-		else
-			printf("Input entered: %s\n", input);
-		free (input);
-}*/
 
