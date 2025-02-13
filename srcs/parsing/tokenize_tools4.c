@@ -6,7 +6,7 @@
 /*   By: gmechaly <gmechaly@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/23 14:02:50 by gmechaly          #+#    #+#             */
-/*   Updated: 2025/02/11 19:02:29 by gmechaly         ###   ########.fr       */
+/*   Updated: 2025/02/13 18:43:31 by gmechaly         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,6 +87,22 @@ void	*parse_tokens(t_token **tokens)
 					return (printf("%s : no such file or directory\n", node->input), NULL);
 			}
 		}
+		node = node->right;
+	}
+	return (*tokens);
+}
+
+void	*is_null_token(t_token **tokens)
+{
+	t_token	*node;
+
+	node = *tokens;
+	if (node->type == NULL)
+		return (printf("%s : invalid cmd\n", node->input), NULL);
+	while (node)
+	{
+		if (node->type == NULL)
+			return (NULL);
 		node = node->right;
 	}
 	return (*tokens);

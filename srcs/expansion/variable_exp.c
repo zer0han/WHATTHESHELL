@@ -6,7 +6,7 @@
 /*   By: gmechaly <gmechaly@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/30 13:52:27 by gmechaly          #+#    #+#             */
-/*   Updated: 2025/02/13 15:34:36 by gmechaly         ###   ########.fr       */
+/*   Updated: 2025/02/13 18:44:33 by gmechaly         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -91,8 +91,10 @@ char	*expand_variables(char *input)
 	int		i;
 	int		j;
 
-	ninput = (char *)malloc(sizeof(char) * (new_input_len(input) + 1));
-	if (ninput == NULL)
+	i = new_input_len(input);
+	if (i > 0)
+		ninput = (char *)malloc(sizeof(char) * (i + 1));
+	if (i <= 0 || ninput == NULL)
 		return (NULL);
 	i = 0;
 	j = 0;
