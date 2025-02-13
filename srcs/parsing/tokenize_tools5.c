@@ -6,12 +6,12 @@
 /*   By: gmechaly <gmechaly@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/11 14:46:49 by gmechaly          #+#    #+#             */
-/*   Updated: 2025/02/11 15:56:51 by gmechaly         ###   ########.fr       */
+/*   Updated: 2025/02/13 15:27:39 by gmechaly         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-//call with is_nosep_token(&input[i], &i);
+//call with assign_nosep_token(&input[i], &i);
 char	*assign_nosep_token(char *input, int *i)
 {
 	(*i)++;

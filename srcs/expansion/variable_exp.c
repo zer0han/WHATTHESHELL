@@ -6,7 +6,7 @@
 /*   By: gmechaly <gmechaly@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/30 13:52:27 by gmechaly          #+#    #+#             */
-/*   Updated: 2025/02/12 15:35:58 by gmechaly         ###   ########.fr       */
+/*   Updated: 2025/02/13 15:34:36 by gmechaly         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,8 +76,11 @@ void	replace_var_by_value(char *input, char *ninput, int *i, int *j)
 	vname = get_var_name(&input[(*i) + 1]);
 	vval = getenv(vname);
 	ninput[*j] = '\0';
-	ft_strlcat(ninput, vval, ft_strlen(ninput) + ft_strlen(vval) + 1);
-	*j += ft_strlen(vval);
+	if (vval)
+	{
+		ft_strlcat(ninput, vval, ft_strlen(ninput) + ft_strlen(vval) + 1);
+		*j += ft_strlen(vval);
+	}
 	*i += ft_strlen(vname) + 1;
 	free(vname);
 }
@@ -90,7 +93,7 @@ char	*expand_variables(char *input)
 
 	ninput = (char *)malloc(sizeof(char) * (new_input_len(input) + 1));
 	if (ninput == NULL)
-		return (printf("malloc failed"), NULL);
+		return (NULL);
 	i = 0;
 	j = 0;
 	while (input[i])
@@ -99,9 +102,9 @@ char	*expand_variables(char *input)
 			copy_quote(input, ninput, &i, &j);
 		else if (input[i] == '$' && is_quote(input[i + 1]))
 			handle_quote_after_dollar(input, ninput, &i, &j);
-		else if (input[i] == '$' && input[i + 1] && input[i + 1] != '\"')
+		else if (input[i] == '$' && input[i + 1])
 			replace_var_by_value(input, ninput, &i, &j);
-		else if (!is_quote(input[i]))
+		else if (input[i] != '\'')
 			ninput[j++] = input[i++];
 		else
 			break ;

@@ -6,7 +6,7 @@
 /*   By: gmechaly <gmechaly@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/21 14:05:00 by gmechaly          #+#    #+#             */
-/*   Updated: 2025/02/06 18:28:57 by gmechaly         ###   ########.fr       */
+/*   Updated: 2025/02/13 15:26:25 by gmechaly         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,7 +46,7 @@ void	*assign_token_type(t_token **tokens)
 			node->type = "heredoc";
 		}
 		else
-			return (NULL);
+			return (printf("parse error near << token"), NULL);
 	}
 	node = is_special_str(tokens, ">>");
 	if (node != NULL)
@@ -57,7 +57,7 @@ void	*assign_token_type(t_token **tokens)
 			node->right->type = "file";
 		}
 		else
-			return (NULL);
+			return (printf("parse error near >> token"), NULL);
 	}
 	return (assign_token_type2(tokens, node));
 }
@@ -73,7 +73,7 @@ void	*assign_token_type2(t_token **tokens, t_token *node)
 			node->type = "pipe";
 		}
 		else
-			return (NULL);
+			return (printf("parse error near | token"), NULL);
 	}
 	node = is_special_str(tokens, "<");
 	if (node != NULL)
@@ -84,7 +84,7 @@ void	*assign_token_type2(t_token **tokens, t_token *node)
 			node->right->type = "file";
 		}
 		else
-			return (NULL);
+			return (printf("parse error near < token"), NULL);
 	}
 	return (assign_token_type3(tokens, node));
 }
@@ -100,7 +100,7 @@ void	*assign_token_type3(t_token **tokens, t_token *node)
 			node->type = "redirection";
 		}
 		else
-			return (NULL);
+			return (printf("parse error near > token"), NULL);
 	}
 	return (*tokens);
 }
