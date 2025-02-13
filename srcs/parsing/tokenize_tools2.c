@@ -6,7 +6,7 @@
 /*   By: gmechaly <gmechaly@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/10 19:40:18 by gmechaly          #+#    #+#             */
-/*   Updated: 2025/02/11 19:03:16 by gmechaly         ###   ########.fr       */
+/*   Updated: 2025/02/13 15:25:50 by gmechaly         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,16 +27,19 @@ char	*ft_strnqdup(char *src, char quote)
 	int		len;
 	int		i;
 
-	len = 1;
+	len = 0;
 	i = 0;
-	while (src[len] != quote)
+	printf("%s\n", src);
+	if (src[len] == quote)
 		len++;
-	dst = (char *)malloc(sizeof(char) * (len + 2));
+	while (src[len] && src[len] != quote)
+		len++;
+	dst = (char *)malloc(sizeof(char) * (len + 1));
 	if (dst == NULL)
 		return (NULL);
-	while (i < len + 1)
+	while (src[i + 1] && src[i + 1] != quote)
 	{
-		dst[i] = src[i];
+		dst[i] = src[i + 1];
 		i++;
 	}
 	dst[i] = '\0';
@@ -68,7 +71,7 @@ char	**ft_split_for_tokens(char *line)
 			result[iword] = ft_strnqdup(&line[i], line[i]);
 			if (result[iword] == NULL)
 				return (alloc_fail(result, iword), NULL);
-			i += ft_strlen(result[iword]);
+			i += ft_strlen(result[iword]) + 2;
 			if (line[i] == '\"' || line[i] == '\'')
 				i++;
 			iword++;

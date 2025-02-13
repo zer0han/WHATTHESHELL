@@ -6,7 +6,7 @@
 /*   By: gmechaly <gmechaly@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/20 15:27:16 by gmechaly          #+#    #+#             */
-/*   Updated: 2025/02/06 19:32:40 by gmechaly         ###   ########.fr       */
+/*   Updated: 2025/02/13 15:24:05 by gmechaly         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,6 +26,21 @@ static void	ft_print_tokens(t_token **tokens)
 		node = node->right;
 		i++;
 	}
+}
+
+t_token	*ft_minishell_parsing(char *input)
+{
+	char	*new_input;
+	t_token	*tokens;
+
+	new_input = expand_variables(input);
+	free(input);
+	tokens = ft_tokenize(new_input);
+	free_tokens(tokens);
+	free(new_input);
+	if (tokens == NULL || parse_tokens(&tokens) == NULL)
+		return (NULL);
+	return (tokens);
 }
 
 int	main(void)
