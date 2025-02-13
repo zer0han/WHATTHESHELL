@@ -6,21 +6,11 @@
 /*   By: gmechaly <gmechaly@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/15 17:40:07 by gmechaly          #+#    #+#             */
-/*   Updated: 2025/02/06 20:08:06 by gmechaly         ###   ########.fr       */
+/*   Updated: 2025/02/13 15:31:52 by gmechaly         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
-
-/*		**	RAPPEL	**
-*	typedef struct s_token {
-*	char			*input; NEEDS TO BE FREED
-*	char			*type;
-*	int				value;
-*	struct s_token	*left;
-*	struct s_token	*right;
-*	}			t_token;
-*/
 
 t_token	*create_node(t_token **tokens, char *char_token)
 {
@@ -66,9 +56,8 @@ t_token	*ft_tokenize(char *input)
 	}
 	free (char_tokens);
 	if (assign_token_type(&tokens) == NULL)
-		return (printf("failed assigning token types\n"), NULL);
+		return (NULL);
 	assign_missing_cmds(&tokens);
-	printf("test\n");
 	assign_options_and_args(&tokens);
 	return (tokens);
 }

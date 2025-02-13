@@ -6,7 +6,7 @@
 /*   By: gmechaly <gmechaly@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/07 13:50:56 by gmechaly          #+#    #+#             */
-/*   Updated: 2025/02/11 19:03:57 by gmechaly         ###   ########.fr       */
+/*   Updated: 2025/02/13 15:25:08 by gmechaly         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,7 @@ int	ft_search_unquote(char *line, char quote)
 		i++;
 	if (line[i] == quote)
 		return (i);
-	return (INT_MIN);
+	return (printf("closing quote missing\n"), INT_MIN);
 }
 
 int	ft_count_tokens(char *line)
