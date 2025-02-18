@@ -6,7 +6,7 @@
 /*   By: gmechaly <gmechaly@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/20 15:27:16 by gmechaly          #+#    #+#             */
-/*   Updated: 2025/02/13 18:42:03 by gmechaly         ###   ########.fr       */
+/*   Updated: 2025/02/18 18:31:23 by gmechaly         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,6 +61,7 @@ int	main(int argc, char **argv, char **envp)
 		tokens = ft_minishell_parsing(input);
 		if (tokens)
 		{
+			//fjgdlkfhd;
 			ft_print_tokens(&tokens);
 			free_tokens(tokens);
 		}

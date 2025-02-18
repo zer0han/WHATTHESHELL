@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   pipes.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rdalal <rdalal@student.42.fr>              +#+  +:+       +#+        */
+/*   By: gmechaly <gmechaly@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/12 15:44:07 by rdalal            #+#    #+#             */
-/*   Updated: 2025/02/13 15:46:38 by rdalal           ###   ########.fr       */
+/*   Updated: 2025/02/18 18:38:03 by gmechaly         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,7 +56,7 @@ void	child_process1(t_exec *exec, int prev_pipe, char ***envp)
 void	child_process2(t_exec *exec, int prev_pipe, int m_pipe[2], char ***envp)
 {
 	int	exit_code;
-	
+
 	exit_code = 0;
 	signal(SIGQUIT, SIG_DFL);
 	if (exec->fd_in != STDIN_FILENO)
