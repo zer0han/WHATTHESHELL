@@ -6,7 +6,7 @@
 /*   By: rdalal <rdalal@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/18 19:35:01 by rdalal            #+#    #+#             */
-/*   Updated: 2025/02/18 19:41:44 by rdalal           ###   ########.fr       */
+/*   Updated: 2025/02/19 16:02:46 by rdalal           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,45 +14,82 @@
 
 /*just pseudo code examples of how the exec funcitons will look*/
 
-int	eval(t_token node)
+t_exec	*create_exec(t_token *cmd_token)
 {
-	if (node.type == PLUS)
-		return (node.left + node.right);
-	else
-		return (node.value);
+	t_exec	*exec_cmd;
+
+	exec_cmd = malloc(sizeof(t_exec));
+	if (!exec_cmd)
+		return (NULL);
+	exec_cmd->cmd = cmd_token->input;
+	exec_cmd->args = //parse_args(cmd_token) converts token args into list
+	exec_cmd->redir = cmd_token->redir;
+	exec_cmd->fd_in = STDIN_FILENO;
+	exec_cmd->fd_out = STDOUT_FILENO;
+	exec_cmd->next = NULL;
+	handle_redirection(exec_cmd);
+	return (exec_cmd);
 }
 
-int	main_execution(t_token *token_tree, t_data *code, char ***envp)
+t_exec	*create_exec_list(t_token *token_tree)
 {
+	t_exec	*exec_list;
+	t_exec	*new_exec;
+	t_exec	*prev_exec;
+	t_token	*current_token;
+
+	exec_list = NULL;
+	prev_exec = NULL;
+	current_token = token_tree;
+	while (current_token)
+	{
+		if (ft_strcmp(current_token->type, "pipe") == 0)
+			new_exec = create_exec(current_token->left);
+		else
+			new_exec = create_exec(current_token);
+		if (!exec_list)
+			exec_list = new_exec;
+		else
+			prev_exec->next = new_exec;
+		prev_exec = new_exec;
+		if (ft_strccmp(current_token->type, "pipe") == 0)
+			current_token = current_token->right;
+		else
+			current_token = NULL;
+	}
+	return (exec_list);
+}
+
+void	main_execution(t_token *token_tree, t_data *code, char ***envp)
+{
+	t_exec	*exec_list;
+	t_exec	*exec;
+	pid_t	pid;
+	
 	if (!token_tree)
-		return (0); // Nothing to execute
-	if (token_tree->type == PIPE) // Handle pipeline
+		return ;
+	if (ft_strcmp(token_tree->type, "pipe") == 0)
 	{
-		t_exec *exec_list = convert_token_to_exec_list(token_tree);
+		exec_list = create_exec_list(token_tree);
 		exec_pipeline(exec_list, envp);
-		free_exec_list(exec_list);
+		free_exec(exec_list);
 	}
-	else // Handle simple command
+	else
 	{
-		t_exec *simple_exec = create_simple_exec_from_token(token_tree);
-		redirection_process(simple_exec->redir);
-		pid_t pid = fork();
+		exec = create_exec(token_tree);
+		handle_redirection(exec);
+		pid = fork();
 		if (pid == -1)
+			return (perror("fork"), free_exec(exec));
+		if (pid == 0)
 		{
-			perror("fork");
-			free_simple_exec(simple_exec);
-			return (1);
+			dispatch_cmds(exec->redir, code, envp);
+			exit (0);
 		}
-		if (pid == 0) // Child process
-		{
-			dispatch_cmds(simple_exec->redir, code, envp); // Dispatch handles built-ins/external
-			exit(0);
-		}
-		else // Parent process
-		waitpid(pid, NULL, 0);
-		free_simple_exec(simple_exec);
+		else
+			waitpid(pid, NULL, 0);
+		free_exec(exec);
 	}
-	return (0);
 }
 
 /*
@@ -78,25 +115,4 @@ function create_exec_for_command(cmd_token):
   exec_cmd.cmd = cmd_token.input      # Command name
   # ... (set up args, redirections, file descriptors in t_exec based on cmd_token) ...
   return exec_cmd
-*/
-
-int	execute_pipe(void)
-{
-	pipe(pipe_fds);
-	left_pid = fork();
-	if (pid == 0) //child0
-	{
-		// do stuff
-		close(pipe_fds[0]);
-		close(pipe_fds[1]);
-	}
-	else //back to the parent
-	{
-		// do the same thing for child1
-		//make sure to close the pipe_fds in the parent too
-	}
-}
-
-/*basically open a file and redirect using dup2 the STDIN or STDOUT to that file
-*and in case of heredoc we redirect the STDIN to a pipe (|)
 */

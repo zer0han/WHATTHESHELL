@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   free.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gmechaly <gmechaly@student.42.fr>          +#+  +:+       +#+        */
+/*   By: rdalal <rdalal@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/16 14:55:26 by gmechaly          #+#    #+#             */
-/*   Updated: 2025/02/11 19:04:23 by gmechaly         ###   ########.fr       */
+/*   Updated: 2025/02/19 12:59:07 by rdalal           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,5 +38,22 @@ void	free_tokens(t_token *tokens)
 			break ;
 		}
 		free(tokens->left);
+	}
+}
+
+void	free_exec(t_exec *exec_list)
+{
+	t_exec	*temp;
+	
+	while (exec_list)
+	{
+		temp = exec_list->next;
+		free(exec_list->cmd);
+		if (exec_list->args)
+			free(exec_list->args);
+		if (exec_list->redir)
+			free(exec_list->redir);
+		free (exec_list);
+		exec_list = temp;
 	}
 }
