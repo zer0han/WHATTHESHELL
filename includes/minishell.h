@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gmechaly <gmechaly@student.42.fr>          +#+  +:+       +#+        */
+/*   By: rdalal <rdalal@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/10 19:08:44 by rdalal            #+#    #+#             */
-/*   Updated: 2025/02/18 18:50:04 by gmechaly         ###   ########.fr       */
+/*   Updated: 2025/02/19 16:01:50 by rdalal           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,6 +57,7 @@ typedef struct s_token
 	int				*value;
 	struct s_token	*left;
 	struct s_token	*right;
+	struct s_token	*redir;
 }					t_token;
 
 typedef struct s_exec
@@ -68,13 +69,18 @@ typedef struct s_exec
 	int				fd_out;
 	int				fd_pipe[2];
 	int				pid;
-	struct s_sxec	*next;
+	struct s_exec	*next;
 }					t_exec;
 
 /*functions here*/
 
 
 /*************EXECUTION*************/
+
+/*  exec_functions  */
+t_exec	*create_exec(t_token *cmd_token);
+t_exec	*create_exec_list(t_token *token_tree);
+void	main_execution(t_token *token_tree, t_data *code, char ***envp);
 
 /*	helper		    */
 void	sort_export_env(char **object);

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   pipes.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gmechaly <gmechaly@student.42.fr>          +#+  +:+       +#+        */
+/*   By: rdalal <rdalal@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/12 15:44:07 by rdalal            #+#    #+#             */
-/*   Updated: 2025/02/18 18:38:03 by gmechaly         ###   ########.fr       */
+/*   Updated: 2025/02/19 13:08:29 by rdalal           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -93,12 +93,13 @@ void	exec_pipeline(t_exec *exec, char ***envp)
 		child_process1(exec, prev_pipe, envp);
 		if (prev_pipe != -1)
 			close(prev_pipe);
-		prev_pipe = exec->fd_pipe[0];
+		if (exec->next)
+			prev_pipe = exec->fd_pipe[0];
 		exec = exec->next;
 	}
-	while (exec)
+	while (exec_ptr)
 	{
 		waitpid(exec_ptr->pid, NULL, 0);
-		exec = exec_ptr->next;
+		exec_ptr = exec_ptr->next;
 	}
 }
