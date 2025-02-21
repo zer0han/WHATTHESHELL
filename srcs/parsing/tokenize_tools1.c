@@ -6,7 +6,7 @@
 /*   By: gmechaly <gmechaly@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/07 13:50:56 by gmechaly          #+#    #+#             */
-/*   Updated: 2025/02/13 15:25:08 by gmechaly         ###   ########.fr       */
+/*   Updated: 2025/02/21 19:05:29 by gmechaly         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,24 +38,27 @@ int	ft_count_tokens(char *line)
 
 	i = 0;
 	count = 0;
-	while (line[i] && is_space(line[i]))
-		i++;
 	while (line[i])
 	{
-		if (is_nosep_token(&line[i], &i))
+		if (is_space(line[i]))
+			i++;
+		else if (is_nosep_token(&line[i], &i))
 			count++;
 		else if (line[i] == '\'' || line[i] == '\"')
 		{
-			i += ft_search_unquote(&line[i], line[i]);
+			i += ft_search_unquote(&line[i], line[i]) + 1;
 			count++;
 		}
-		else if (is_space(line[i]) == 0 && is_space(line[i + 1]) == 1)
+		else if (!is_space(line[i]) && line[i + 1] != '\"' \
+				&& line[i + 1] != '\'')
+		{
+			while (line[i] && is_space(line[i]) == 0 \
+			&& line[i] != '<' && line[i] != '>' && line[i] != '|')
+				i++;
 			count++;
-		else if (ft_isalnum(line[i]) && !ft_isalnum(line[i + 1]))
-			count++;
+		}
 		if (i < 0)
 			return (-1);
-		i++;
 	}
 	return (count);
 }
