@@ -6,7 +6,7 @@
 /*   By: gmechaly <gmechaly@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/10 19:08:44 by rdalal            #+#    #+#             */
-/*   Updated: 2025/02/21 19:11:02 by gmechaly         ###   ########.fr       */
+/*   Updated: 2025/02/22 15:42:25 by rdalal           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,6 +70,7 @@ typedef struct s_exec
 	int				fd_pipe[2];
 	int				pid;
 	struct s_exec	*next;
+	struct s_exec	*prev;
 }					t_exec;
 
 /*functions here*/
@@ -80,7 +81,7 @@ typedef struct s_exec
 /*  exec_functions  */
 t_exec	*create_exec(t_token *cmd_token);
 t_exec	*create_exec_list(t_token *token_tree);
-void	main_execution(t_token *token_tree, t_data *code, char ***envp);
+void	main_execution(t_token **token_tree, t_data *code, char ***envp);
 
 /*	helper		    */
 void	sort_export_env(char **object);
@@ -160,6 +161,7 @@ t_token	*ft_tokenize(char *input);
 /*	free.c	*/
 void	free_string_tab(char **str_tab);
 void	free_tokens(t_token *tokens);
+void	free_exec(t_exec *exec_list);
 
 /*	tools.c	*/
 char	*get_path(char *cmd);
