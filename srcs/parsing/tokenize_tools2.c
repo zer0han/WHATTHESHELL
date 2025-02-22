@@ -6,7 +6,7 @@
 /*   By: gmechaly <gmechaly@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/10 19:40:18 by gmechaly          #+#    #+#             */
-/*   Updated: 2025/02/13 15:25:50 by gmechaly         ###   ########.fr       */
+/*   Updated: 2025/02/21 19:06:07 by gmechaly         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,7 @@ char	*ft_strnqdup(char *src, char quote)
 
 	len = 0;
 	i = 0;
-	printf("%s\n", src);
+	// printf("%s\n", src);
 	if (src[len] == quote)
 		len++;
 	while (src[len] && src[len] != quote)
@@ -58,6 +58,7 @@ char	**ft_split_for_tokens(char *line)
 	nb_token = ft_count_tokens(line);
 	if (nb_token < 0)
 		return (NULL);
+	// printf("allocating for %d token(s)\n", nb_token + 1);
 	result = (char **)malloc(sizeof(char *) * (nb_token + 1));
 	if (result == NULL)
 		return (NULL);
