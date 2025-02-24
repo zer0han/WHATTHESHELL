@@ -6,7 +6,7 @@
 /*   By: rdalal <rdalal@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/10 17:31:21 by rdalal            #+#    #+#             */
-/*   Updated: 2025/02/11 19:14:53 by rdalal           ###   ########.fr       */
+/*   Updated: 2025/02/24 14:13:29 by rdalal           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,7 +54,7 @@ void	run_cmd(char *cmd_path, char **argv, char **envp)
 	pid_t	pid;
 
 	pid = fork();
-	if (pid = 0)
+	if (pid == 0)
 	{
 		if (execve(cmd_path, argv, envp) == -1)
 		{

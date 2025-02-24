@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gmechaly <gmechaly@student.42.fr>          +#+  +:+       +#+        */
+/*   By: rdalal <rdalal@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/10 19:08:44 by rdalal            #+#    #+#             */
-/*   Updated: 2025/02/22 15:42:25 by rdalal           ###   ########.fr       */
+/*   Updated: 2025/02/24 20:56:14 by rdalal           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,6 +23,7 @@
 # include <limits.h>
 # include <stdlib.h>
 # include <signal.h>
+# include <errno.h>
 # include <sys/wait.h>
 # include <sys/types.h>
 # include <sys/time.h>
@@ -63,8 +64,9 @@ typedef struct s_token
 typedef struct s_exec
 {
 	char			*cmd;
-	t_data			*args;
+	char			**args;
 	t_token			*redir;
+	t_token			*cmd_token;
 	int				fd_in;
 	int				fd_out;
 	int				fd_pipe[2];
@@ -76,6 +78,14 @@ typedef struct s_exec
 /*functions here*/
 
 
+/*************ERROR HANDLING********/
+
+void	free_shell(t_token *cmd_line);
+void	free_array(char **args);
+void	free_errors(t_token *cmd_line);
+void	handle_error(char *context, int errnum, t_token **tokens);
+int		error_message(char *context, int error_code);
+
 /*************EXECUTION*************/
 
 /*  exec_functions  */
@@ -83,25 +93,22 @@ t_exec	*create_exec(t_token *cmd_token);
 t_exec	*create_exec_list(t_token *token_tree);
 void	main_execution(t_token **token_tree, t_data *code, char ***envp);
 
-/*	helper		    */
+/*	helper				*/
 void	sort_export_env(char **object);
-void	free_shell(t_token *cmd_line);
-void	free_array(char **args);
-void	free_errors(t_token *cmd_line);
+void	add_exec_node(t_exec **list, t_exec *new);
+void	add_argument(t_exec *exec, char *arg);
 int		exitcode_check(char *code);
 int		valid_id(char *var);
 int		update_env(char **envp, char *var, char *value);
 int		add_env(char ***envp, char *var, char *value);
 
-/*  external_cmds       */
-
+/*	builtins			*/
 char	**cmd_prep(t_token *tokens, char **envp, char **cmd_path);
 void	run_cmd(char *cmd_path, char **argv, char **envp);
 void	exec_external(t_token *tokens, char **envp);
-void	dispatch_cmds(t_token *tokens, t_data *code, char ***envp);
-
-
-/*	builtins	        */
+void	execute_cmds(t_token *token, t_data *data, char ***envp);
+int		dispatch_cmds(t_token *tokens, t_data *code, char ***envp);
+int		is_builtin(t_token *token);
 int		cmd_cd(t_token *args);
 int		cmd_pwd(t_token *args);
 int		cmd_echo(t_token *tokens);
@@ -119,8 +126,19 @@ void	exec_pipeline(t_exec *exec, char ***envp);
 
 /*  redirection         */
 
-void	heredoc_redirection(t_token *hd_token);
-void	redirection_process(t_token *tokens);
+void	setup_redir(t_exec *exec);
+void	clean_fds(t_exec *exec);
+void	execute_child_redir(t_exec *exec, char **envp);
+void	execute_cmd(t_exec *exec, char **envp);
+void	redirection_process(t_token *token);
+void	read_heredoc_content(int fd, char *limit);
+int		handle_output(t_token *redir, t_token *file, t_token **token);
+int		handle_append(t_token *redir, t_token *file, t_token **token);
+int		handle_input(t_token *redir, t_token *file, t_token **token);
+int		create_heredoc_file(char **temp);
+int		handle_heredoc(t_token *redir, t_token *file);
+int		apply_redirection(t_token *redir, t_token *file, t_token **token);
+
 
 /*************PARSING*************/
 

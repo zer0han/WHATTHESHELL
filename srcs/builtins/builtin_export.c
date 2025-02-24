@@ -6,7 +6,7 @@
 /*   By: rdalal <rdalal@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/28 18:07:44 by rdalal            #+#    #+#             */
-/*   Updated: 2025/02/10 15:56:51 by rdalal           ###   ########.fr       */
+/*   Updated: 2025/02/24 14:18:42 by rdalal           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -113,7 +113,7 @@ int	add_env(char ***envp, char *var, char *value)
 		return (1);
 	sprintf(new_env[count], "%s=%s", var, value);
 	new_env[count + 1] = NULL;
-	//free(*envp);
+	free(*envp);
 	*envp = new_env;
 	return (0);
 }
