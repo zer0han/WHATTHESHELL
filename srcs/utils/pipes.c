@@ -6,7 +6,7 @@
 /*   By: rdalal <rdalal@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/12 15:44:07 by rdalal            #+#    #+#             */
-/*   Updated: 2025/02/19 13:08:29 by rdalal           ###   ########.fr       */
+/*   Updated: 2025/02/24 16:29:43 by rdalal           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,27 +58,31 @@ void	child_process2(t_exec *exec, int prev_pipe, int m_pipe[2], char ***envp)
 	int	exit_code;
 
 	exit_code = 0;
-	signal(SIGQUIT, SIG_DFL);
 	if (exec->fd_in != STDIN_FILENO)
 	{
 		dup2(exec->fd_in, STDIN_FILENO);
 		close (exec->fd_in);
 	}
 	else if (prev_pipe != -1)
-		dup2(prev_pipe, STDERR_FILENO);
+	{
+		dup2(prev_pipe, STDIN_FILENO);
+		close (prev_pipe);
+	}
 	if (exec->fd_out != STDOUT_FILENO)
 	{
 		dup2(exec->fd_out, STDOUT_FILENO);
-		close (exec->fd_out);
+		close(exec->fd_out);
 	}
 	else if (exec->next)
+	{
 		dup2(m_pipe[1], STDOUT_FILENO);
+		close(m_pipe[1]);
+	}
 	close(m_pipe[0]);
-	close(m_pipe[1]);
-	if (prev_pipe != -1)
-		close(prev_pipe);
-	dispatch_cmds(exec->redir, exec->args, envp);
-	exit (0);
+	if (exec->redir)
+		redirection_process(exec->redir);
+	dispatch_cmds(exec->cmd_token, exec->args, envp);
+	exit(exit_code);
 }
 
 void	exec_pipeline(t_exec *exec, char ***envp)
@@ -90,6 +94,11 @@ void	exec_pipeline(t_exec *exec, char ***envp)
 	prev_pipe = -1;
 	while (exec)
 	{
+		if (exec->next)
+		{
+			pipe(exec->fd_pipe);
+			exec->fd_out = exec->fd_pipe[1];
+		}
 		child_process1(exec, prev_pipe, envp);
 		if (prev_pipe != -1)
 			close(prev_pipe);

@@ -6,7 +6,7 @@
 /*   By: rdalal <rdalal@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/05 13:30:19 by rdalal            #+#    #+#             */
-/*   Updated: 2025/02/06 18:52:16 by rdalal           ###   ########.fr       */
+/*   Updated: 2025/02/24 20:48:41 by rdalal           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,43 @@
 * redirects STDIN to the temp file
 */
 
-void	heredoc_redirection(t_token *hd_token)
+int	apply_redirection(t_token *redir, t_token *file, t_token **token)
+{
+	if (ft_strcmp(redir->input, ">") == 0)
+		return (hanle_output(redir, file, token));
+	if (ft_strcmp(redir->input, '>>') == 0)
+		return (handle_append(redir, file, token));
+	if (ft_strcmp(redir->input, "<") == 0)
+		return (handle_input (redir, file, token));
+	if (ft_strcmp(redir->input, "<<") == 0)
+		return (handle_heredoc(redir, file));
+	return (0);
+}
+
+void	redirection_process(t_token *token)
+{
+	t_token	*file;
+	t_token	*current;
+
+	current = token;
+	while (token)
+	{
+		if (current->input && (ft_strcmp(current->input, ">") == 0 \
+			|| ft_strcmp(current->input, ">>") == 0 \
+			|| ft_strcmp(current->input, "<") == 0 \
+			|| ft_strcmp(current->input, "<<") == 0))
+		{
+			file = current->right;
+			if (!file || !file->input)
+				handle_error("syntax error", EINVAL, &token);
+			current = file->right;
+		}
+		else
+			current = current->right;
+	}
+}
+
+/*void	heredoc_redirection(t_token *hd_token)
 {
 	char	*delimiter;
 	char	*line;
@@ -140,4 +176,5 @@ void	redirection_process(t_token *tokens)
 		}
 		current = current->right;
 	}
-}
+}*/
+
