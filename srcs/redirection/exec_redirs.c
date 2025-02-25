@@ -6,7 +6,7 @@
 /*   By: rdalal <rdalal@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/24 20:15:44 by rdalal            #+#    #+#             */
-/*   Updated: 2025/02/24 20:41:44 by rdalal           ###   ########.fr       */
+/*   Updated: 2025/02/25 19:09:08 by rdalal           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ void	setup_redir(t_exec *exec)
 	if (exec->fd_in != STDIN_FILENO)
 		dup2(exec->fd_in, STDIN_FILENO);
 	if (exec->fd_out != STDOUT_FILENO)
-		dup2(exec->fd_out, STDOUT_FILENO);		
+		dup2(exec->fd_out, STDOUT_FILENO);
 }
 
 void	clean_fds(t_exec *exec)
@@ -62,7 +62,7 @@ static int	fork_safe(pid_t *pid)
 	return (0);
 }
 
-void	execute_cmd(t_exec *exec, char **envp)
+void	redir_execute_cmd(t_exec *exec, char **envp)
 {
 	int		status;
 

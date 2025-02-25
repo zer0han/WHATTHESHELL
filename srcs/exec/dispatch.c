@@ -6,7 +6,7 @@
 /*   By: rdalal <rdalal@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/11 14:50:45 by rdalal            #+#    #+#             */
-/*   Updated: 2025/02/24 20:52:45 by rdalal           ###   ########.fr       */
+/*   Updated: 2025/02/25 19:48:06 by rdalal           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,7 @@ int	dispatch_cmds(t_token *tokens, t_data *code, char ***envp)
 	return (status);
 }
 
-int	is_builtin(t_token *token)
+static int	fd_is_builtin(t_token *token)
 {
 	char	*cmd;
 
@@ -51,7 +51,7 @@ int	is_builtin(t_token *token)
 	return (0);
 }
 
-void	execute_cmds(t_token *token, t_data *data, char ***envp)
+void	execute_cmds(t_token *token, t_data *data, char **envp)
 {
 	int		status;
 	char	*cmd;
@@ -60,7 +60,7 @@ void	execute_cmds(t_token *token, t_data *data, char ***envp)
 		return ;
 	status = 0;
 	cmd = token->input;
-	if (is_builtin(token))
+	if (fd_is_builtin(token))
 		status = dispatch_cmds(token, data, envp);
 	else
 		exec_external(token, *envp);

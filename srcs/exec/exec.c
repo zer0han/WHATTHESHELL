@@ -6,7 +6,7 @@
 /*   By: rdalal <rdalal@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/18 19:35:01 by rdalal            #+#    #+#             */
-/*   Updated: 2025/02/24 20:47:35 by rdalal           ###   ########.fr       */
+/*   Updated: 2025/02/25 19:36:19 by rdalal           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,6 +29,7 @@ t_exec	*create_exec(t_token *cmd_token)
 	exec_cmd->cmd_token = cmd_token;
 	exec_cmd->cmd = cmd_token->input;
 	exec_cmd->redir = cmd_token->redir;
+	exec_cmd->args = NULL;
 	exec_cmd->fd_in = STDIN_FILENO;
 	exec_cmd->fd_out = STDOUT_FILENO;
 	return (exec_cmd);
@@ -39,7 +40,7 @@ static void	process_args(t_exec *exec_cmd, t_token *node)
 	while (node && (ft_strcmp(node->type, "arg") == 0 \
 		|| ft_strcmp(node->type, "option") == 0))
 	{
-		add_args(exec_cmd, node->input);
+		add_argument(exec_cmd, node->input);
 		node = node->right;
 	}
 	
@@ -76,22 +77,21 @@ void	main_execution(t_token **token_tree, t_data *code, char ***envp)
 	if (!token_tree || !*token_tree)
 		return ;
 	temp = *token_tree;
-	redirection_process(exec_list->redir);
 	exec_list = create_exec_list(temp);
 	if (!exec_list)
 		return ;
+	redirection_process(exec_list->redir);
 	if (exec_list->next)
-		exec_pipeline(exec_list, envp);
+		exec_pipeline(exec_list, code, envp);
 	else
 	{
 		pid = fork();
 		if (pid == -1)
 			return (perror("fork"), free_exec(exec_list));
 		if (pid == 0)
-			dispatch_cmds(exec_list->cmd_token, code, envp);
+			execute_cmds(exec_list->cmd_token, code, envp);
 		else
 			waitpid(pid, &code->nbr, 0);
-
 	}
 }
 
