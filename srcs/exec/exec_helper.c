@@ -6,7 +6,7 @@
 /*   By: rdalal <rdalal@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/24 18:06:16 by rdalal            #+#    #+#             */
-/*   Updated: 2025/02/24 18:23:08 by rdalal           ###   ########.fr       */
+/*   Updated: 2025/02/25 15:37:51 by rdalal           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,7 @@ void	add_argument(t_exec *exec, char *arg)
 	count = 0;
 	while (exec->args && exec->args[count])
 		count++;
-	new_args = ft_calloc(i + 2, sizeof(char *));
+	new_args = ft_calloc(count + 2, sizeof(char *));
 	if (!new_args)
 		return ;
 	i = -1;
