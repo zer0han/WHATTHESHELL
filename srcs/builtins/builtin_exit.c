@@ -6,7 +6,7 @@
 /*   By: rdalal <rdalal@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/14 14:07:48 by rdalal            #+#    #+#             */
-/*   Updated: 2025/02/03 22:14:11 by rdalal           ###   ########.fr       */
+/*   Updated: 2025/02/26 18:29:56 by rdalal           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,32 +33,6 @@
 	int exitcode_check(char *value)
 */
 
-void	free_shell(t_token *cmd_line)
-{
-	t_token	*temp;
-	t_token	*current;
-
-	if (!cmd_line)
-		return;
-	current = cmd_line;
-	while (current)
-	{
-		temp = current->right;
-		current->value = 0;
-		free (current);
-		current = temp;
-	}
-	cmd_line = NULL;
-}
-
-void	free_errors(t_token *cmd_line)
-{
-	if (cmd_line && cmd_line->right)
-		free_shell(cmd_line);
-	printf("error\n");
-	exit (1);
-}
-
 int	exitcode_check(char *code)
 {
 	char	*temp;
@@ -79,22 +53,21 @@ int	exitcode_check(char *code)
 	return (0);
 }
 
-int	cmd_exit(t_data *code, t_token *args)
+int	cmd_exit(t_token *token)
 {
 	int	exit_code;
 
-	if (args && args->right && !exitcode_check(args->value))
+	if (token && token->right && !exitcode_check(token->value))
 		return(ft_putstr_fd("minishell: exit: too many arguments\n", STDERR_FILENO), 1);
 	exit_code = 0;
-	if (args && !exitcode_check(args->input))
-		exit_code = ft_atoi(args->input);
-	else if (args && exitcode_check(args->input))
+	if (token && !exitcode_check(token->input))
+		exit_code = ft_atoi(token->input);
+	else if (token && exitcode_check(token->input))
 	{
-		exitcode_check (args->value);
+		exitcode_check (token->value);
 		exit_code = 2;
 	}
-	close(code->nbr);
-	free_shell(args);
+	free_tokens(token);
 	exit(exit_code);
 }
 

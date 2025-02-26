@@ -6,7 +6,7 @@
 /*   By: rdalal <rdalal@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/10 19:08:44 by rdalal            #+#    #+#             */
-/*   Updated: 2025/02/25 19:47:00 by rdalal           ###   ########.fr       */
+/*   Updated: 2025/02/26 18:32:12 by rdalal           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,9 +83,7 @@ typedef struct s_exec
 
 /*************ERROR HANDLING********/
 
-void	free_shell(t_token *cmd_line);
 void	free_array(char **args);
-void	free_errors(t_token *cmd_line);
 void	handle_error(char *context, int errnum, t_token **tokens);
 int		error_message(char *context, int error_code);
 
@@ -94,7 +92,7 @@ int		error_message(char *context, int error_code);
 /*  exec_functions  */
 t_exec	*create_exec(t_token *cmd_token);
 t_exec	*create_exec_list(t_token *token_tree);
-void	main_execution(t_token **token_tree, t_data *code, char ***envp);
+t_exec	*main_execution(t_token **token_tree, char ***envp);
 /**exec_helper**/
 void	add_exec_node(t_exec **list, t_exec *new);
 void	add_argument(t_exec *exec, char *arg);
@@ -110,29 +108,27 @@ int		add_env(char ***envp, char *var, char *value);
 char	**cmd_prep(t_token *tokens, char **envp, char **cmd_path);
 void	run_cmd(char *cmd_path, char **argv, char **envp);
 void	exec_external(t_token *tokens, char **envp);
-void	execute_cmds(t_token *token, t_data *data, char **envp);
-int		dispatch_cmds(t_token *tokens, t_data *code, char ***envp);
-//int		is_builtin(t_token *token);
+void	execute_cmds(t_token *token, char **envp);
+int		dispatch_cmds(t_token *tokens, char ***envp);
 int		cmd_cd(t_token *args);
 int		cmd_pwd(t_token *args);
 int		cmd_echo(t_token *tokens);
 int		cmd_export(char ***envp, char **args);
 int		cmd_unset(char **envp, char *var);
 int		cmd_env(t_token *args, char **envp);
-int		cmd_exit(t_data *code, t_token *args);
+int		cmd_exit(t_token *args);
 
 /*  pipes               */
 /**pipe_helper**/
 void	handle_pipe_redir(t_exec *exec);
 void	apply_redir(t_exec *exec);
-void	child_process(t_exec *exec, t_data *code, char **envp);
+void	child_process(t_exec *exec, char **envp);
 /**pipe**/
-void	setup_child_process(t_exec *exec, t_data *code, char **envp);
+void	setup_child_process(t_exec *exec, char **envp);
 void	wait_for_children(t_exec *exec);
-void	exec_pipeline(t_exec *exec, t_data *code, char **envp);
+void	exec_pipeline(t_exec *exec, char **envp);
 
 /*  redirection         */
-
 /**heredoc**/
 int		create_heredoc_file(char **temp);
 int		handle_heredoc(t_token *redir, t_token *file);

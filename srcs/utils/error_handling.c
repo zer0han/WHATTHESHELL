@@ -6,7 +6,7 @@
 /*   By: rdalal <rdalal@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/18 17:51:24 by rdalal            #+#    #+#             */
-/*   Updated: 2025/02/24 20:55:13 by rdalal           ###   ########.fr       */
+/*   Updated: 2025/02/26 18:30:01 by rdalal           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,24 +38,6 @@ int	error_message(char *context, int error_code)
 	return (1);
 }
 
-void	free_shell(t_token **cmd_line)
-{
-	t_token	*temp;
-	t_token	*current;
-
-	if (!cmd_line)
-		return ;
-	current = *cmd_line;
-	while (current)
-	{
-		temp = current->right;
-		current->value = 0;
-		free(current);
-		current = temp;
-	}
-	*cmd_line = NULL;
-}
-
 void	free_array(char **args)
 {
 	int	i;
@@ -67,16 +49,6 @@ void	free_array(char **args)
 		i++;
 	}
 	free(args);
-}
-
-void	free_errors(t_token **cmd_line)
-{
-	if (cmd_line && *cmd_line)
-	{
-		free_shell(cmd_line);
-	}
-	ft_printf("error\n");
-	exit (1);
 }
 
 //close pipis function and cacas
