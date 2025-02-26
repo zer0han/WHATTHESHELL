@@ -6,12 +6,11 @@
 /*   By: rdalal <rdalal@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/10 17:31:21 by rdalal            #+#    #+#             */
-/*   Updated: 2025/02/11 19:14:53 by rdalal           ###   ########.fr       */
+/*   Updated: 2025/02/25 15:30:11 by rdalal           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-
 
 /*call your the path functions here */
 char	**cmd_prep(t_token *tokens, char **envp, char **cmd_path)
@@ -54,7 +53,7 @@ void	run_cmd(char *cmd_path, char **argv, char **envp)
 	pid_t	pid;
 
 	pid = fork();
-	if (pid = 0)
+	if (pid == 0)
 	{
 		if (execve(cmd_path, argv, envp) == -1)
 		{

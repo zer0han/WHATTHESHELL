@@ -6,7 +6,7 @@
 /*   By: gmechaly <gmechaly@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/23 14:02:50 by gmechaly          #+#    #+#             */
-/*   Updated: 2025/02/13 18:43:31 by gmechaly         ###   ########.fr       */
+/*   Updated: 2025/02/21 19:07:29 by gmechaly         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,6 @@ void	assign_missing_cmds(t_token **tokens)
 			path = get_path(node->input);
 			if (path != NULL || is_builtin(node->input))
 			{
-				printf("path = %s\n", path);
 				node->type = "cmd";
 				free(path);
 			}
@@ -72,13 +71,14 @@ void	*parse_tokens(t_token **tokens)
 	node = *tokens;
 	while (node)
 	{
-		if (!ft_strncmp(node->type, "cmd", 3))
+		if (node->type && !ft_strncmp(node->type, "cmd", 3))
 		{
 			path = get_path(node->input);
 			if (path == NULL && !is_builtin(node->input))
 				return (free(path), printf("%s : invalid cmd\n", node->input), NULL);
+			free(path);
 		}
-		else if (!(ft_strncmp(node->type, "file", 4)))
+		else if (node->type && !(ft_strncmp(node->type, "file", 4)))
 		{
 			if (node->left && node->left->input && \
 			(ft_strncmp(node->left->input, ">", ft_strlen(node->left->input))))

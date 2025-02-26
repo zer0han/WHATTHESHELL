@@ -29,7 +29,7 @@ char	*ft_strnqdup(char *src, char quote)
 
 	len = 0;
 	i = 0;
-	printf("%s\n", src);
+	// printf("%s\n", src);
 	if (src[len] == quote)
 		len++;
 	while (src[len] && src[len] != quote)
@@ -83,6 +83,7 @@ char	**ft_split_for_tokens(char *line)
 	nb_token = ft_count_tokens(line);
 	if (nb_token < 0)
 		return (NULL);
+	// printf("allocating for %d token(s)\n", nb_token + 1);
 	result = (char **)malloc(sizeof(char *) * (nb_token + 1));
 	if (result == NULL)
 		return (NULL);
