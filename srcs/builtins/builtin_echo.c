@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   builtin_echo.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rdalal <rdalal@student.42.fr>              +#+  +:+       +#+        */
+/*   By: gmechaly <gmechaly@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/21 19:48:47 by rdalal            #+#    #+#             */
-/*   Updated: 2025/02/10 17:29:03 by rdalal           ###   ########.fr       */
+/*   Updated: 2025/02/26 19:06:06 by gmechaly         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,7 +76,7 @@ int	cmd_echo(t_token *tokens)
 	int		nl;
 	int		j;
 	t_token	*args;
-	char	*expanded;
+	// char	*expanded;
 
 	nl = 1;
 	if (!tokens || ft_strcmp(tokens->input, "echo") != 0)

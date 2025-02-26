@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rdalal <rdalal@student.42.fr>              +#+  +:+       +#+        */
+/*   By: gmechaly <gmechaly@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/10 19:08:44 by rdalal            #+#    #+#             */
-/*   Updated: 2025/02/26 18:32:12 by rdalal           ###   ########.fr       */
+/*   Updated: 2025/02/26 18:51:21 by gmechaly         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -159,6 +159,7 @@ int		is_space(char s);
 /*	tokenize_tools2.c	*/
 char	*ft_strnqdup(char *src, char quote);
 char	**ft_split_for_tokens(char *line);
+void	*ft_split_for_tokens_2(char *line, char **result, int *i, int *iword);
 t_token	*ft_lastnode(t_token *tokens);
 
 /*	tokenize_tools3.c	*/
@@ -187,6 +188,7 @@ t_token	*ft_tokenize(char *input);
 void	free_string_tab(char **str_tab);
 void	free_tokens(t_token *tokens);
 void	free_exec(t_exec *exec_list);
+void	free_all(t_token *tokens, t_exec *exec_list);
 
 /*	tools.c	*/
 char	*get_path(char *cmd);
