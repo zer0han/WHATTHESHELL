@@ -6,7 +6,7 @@
 /*   By: gmechaly <gmechaly@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/10 19:40:18 by gmechaly          #+#    #+#             */
-/*   Updated: 2025/02/13 15:25:50 by gmechaly         ###   ########.fr       */
+/*   Updated: 2025/02/18 19:18:35 by gmechaly         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,6 +46,31 @@ char	*ft_strnqdup(char *src, char quote)
 	return (dst);
 }
 
+void	*ft_split_for_tokens_2(char *line, char **result, int *i, int *iword)
+{
+	if (line[*i] == '\"' || line[*i] == '\'')
+	{
+		result[*iword] = ft_strnqdup(&line[*i], line[*i]);
+		if (result[*iword] == NULL)
+			return (alloc_fail(result, iword), NULL);
+		*i += ft_strlen(result[*iword]) + 2;
+		if (line[*i] == '\"' || line[*i] == '\'')
+			(*i)++;
+		(*iword)++;
+	}
+	else if (!is_space(line[*i]) && line[*i + 1] != '\"' \
+			&& line[*i + 1] != '\'')
+	{
+		while (line[*i] && is_space(line[*i]))
+			(*i)++;
+		result[*iword] = ft_strncdup(&line[*i]);
+		if (result[*iword] == NULL)
+			return (alloc_fail(result, iword), NULL);
+		*i += ft_strlen(result[*iword]);
+		(*iword)++;
+	}
+}
+
 char	**ft_split_for_tokens(char *line)
 {
 	char	**result;
@@ -66,27 +91,8 @@ char	**ft_split_for_tokens(char *line)
 		result[iword] = assign_nosep_token(&line[i], &i);
 		if (result[iword] != NULL)
 			iword++;
-		if (line[i] == '\"' || line[i] == '\'')
-		{
-			result[iword] = ft_strnqdup(&line[i], line[i]);
-			if (result[iword] == NULL)
-				return (alloc_fail(result, iword), NULL);
-			i += ft_strlen(result[iword]) + 2;
-			if (line[i] == '\"' || line[i] == '\'')
-				i++;
-			iword++;
-		}
-		else if (!is_space(line[i]) && line[i + 1] != '\"' \
-				&& line[i + 1] != '\'')
-		{
-			while (line[i] && is_space(line[i]))
-				i++;
-			result[iword] = ft_strncdup(&line[i]);
-			if (result[iword] == NULL)
-				return (alloc_fail(result, iword), NULL);
-			i += ft_strlen(result[iword]);
-			iword++;
-		}
+		if (ft_split_for_tokens_2(line, result, &i, &iword) == NULL)
+			return (NULL);
 		else
 			i++;
 	}
