@@ -6,7 +6,7 @@
 /*   By: rdalal <rdalal@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/12 15:44:07 by rdalal            #+#    #+#             */
-/*   Updated: 2025/02/25 19:22:26 by rdalal           ###   ########.fr       */
+/*   Updated: 2025/02/26 17:51:56 by rdalal           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ int	g_exit_status = 0;
  ** if it contains '/' it is an absolute path so we don't need path to lookup
 * */
 
-void	setup_child_process(t_exec *exec, t_data *code, char **envp)
+void	setup_child_process(t_exec *exec, char **envp)
 {
 	pid_t	pid;
 
@@ -30,7 +30,7 @@ void	setup_child_process(t_exec *exec, t_data *code, char **envp)
 		exit(1);
 	pid = fork();
 	if (pid == 0)
-		child_process(exec, code, envp);
+		child_process(exec, envp);
 	else if (pid > 0)
 	{
 		exec->pid = pid;
@@ -56,7 +56,7 @@ void	wait_for_children(t_exec *exec)
 	}
 }
 
-void	exec_pipeline(t_exec *exec, t_data *code, char **envp)
+void	exec_pipeline(t_exec *exec, char **envp)
 {
 	t_exec	*head;
 
@@ -64,7 +64,7 @@ void	exec_pipeline(t_exec *exec, t_data *code, char **envp)
 	head = exec;
 	while (exec)
 	{
-		setup_child_process(exec, code, envp);
+		setup_child_process(exec, envp);
 		if (exec->p_pipe != -1)
 			close(exec->p_pipe);
 		exec->p_pipe = exec->fd_pipe[0];

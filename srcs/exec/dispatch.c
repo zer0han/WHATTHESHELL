@@ -6,13 +6,13 @@
 /*   By: rdalal <rdalal@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/11 14:50:45 by rdalal            #+#    #+#             */
-/*   Updated: 2025/02/25 19:48:06 by rdalal           ###   ########.fr       */
+/*   Updated: 2025/02/26 18:34:21 by rdalal           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int	dispatch_cmds(t_token *tokens, t_data *code, char ***envp)
+int	dispatch_cmds(t_token *tokens, char ***envp)
 {
 	int		status;
 
@@ -32,11 +32,11 @@ int	dispatch_cmds(t_token *tokens, t_data *code, char ***envp)
 	else if (ft_strcmp(tokens->input, "unset") == 0)
 		status = cmd_unset(envp, tokens);
 	else if (ft_strcmp(tokens->input, "exit") == 0)
-		status = cmd_exit(code, tokens);
+		status = cmd_exit(tokens);
 	return (status);
 }
 
-static int	fd_is_builtin(t_token *token)
+/*static int	fd_is_builtin(t_token *token)
 {
 	char	*cmd;
 
@@ -49,9 +49,9 @@ static int	fd_is_builtin(t_token *token)
 		|| !ft_strcmp(cmd, "exit"))
 		return (1);
 	return (0);
-}
+}*/
 
-void	execute_cmds(t_token *token, t_data *data, char **envp)
+void	execute_cmds(t_token *token, char **envp)
 {
 	int		status;
 	char	*cmd;
@@ -60,11 +60,10 @@ void	execute_cmds(t_token *token, t_data *data, char **envp)
 		return ;
 	status = 0;
 	cmd = token->input;
-	if (fd_is_builtin(token))
-		status = dispatch_cmds(token, data, envp);
+	if (is_builtin(token->input))
+		status = dispatch_cmds(token, &envp);
 	else
 		exec_external(token, *envp);
-	data->nbr = status;
 	if (status != 0)
-		free_errors(&token);
+		free_tokens(&token);
 }

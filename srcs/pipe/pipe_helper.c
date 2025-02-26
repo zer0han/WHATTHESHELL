@@ -6,7 +6,7 @@
 /*   By: rdalal <rdalal@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/25 15:45:14 by rdalal            #+#    #+#             */
-/*   Updated: 2025/02/25 19:21:11 by rdalal           ###   ########.fr       */
+/*   Updated: 2025/02/26 17:43:59 by rdalal           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,13 +37,13 @@ void	apply_redir(t_exec *exec)
 		close(exec->fd_pipe[1]);
 }
 
-void	child_process(t_exec *exec, t_data *code, char **envp)
+void	child_process(t_exec *exec, char **envp)
 {
 	signal(SIGQUIT, SIG_DFL);
 	handle_pipe_redir(exec);
 	apply_redir(exec);
 	if (exec->redir)
 		redirection_process(exec->redir);
-	execute_cmds(exec->cmd_token, code, envp);
+	execute_cmds(exec->cmd_token, envp);
 	exit(0);
 }

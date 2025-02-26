@@ -6,7 +6,7 @@
 /*   By: rdalal <rdalal@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/18 19:35:01 by rdalal            #+#    #+#             */
-/*   Updated: 2025/02/25 19:36:19 by rdalal           ###   ########.fr       */
+/*   Updated: 2025/02/26 18:43:28 by rdalal           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,7 +68,7 @@ t_exec	*create_exec_list(t_token *token_tree)
 
 }
 
-void	main_execution(t_token **token_tree, t_data *code, char ***envp)
+t_exec	*main_execution(t_token **token_tree, char **envp)
 {
 	t_exec	*exec_list;
 	t_token	*temp;
@@ -79,20 +79,21 @@ void	main_execution(t_token **token_tree, t_data *code, char ***envp)
 	temp = *token_tree;
 	exec_list = create_exec_list(temp);
 	if (!exec_list)
-		return ;
+		return (NULL);
 	redirection_process(exec_list->redir);
 	if (exec_list->next)
-		exec_pipeline(exec_list, code, envp);
+		exec_pipeline(exec_list, envp);
 	else
 	{
 		pid = fork();
 		if (pid == -1)
-			return (perror("fork"), free_exec(exec_list));
+			return (perror("fork"), free_exec(exec_list), NULL);
 		if (pid == 0)
-			execute_cmds(exec_list->cmd_token, code, envp);
+			execute_cmds(exec_list->cmd_token, envp);
 		else
-			waitpid(pid, &code->nbr, 0);
+			wait_for_children(exec_list);
 	}
+	return (exec_list);
 }
 
 /*

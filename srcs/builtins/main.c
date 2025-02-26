@@ -6,7 +6,7 @@
 /*   By: rdalal <rdalal@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/18 18:41:24 by rdalal            #+#    #+#             */
-/*   Updated: 2025/02/12 15:40:27 by rdalal           ###   ########.fr       */
+/*   Updated: 2025/02/26 17:42:57 by rdalal           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -223,7 +223,7 @@ int	exitcode_check(char *code)
 	return (0);
 }
 
-int	cmd_exit(t_data *code, t_token *args)
+int	cmd_exit(t_token *args)
 {
 	int	exit_code;
 
@@ -237,7 +237,6 @@ int	cmd_exit(t_data *code, t_token *args)
 		exitcode_check (args->input);
 		exit_code = 2;
 	}
-	close(code->nbr);
 	free_shell(args);
 	exit(exit_code);
 }
@@ -392,9 +391,6 @@ int	main(int argc, char **argv, char **envp)
 	t_token	*new_token;
 	t_token	*args = NULL;
 	t_token	*current = NULL;
-	t_data	ctx;
-	ctx.cmd = NULL;
-	ctx.args = NULL;
 	t_token	*temp;
 
 	while (1)
@@ -431,7 +427,7 @@ int	main(int argc, char **argv, char **envp)
 		else if (strcmp(input, "env") == 0)
 			cmd_env(envp);
 		else if (strcmp(input, "exit") == 0)
-			cmd_exit(&ctx, args);
+			cmd_exit(args);
 		else if (strcmp(input, "export") == 0)
 			cmd_export(&envp, token_argv);
 		else if (strcmp(input, "unset") == 0)
