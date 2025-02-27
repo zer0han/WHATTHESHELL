@@ -6,7 +6,7 @@
 /*   By: gmechaly <gmechaly@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/10 19:40:18 by gmechaly          #+#    #+#             */
-/*   Updated: 2025/02/18 19:18:35 by gmechaly         ###   ########.fr       */
+/*   Updated: 2025/02/27 13:11:01 by gmechaly         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,7 +52,7 @@ void	*ft_split_for_tokens_2(char *line, char **result, int *i, int *iword)
 	{
 		result[*iword] = ft_strnqdup(&line[*i], line[*i]);
 		if (result[*iword] == NULL)
-			return (alloc_fail(result, iword), NULL);
+			return (alloc_fail(result, *iword), NULL);
 		*i += ft_strlen(result[*iword]) + 2;
 		if (line[*i] == '\"' || line[*i] == '\'')
 			(*i)++;
@@ -65,10 +65,11 @@ void	*ft_split_for_tokens_2(char *line, char **result, int *i, int *iword)
 			(*i)++;
 		result[*iword] = ft_strncdup(&line[*i]);
 		if (result[*iword] == NULL)
-			return (alloc_fail(result, iword), NULL);
+			return (alloc_fail(result, *iword), NULL);
 		*i += ft_strlen(result[*iword]);
 		(*iword)++;
 	}
+	return (*result);
 }
 
 char	**ft_split_for_tokens(char *line)
