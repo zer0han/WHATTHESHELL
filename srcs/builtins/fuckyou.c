@@ -6,11 +6,11 @@
 /*   By: rdalal <rdalal@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/18 18:41:24 by rdalal            #+#    #+#             */
-/*   Updated: 2025/02/26 17:42:57 by rdalal           ###   ########.fr       */
+/*   Updated: 2025/02/27 12:52:57 by rdalal           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <readline/history.h>
+/*#include <readline/history.h>
 #include <stdio.h>
 #include <unistd.h>
 #include <stdlib.h>
@@ -18,7 +18,7 @@
 #include <strings.h>
 #include <string.h>
 #include <limits.h>
-/*#include "minishell.h"*/
+/*#include "minishell.h"
 typedef struct s_data
 {
 	char			*args;
@@ -62,7 +62,7 @@ char	*ft_strdup(char *s)
 	return (dest);
 }
 
-/**pwd***/
+/**pwd
 int	cmd_pwd(t_token **args)
 {
 	(void)args;
@@ -80,7 +80,7 @@ int	cmd_pwd(t_token **args)
 	}
 }
 
-/***env***/
+/***env
 void	sort_export_env(char **object)
 {
 	int		i;
@@ -117,7 +117,7 @@ int	cmd_env(char **envp)
 	return (0);
 }
 
-/***echo***/
+/***echo
 int	cmd_echo(int argc, char **argv)
 {
 	int	i;
@@ -152,7 +152,7 @@ int	cmd_echo(int argc, char **argv)
 }
 
 
-/***cd***/
+/***cd
 int	cmd_cd(char **argv)
 {
 	const char	*dir;
@@ -454,3 +454,4 @@ int	main(int argc, char **argv, char **envp)
 }
 
 
+*/

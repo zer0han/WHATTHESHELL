@@ -6,7 +6,7 @@
 /*   By: rdalal <rdalal@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/11 14:50:45 by rdalal            #+#    #+#             */
-/*   Updated: 2025/02/26 18:34:21 by rdalal           ###   ########.fr       */
+/*   Updated: 2025/02/27 13:00:14 by rdalal           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@ int	dispatch_cmds(t_token *tokens, char ***envp)
 
 	status = 0;
 	if (!tokens || !tokens->input)
-		return ;
+		return (1);
 	if (ft_strcmp(tokens->input, "echo") == 0)
 		status = cmd_echo(tokens);
 	else if (ft_strcmp(tokens->input, "cd") == 0)
@@ -63,7 +63,7 @@ void	execute_cmds(t_token *token, char **envp)
 	if (is_builtin(token->input))
 		status = dispatch_cmds(token, &envp);
 	else
-		exec_external(token, *envp);
+		exec_external(token, envp);
 	if (status != 0)
-		free_tokens(&token);
+		free_tokens(token);
 }
