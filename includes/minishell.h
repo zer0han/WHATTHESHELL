@@ -6,7 +6,7 @@
 /*   By: rdalal <rdalal@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/10 19:08:44 by rdalal            #+#    #+#             */
-/*   Updated: 2025/02/27 13:01:14 by rdalal           ###   ########.fr       */
+/*   Updated: 2025/02/27 13:29:19 by rdalal           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -195,6 +195,9 @@ char	*get_path(char *cmd);
 void	free_tab(char **tab, int code);
 char	*ft_fstrjoin(char *s1, char *s2);
 int		is_builtin(char *cmd);
+
+/*	main.c	*/
+t_token	*ft_minishell_parsing(char *input);
 
 /*************EXPANSION*************/
 

@@ -3,30 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gmechaly <gmechaly@student.42.fr>          +#+  +:+       +#+        */
+/*   By: rdalal <rdalal@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/20 15:27:16 by gmechaly          #+#    #+#             */
-/*   Updated: 2025/02/27 13:11:41 by gmechaly         ###   ########.fr       */
+/*   Updated: 2025/02/27 13:33:25 by rdalal           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
-
-// static void	ft_print_tokens(t_token **tokens)
-// {
-// 	t_token	*node;
-// 	int		i;
-
-// 	i = 0;
-// 	node = *tokens;
-// 	while (node)
-// 	{
-// 		printf("input %d : %s\n", i, node->input);
-// 		printf("type : %s\n\n", node->type);
-// 		node = node->right;
-// 		i++;
-// 	}
-// }
 
 t_token	*ft_minishell_parsing(char *input)
 {

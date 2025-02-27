@@ -6,7 +6,7 @@
 /*   By: rdalal <rdalal@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/05 13:30:19 by rdalal            #+#    #+#             */
-/*   Updated: 2025/02/24 20:48:41 by rdalal           ###   ########.fr       */
+/*   Updated: 2025/02/27 13:27:17 by rdalal           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,8 +38,8 @@
 int	apply_redirection(t_token *redir, t_token *file, t_token **token)
 {
 	if (ft_strcmp(redir->input, ">") == 0)
-		return (hanle_output(redir, file, token));
-	if (ft_strcmp(redir->input, '>>') == 0)
+		return (handle_output(redir, file, token));
+	if (ft_strcmp(redir->input, ">>") == 0)
 		return (handle_append(redir, file, token));
 	if (ft_strcmp(redir->input, "<") == 0)
 		return (handle_input (redir, file, token));
