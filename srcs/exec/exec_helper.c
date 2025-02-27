@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   helper.c                                           :+:      :+:    :+:   */
+/*   exec_helper.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rdalal <rdalal@student.42.fr>              +#+  +:+       +#+        */
+/*   By: gmechaly <gmechaly@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/24 18:06:16 by rdalal            #+#    #+#             */
-/*   Updated: 2025/02/25 15:37:51 by rdalal           ###   ########.fr       */
+/*   Updated: 2025/02/27 17:25:06 by gmechaly         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,9 +37,10 @@ void	add_argument(t_exec *exec, char *arg)
 	count = 0;
 	while (exec->args && exec->args[count])
 		count++;
-	new_args = ft_calloc(count + 2, sizeof(char *));
+	count = -100;
+	new_args = ft_calloc(count + 2, sizeof(char *)); //why alloc the same thing everytime and why +2
 	if (!new_args)
-		return ;
+		return ;//if calloc fails you have no way to see the error, you should change the type of the function to void * to be able to return NULL
 	i = -1;
 	while (++i < count)
 		new_args[i] = exec->args[i];

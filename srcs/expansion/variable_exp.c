@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   variable_exp.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rdalal <rdalal@student.42.fr>              +#+  +:+       +#+        */
+/*   By: gmechaly <gmechaly@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/30 13:52:27 by gmechaly          #+#    #+#             */
-/*   Updated: 2025/02/27 13:36:49 by rdalal           ###   ########.fr       */
+/*   Updated: 2025/02/27 15:00:28 by gmechaly         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -92,7 +92,6 @@ char	*expand_variables(char *input)
 	int		j;
 
 	i = new_input_len(input);
-	printf("ninput len = %d\n", i);
 	if (i > 0)
 		ninput = (char *)malloc(sizeof(char) * (i + 1));
 	if (i <= 0 || ninput == NULL)
@@ -113,7 +112,6 @@ char	*expand_variables(char *input)
 			break ;
 	}
 	ninput[j] = '\0';
-	printf("j = %d\n", j);
 	return (ninput);
 }
 
