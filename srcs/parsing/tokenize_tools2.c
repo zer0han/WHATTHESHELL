@@ -6,7 +6,7 @@
 /*   By: gmechaly <gmechaly@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/10 19:40:18 by gmechaly          #+#    #+#             */
-/*   Updated: 2025/02/27 13:11:01 by gmechaly         ###   ########.fr       */
+/*   Updated: 2025/02/27 14:57:27 by gmechaly         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,6 +69,8 @@ void	*ft_split_for_tokens_2(char *line, char **result, int *i, int *iword)
 		*i += ft_strlen(result[*iword]);
 		(*iword)++;
 	}
+	else
+		(*i)++;
 	return (*result);
 }
 
@@ -95,8 +97,6 @@ char	**ft_split_for_tokens(char *line)
 			iword++;
 		if (ft_split_for_tokens_2(line, result, &i, &iword) == NULL)
 			return (NULL);
-		else
-			i++;
 	}
 	result[iword] = NULL;
 	return (result);

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rdalal <rdalal@student.42.fr>              +#+  +:+       +#+        */
+/*   By: gmechaly <gmechaly@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/18 19:35:01 by rdalal            #+#    #+#             */
-/*   Updated: 2025/02/27 13:06:27 by rdalal           ###   ########.fr       */
+/*   Updated: 2025/02/27 17:26:02 by gmechaly         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,11 +40,16 @@ static void	process_args(t_exec *exec_cmd, t_token *node)
 	while (node && (ft_strcmp(node->type, "arg") == 0 \
 		|| ft_strcmp(node->type, "option") == 0))
 	{
-		add_argument(exec_cmd, node->input);
+		// add_argument(exec_cmd, node->input);
+		exec_cmd->args = ft_strdup(node->input);
 		node = node->right;
 	}
 	
 }
+
+/*count the nb of args
+malloc the char ** with that count
+strdup every args into a string inside the char ** */
 
 t_exec	*create_exec_list(t_token *token_tree)
 {
@@ -59,7 +64,7 @@ t_exec	*create_exec_list(t_token *token_tree)
 		if (ft_strcmp(current_token->type, "cmd") == 0)
 		{
 			new_exec = create_exec(current_token);
-			process_args(new_exec, current_token->right);
+			process_args(new_exec, current_token->right); // not sure at all about this function
 			add_exec_node(&exec_list, new_exec);
 		}
 		current_token = current_token->right;
