@@ -6,7 +6,7 @@
 #    By: rdalal <rdalal@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/11/05 20:07:53 by rdalal            #+#    #+#              #
-#    Updated: 2025/02/27 12:58:04 by rdalal           ###   ########.fr        #
+#    Updated: 2025/02/27 13:21:36 by rdalal           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -43,7 +43,7 @@ SRCS_EXEC_PATH	= srcs/exec/
 SRCS_EXP_PATH	= srcs/expansion/
 SRCS_PARSE_PATH	= srcs/parsing/
 SRCS_PIPE_PATH	= srcs/pipe/
-SRCS_REDIR_PATH	= scrs/redirection/
+SRCS_REDIR_PATH	= srcs/redirection/
 SRCS_UTILS_PATH	= srcs/utils/
 
 SRCS	=	$(addprefix $(SRCS_BI_PATH), $(SRCS_BI)) \
