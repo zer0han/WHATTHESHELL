@@ -6,7 +6,7 @@
 /*   By: rdalal <rdalal@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/06 16:25:27 by rdalal            #+#    #+#             */
-/*   Updated: 2025/02/07 16:05:44 by rdalal           ###   ########.fr       */
+/*   Updated: 2025/02/27 20:01:39 by rdalal           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,9 +55,9 @@ int	cmd_cd(t_token *args)
 	use getcwd() function here
 	getcwd(): string|false
 */
-int	cmd_pwd(t_token *args)
+int	cmd_pwd(void)
 {
-	(void)args;
+	//(void)args;
 	char	cwd[1024];
 
 	if (getcwd(cwd, sizeof(cwd)) != NULL)

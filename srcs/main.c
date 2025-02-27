@@ -6,13 +6,13 @@
 /*   By: rdalal <rdalal@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/26 18:40:32 by gmechaly          #+#    #+#             */
-/*   Updated: 2025/02/27 13:33:56 by rdalal           ###   ########.fr       */
+/*   Updated: 2025/02/27 20:11:58 by rdalal           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-static void	ft_print_tokens(t_token **tokens)
+/*static void	ft_print_tokens(t_token **tokens)
 {
 	t_token	*node;
 	int		i;
@@ -26,7 +26,7 @@ static void	ft_print_tokens(t_token **tokens)
 		node = node->right;
 		i++;
 	}
-}
+}*/
 
 int	main(int argc, char **argv, char **envp)
 {
@@ -44,7 +44,7 @@ int	main(int argc, char **argv, char **envp)
 		if (*input)
 			add_history(input);
 		tokens = ft_minishell_parsing(input);
-		ft_print_tokens(&tokens);
+		//ft_print_tokens(&tokens);
 		if (tokens)
 		{
 			exec_data = main_execution(&tokens, envp);

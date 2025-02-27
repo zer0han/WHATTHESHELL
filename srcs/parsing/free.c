@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   free.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gmechaly <gmechaly@student.42.fr>          +#+  +:+       +#+        */
+/*   By: rdalal <rdalal@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/16 14:55:26 by gmechaly          #+#    #+#             */
-/*   Updated: 2025/02/26 18:39:42 by gmechaly         ###   ########.fr       */
+/*   Updated: 2025/02/27 19:28:55 by rdalal           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,7 +48,6 @@ void	free_exec(t_exec *exec_list)
 	while (exec_list)
 	{
 		temp = exec_list->next;
-		free(exec_list->cmd);
 		if (exec_list->args)
 			free(exec_list->args);
 		if (exec_list->redir)

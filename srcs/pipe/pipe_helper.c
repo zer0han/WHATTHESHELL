@@ -6,7 +6,7 @@
 /*   By: rdalal <rdalal@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/25 15:45:14 by rdalal            #+#    #+#             */
-/*   Updated: 2025/02/26 17:43:59 by rdalal           ###   ########.fr       */
+/*   Updated: 2025/02/27 19:29:12 by rdalal           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,6 +44,6 @@ void	child_process(t_exec *exec, char **envp)
 	apply_redir(exec);
 	if (exec->redir)
 		redirection_process(exec->redir);
-	execute_cmds(exec->cmd_token, envp);
+	execute_cmds(exec->cmd_token, envp, exec);
 	exit(0);
 }

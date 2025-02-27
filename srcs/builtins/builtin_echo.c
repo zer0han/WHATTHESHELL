@@ -6,7 +6,7 @@
 /*   By: rdalal <rdalal@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/21 19:48:47 by rdalal            #+#    #+#             */
-/*   Updated: 2025/02/27 12:59:46 by rdalal           ###   ########.fr       */
+/*   Updated: 2025/02/27 20:14:06 by rdalal           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,3 +44,4 @@ int	cmd_echo(t_token *tokens)
 		printf("\n");
 	return (0);
 }
+ /// handle the new line for without -n option
