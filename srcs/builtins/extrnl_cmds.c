@@ -6,13 +6,14 @@
 /*   By: rdalal <rdalal@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/10 17:31:21 by rdalal            #+#    #+#             */
-/*   Updated: 2025/02/27 12:59:19 by rdalal           ###   ########.fr       */
+/*   Updated: 2025/02/27 20:16:50 by rdalal           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
 /*call your the path functions here */
+/*fix this bullshit doesn't work causes leaks*/
 char	**cmd_prep(t_token *tokens, char **envp, char **cmd_path)
 {
 	char	**argv;

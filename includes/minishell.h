@@ -6,7 +6,7 @@
 /*   By: rdalal <rdalal@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/10 19:08:44 by rdalal            #+#    #+#             */
-/*   Updated: 2025/02/27 13:29:19 by rdalal           ###   ########.fr       */
+/*   Updated: 2025/02/27 20:14:40 by rdalal           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -95,8 +95,8 @@ t_exec	*create_exec_list(t_token *token_tree);
 t_exec	*main_execution(t_token **token_tree, char **envp);
 /**exec_helper**/
 void	add_exec_node(t_exec **list, t_exec *new);
-void	add_argument(t_exec *exec, char *arg);
-
+//int		add_argument(t_exec *exec, char *arg);
+int		count_args(t_token *node);
 /*	helper				*/
 void	sort_export_env(char **object);
 int		exitcode_check(char *code);
@@ -108,15 +108,15 @@ int		add_env(char ***envp, char *var, char *value);
 char	**cmd_prep(t_token *tokens, char **envp, char **cmd_path);
 void	run_cmd(char *cmd_path, char **argv, char **envp);
 void	exec_external(t_token *tokens, char **envp);
-void	execute_cmds(t_token *token, char **envp);
-int		dispatch_cmds(t_token *tokens, char ***envp);
+void	execute_cmds(t_token *token, char **envp, t_exec *exec_list);
+int		dispatch_cmds(t_token *tokens, char ***envp, t_exec *exec_list);
 int		cmd_cd(t_token *args);
-int		cmd_pwd(t_token *args);
+int		cmd_pwd(void);
 int		cmd_echo(t_token *tokens);
 int		cmd_export(char ***envp, t_token *tokens);
 int		cmd_unset(char ***envp, t_token *tokens);
 int		cmd_env(t_token *args, char **envp);
-int		cmd_exit(t_token *args);
+int		cmd_exit(t_token *args, t_exec *exec_list);
 
 /*  pipes               */
 /**pipe_helper**/

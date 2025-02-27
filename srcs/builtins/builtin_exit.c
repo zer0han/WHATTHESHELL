@@ -6,7 +6,7 @@
 /*   By: rdalal <rdalal@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/14 14:07:48 by rdalal            #+#    #+#             */
-/*   Updated: 2025/02/27 12:26:34 by rdalal           ###   ########.fr       */
+/*   Updated: 2025/02/27 20:14:24 by rdalal           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,7 +53,7 @@ int	exitcode_check(char *code)
 	return (0);
 }
 
-int	cmd_exit(t_token *token)
+int	cmd_exit(t_token *token, t_exec *exec_list)
 {
 	int	exit_code;
 
@@ -67,7 +67,8 @@ int	cmd_exit(t_token *token)
 		exitcode_check (token->input);
 		exit_code = 2;
 	}
-	free_tokens(token);
+	free_all(token, exec_list);
 	exit(exit_code);
 }
 
+//doesn't exit check this too

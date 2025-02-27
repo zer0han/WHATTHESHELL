@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gmechaly <gmechaly@student.42.fr>          +#+  +:+       +#+        */
+/*   By: rdalal <rdalal@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/18 19:35:01 by rdalal            #+#    #+#             */
-/*   Updated: 2025/02/27 17:26:02 by gmechaly         ###   ########.fr       */
+/*   Updated: 2025/02/27 19:28:33 by rdalal           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,28 +23,53 @@ t_exec	*create_exec(t_token *cmd_token)
 {
 	t_exec	*exec_cmd;
 
+	if (!cmd_token)
+		return (NULL);
 	exec_cmd = malloc(sizeof(t_exec));
 	if (!exec_cmd)
 		return (NULL);
 	exec_cmd->cmd_token = cmd_token;
 	exec_cmd->cmd = cmd_token->input;
 	exec_cmd->redir = cmd_token->redir;
-	exec_cmd->args = NULL;
+	exec_cmd->args = ft_calloc(1, sizeof(char *));
 	exec_cmd->fd_in = STDIN_FILENO;
 	exec_cmd->fd_out = STDOUT_FILENO;
+	exec_cmd->fd_pipe[0] = -1;
+	exec_cmd->fd_pipe[1] = -1;
+	exec_cmd->pid = -1;
+	exec_cmd->next = NULL;
+	exec_cmd->prev = NULL;
 	return (exec_cmd);
 }
 
 static void	process_args(t_exec *exec_cmd, t_token *node)
 {
+	int	arg_size;
+	int	i;
+
+	if (!exec_cmd || !node)
+		return ;
+	arg_size = count_args(node);
+	exec_cmd = malloc(sizeof(char *) * (arg_size + 1));
+	if (!exec_cmd->args)
+		return ;
+	i = 0;
 	while (node && (ft_strcmp(node->type, "arg") == 0 \
 		|| ft_strcmp(node->type, "option") == 0))
 	{
-		// add_argument(exec_cmd, node->input);
-		exec_cmd->args = ft_strdup(node->input);
+		exec_cmd->args[i] = ft_strdup(node->input);
+		if (!exec_cmd->args[i])
+		{
+			while (--i >= 0)
+				free (exec_cmd->args[i]);
+			free(exec_cmd->args);
+			exec_cmd->args = NULL;
+			return ;
+		}
 		node = node->right;
+		i++;
 	}
-	
+	exec_cmd->args[i] = NULL;
 }
 
 /*count the nb of args
@@ -64,6 +89,8 @@ t_exec	*create_exec_list(t_token *token_tree)
 		if (ft_strcmp(current_token->type, "cmd") == 0)
 		{
 			new_exec = create_exec(current_token);
+			if (!new_exec)
+				return (NULL);
 			process_args(new_exec, current_token->right); // not sure at all about this function
 			add_exec_node(&exec_list, new_exec);
 		}
@@ -85,7 +112,8 @@ t_exec	*main_execution(t_token **token_tree, char **envp)
 	exec_list = create_exec_list(temp);
 	if (!exec_list)
 		return (NULL);
-	redirection_process(exec_list->redir);
+	if (exec_list->redir)
+		redirection_process(exec_list->redir);
 	if (exec_list->next)
 		exec_pipeline(exec_list, envp);
 	else
@@ -94,7 +122,7 @@ t_exec	*main_execution(t_token **token_tree, char **envp)
 		if (pid == -1)
 			return (perror("fork"), free_exec(exec_list), NULL);
 		if (pid == 0)
-			execute_cmds(exec_list->cmd_token, envp);
+			execute_cmds(exec_list->cmd_token, envp, exec_list);
 		else
 			wait_for_children(exec_list);
 	}
