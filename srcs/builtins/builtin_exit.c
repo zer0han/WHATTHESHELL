@@ -6,7 +6,7 @@
 /*   By: rdalal <rdalal@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/14 14:07:48 by rdalal            #+#    #+#             */
-/*   Updated: 2025/02/26 18:29:56 by rdalal           ###   ########.fr       */
+/*   Updated: 2025/02/27 12:26:34 by rdalal           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,14 +57,14 @@ int	cmd_exit(t_token *token)
 {
 	int	exit_code;
 
-	if (token && token->right && !exitcode_check(token->value))
+	if (token && token->right && !exitcode_check(token->input))
 		return(ft_putstr_fd("minishell: exit: too many arguments\n", STDERR_FILENO), 1);
 	exit_code = 0;
 	if (token && !exitcode_check(token->input))
 		exit_code = ft_atoi(token->input);
 	else if (token && exitcode_check(token->input))
 	{
-		exitcode_check (token->value);
+		exitcode_check (token->input);
 		exit_code = 2;
 	}
 	free_tokens(token);

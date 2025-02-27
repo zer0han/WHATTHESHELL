@@ -6,7 +6,7 @@
 /*   By: rdalal <rdalal@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/18 19:35:01 by rdalal            #+#    #+#             */
-/*   Updated: 2025/02/26 18:43:28 by rdalal           ###   ########.fr       */
+/*   Updated: 2025/02/27 13:06:27 by rdalal           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,7 +62,7 @@ t_exec	*create_exec_list(t_token *token_tree)
 			process_args(new_exec, current_token->right);
 			add_exec_node(&exec_list, new_exec);
 		}
-		current_token->right;
+		current_token = current_token->right;
 	}
 	return (exec_list);
 
@@ -75,7 +75,7 @@ t_exec	*main_execution(t_token **token_tree, char **envp)
 	pid_t	pid;
 	
 	if (!token_tree || !*token_tree)
-		return ;
+		return (NULL);
 	temp = *token_tree;
 	exec_list = create_exec_list(temp);
 	if (!exec_list)

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gmechaly <gmechaly@student.42.fr>          +#+  +:+       +#+        */
+/*   By: rdalal <rdalal@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/10 19:08:44 by rdalal            #+#    #+#             */
-/*   Updated: 2025/02/26 18:51:21 by gmechaly         ###   ########.fr       */
+/*   Updated: 2025/02/27 13:01:14 by rdalal           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -92,7 +92,7 @@ int		error_message(char *context, int error_code);
 /*  exec_functions  */
 t_exec	*create_exec(t_token *cmd_token);
 t_exec	*create_exec_list(t_token *token_tree);
-t_exec	*main_execution(t_token **token_tree, char ***envp);
+t_exec	*main_execution(t_token **token_tree, char **envp);
 /**exec_helper**/
 void	add_exec_node(t_exec **list, t_exec *new);
 void	add_argument(t_exec *exec, char *arg);
@@ -113,8 +113,8 @@ int		dispatch_cmds(t_token *tokens, char ***envp);
 int		cmd_cd(t_token *args);
 int		cmd_pwd(t_token *args);
 int		cmd_echo(t_token *tokens);
-int		cmd_export(char ***envp, char **args);
-int		cmd_unset(char **envp, char *var);
+int		cmd_export(char ***envp, t_token *tokens);
+int		cmd_unset(char ***envp, t_token *tokens);
 int		cmd_env(t_token *args, char **envp);
 int		cmd_exit(t_token *args);
 

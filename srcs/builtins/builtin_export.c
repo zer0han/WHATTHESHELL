@@ -6,7 +6,7 @@
 /*   By: rdalal <rdalal@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/28 18:07:44 by rdalal            #+#    #+#             */
-/*   Updated: 2025/02/24 14:18:42 by rdalal           ###   ########.fr       */
+/*   Updated: 2025/02/27 12:57:54 by rdalal           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,7 +56,7 @@ void	sort_export_env(char **object)
 	while (object[i] && object [i + 1])
 	{
 		j = i + 1;
-		if(strcmp(object[i], object[j]) > 0)
+		if(ft_strcmp(object[i], object[j]) > 0)
 		{
 			temp = object[i];
 			object[i] = object[j];
@@ -76,13 +76,13 @@ int	update_env(char **envp, char *var, char *value)
 	while (envp[i])
 	{
 		if (ft_strncmp(envp[i], var, ft_strlen(var)) == 0 && \
-			envp[i][f_strlen(var)] == '=')
+			envp[i][ft_strlen(var)] == '=')
 		{
 			//free (envp[i]);
 			envp[i] = malloc(ft_strlen(var) + ft_strlen(value) + 2);
 			if (!envp[i])
 				return (1);
-			sprintf(envp[i], "%s=%s", var, value);
+			//sprintf(envp[i], "%s=%s", var, value);
 			return (0);
 		}
 		i++;
@@ -111,7 +111,7 @@ int	add_env(char ***envp, char *var, char *value)
 	new_env[count] = malloc(ft_strlen(var) + ft_strlen(value) + 2);
 	if (!new_env[count])
 		return (1);
-	sprintf(new_env[count], "%s=%s", var, value);
+	//sprintf(new_env[count], "%s=%s", var, value);
 	new_env[count + 1] = NULL;
 	free(*envp);
 	*envp = new_env;
@@ -126,6 +126,8 @@ int	cmd_export(char ***envp, t_token *tokens)
 	char	*value;
 	t_token	*arg;
 
+	(void)envp;
+	(void)tokens;
 	if (!tokens || !tokens->right)
 	{
 		j = 0;
