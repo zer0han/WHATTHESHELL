@@ -6,7 +6,7 @@
 /*   By: rdalal <rdalal@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/10 17:31:21 by rdalal            #+#    #+#             */
-/*   Updated: 2025/02/27 20:16:50 by rdalal           ###   ########.fr       */
+/*   Updated: 2025/03/02 17:55:54 by rdalal           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 /*call your the path functions here */
 /*fix this bullshit doesn't work causes leaks*/
-char	**cmd_prep(t_token *tokens, char **envp, char **cmd_path)
+/*char	**cmd_prep(t_token *tokens, char **envp, char **cmd_path)
 {
 	char	**argv;
 	int		argc;
@@ -81,3 +81,4 @@ void	exec_external(t_token *tokens, char **envp)
 		return ;
 	run_cmd(cmd_path, argv, envp);
 }
+*/

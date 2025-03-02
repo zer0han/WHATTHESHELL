@@ -6,7 +6,7 @@
 /*   By: rdalal <rdalal@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/28 18:07:44 by rdalal            #+#    #+#             */
-/*   Updated: 2025/02/28 17:36:22 by rdalal           ###   ########.fr       */
+/*   Updated: 2025/03/02 18:43:35 by rdalal           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -93,7 +93,7 @@ int	update_env(char **envp, char *var, char *value)
 	return (1);
 }
 
-void	fd_print_env(char **envp)
+/*static void	fd_print_env(char **envp)
 {
 	int	i = 0;
 	while (envp[i])
@@ -101,7 +101,7 @@ void	fd_print_env(char **envp)
 		printf("envp: %s\n", envp[i]);
 		i++;
 	}
-}
+}*/
 
 int	add_env(char ***envp, char *var, char *value)
 {
@@ -129,7 +129,6 @@ int	add_env(char ***envp, char *var, char *value)
 	sprintf(new_env[count], "%s=%s", var, value);
 	new_env[count + 1] = NULL;
 	*envp = new_env;
-	//free(*old_env);
 	return (0);
 }
 

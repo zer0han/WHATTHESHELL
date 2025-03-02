@@ -6,7 +6,7 @@
 /*   By: rdalal <rdalal@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/18 19:35:01 by rdalal            #+#    #+#             */
-/*   Updated: 2025/02/27 19:28:33 by rdalal           ###   ########.fr       */
+/*   Updated: 2025/03/02 19:51:27 by rdalal           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -106,6 +106,7 @@ t_exec	*main_execution(t_token **token_tree, char **envp)
 	t_token	*temp;
 	pid_t	pid;
 	
+	pid = 0;
 	if (!token_tree || !*token_tree)
 		return (NULL);
 	temp = *token_tree;
@@ -118,7 +119,7 @@ t_exec	*main_execution(t_token **token_tree, char **envp)
 		exec_pipeline(exec_list, envp);
 	else
 	{
-		pid = fork();
+	//	pid = fork(); needs to move this to an if statement
 		if (pid == -1)
 			return (perror("fork"), free_exec(exec_list), NULL);
 		if (pid == 0)
