@@ -6,7 +6,7 @@
 #    By: rdalal <rdalal@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/11/05 20:07:53 by rdalal            #+#    #+#              #
-#    Updated: 2025/02/27 13:21:36 by rdalal           ###   ########.fr        #
+#    Updated: 2025/03/02 17:56:16 by rdalal           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -21,7 +21,7 @@ CFLAGS	= -Wextra -Wall -Werror
 READLINE_FLAGS	= -lreadline
 
 SRCS_BI		=	builtin_echo.c builtin_exit.c builtin_export.c\
-				builtin_unset.c builtins.c extrnl_cmds.c
+				builtin_unset.c builtins.c 
 
 SRCS_EXEC	=	dispatch.c exec_helper.c exec.c
 

@@ -6,7 +6,7 @@
 /*   By: rdalal <rdalal@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/10 19:08:44 by rdalal            #+#    #+#             */
-/*   Updated: 2025/02/27 20:14:40 by rdalal           ###   ########.fr       */
+/*   Updated: 2025/03/02 18:05:01 by rdalal           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -105,9 +105,9 @@ int		update_env(char **envp, char *var, char *value);
 int		add_env(char ***envp, char *var, char *value);
 
 /*	builtins			*/
-char	**cmd_prep(t_token *tokens, char **envp, char **cmd_path);
+/*char	**cmd_prep(t_token *tokens, char **envp, char **cmd_path);
 void	run_cmd(char *cmd_path, char **argv, char **envp);
-void	exec_external(t_token *tokens, char **envp);
+void	exec_external(t_token *tokens, char **envp);*/
 void	execute_cmds(t_token *token, char **envp, t_exec *exec_list);
 int		dispatch_cmds(t_token *tokens, char ***envp, t_exec *exec_list);
 int		cmd_cd(t_token *args);
