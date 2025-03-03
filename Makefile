@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: rdalal <rdalal@student.42.fr>              +#+  +:+       +#+         #
+#    By: gmechaly <gmechaly@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/11/05 20:07:53 by rdalal            #+#    #+#              #
-#    Updated: 2025/03/02 17:56:16 by rdalal           ###   ########.fr        #
+#    Updated: 2025/03/03 17:05:00 by gmechaly         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -69,7 +69,7 @@ $(LIBFT):
 			$(MAKE) -C $(LIBFT_PATH)
 
 $(NAME):	$(OBJS) $(LIBFT) $(HEAD)
-			$(CC) $(CFLAGS) $(READLINE_FLAGS) $(OBJS) $(LIBFT) -o $(NAME)
+			$(CC) $(CFLAGS) $(OBJS) $(LIBFT) -o $(NAME) $(READLINE_FLAGS)
 
 .c.o:
 			$(CC) $(CFLAGS) -c $< -o $@ -I$(HEAD) -I$(LIBFT_H_PATH)
