@@ -6,7 +6,7 @@
 /*   By: gmechaly <gmechaly@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/30 13:52:27 by gmechaly          #+#    #+#             */
-/*   Updated: 2025/02/27 15:00:28 by gmechaly         ###   ########.fr       */
+/*   Updated: 2025/03/03 20:03:50 by gmechaly         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,13 +43,17 @@ int	new_input_len(char *input)
 {
 	int		i;
 	int		add_len;
+	int		code;
 	char	*var_name;
 	char	*var_value;
 
 	i = 0;
 	add_len = 0;
+	code = 0;
 	while (i >= 0 && input[i])
 	{
+		if (input[i] == '\"')
+			code = (code + 1) % 2;
 		if (input[i] == '$' && input[i + 1] && !is_quote(input[i + 1]))
 		{
 			i++;
@@ -61,7 +65,7 @@ int	new_input_len(char *input)
 			i += ft_strlen(var_name);
 			free(var_name);
 		}
-		if (input[i] == '\'')
+		if (input[i] == '\'' && code == 0)
 			i += ft_search_unquote(&input[i], '\'');
 		i++;
 	}
