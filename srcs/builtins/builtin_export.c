@@ -6,7 +6,7 @@
 /*   By: rdalal <rdalal@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/28 18:07:44 by rdalal            #+#    #+#             */
-/*   Updated: 2025/03/02 21:17:04 by rdalal           ###   ########.fr       */
+/*   Updated: 2025/03/03 16:34:09 by rdalal           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -108,10 +108,8 @@ int	add_env(char ***envp, char *var, char *value)
 	int		count;
 	int		i;
 	char	**new_env;
-	char	**old_env;
 
 	count = 0;
-	old_env = *envp;
 	while ((*envp)[count])
 		count++;
 	new_env = malloc(sizeof(char *) * (count + 2));

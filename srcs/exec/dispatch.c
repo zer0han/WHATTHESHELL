@@ -6,7 +6,7 @@
 /*   By: rdalal <rdalal@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/11 14:50:45 by rdalal            #+#    #+#             */
-/*   Updated: 2025/03/02 17:56:56 by rdalal           ###   ########.fr       */
+/*   Updated: 2025/03/03 16:34:02 by rdalal           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,12 +67,10 @@ static int	fd_is_builtin(t_token *token)
 void	execute_cmds(t_token *token, char **envp, t_exec *exec_list)
 {
 	int		status;
-	char	*cmd;
 
 	if (!token || !token->input)
 		return ;
 	status = 0;
-	cmd = token->input;
 	if (fd_is_builtin(token))
 		dispatch_cmds(token, &envp, exec_list);
 	else
