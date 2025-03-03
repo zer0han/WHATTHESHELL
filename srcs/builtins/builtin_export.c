@@ -6,7 +6,7 @@
 /*   By: rdalal <rdalal@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/28 18:07:44 by rdalal            #+#    #+#             */
-/*   Updated: 2025/03/03 16:34:09 by rdalal           ###   ########.fr       */
+/*   Updated: 2025/03/03 20:05:29 by rdalal           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,6 +46,21 @@ declare -x SHELL="/bin/bash"
 
 ***/
 
+static char	*ft_join_env_var(char *var, char *value)
+{
+	char	*temp;
+	char	*result;
+
+	if (!var || !value)
+		return (NULL);
+	temp = ft_strjoin(var, "=");
+	if (!temp)
+		return (NULL);
+	result = ft_strjoin(temp, value);
+	free(temp);
+	return (result);
+}
+
 void	sort_export_env(char **object)
 {
 	int		i;
@@ -61,7 +76,7 @@ void	sort_export_env(char **object)
 			temp = object[i];
 			object[i] = object[j];
 			object[j] = temp;
-			j = 0;
+			i = 0;
 		}
 		else
 			i++;
@@ -70,22 +85,22 @@ void	sort_export_env(char **object)
 
 int	update_env(char **envp, char *var, char *value)
 {
-	int	i;
+	int		i;
+	char	*new_entry;
 
+	if (!envp || !var || !value)
+		return (1);
 	i = 0;
 	while (envp[i])
 	{
-		printf("envp check here[%d]: %s\n", i, envp[i]);
-		if (ft_strncmp(envp[i], var, ft_strlen(var)) == 0 && \
-			envp[i][ft_strlen(var)] == '=')
+		if (ft_strncmp(envp[i], var, ft_strlen(var)) == 0 \
+		&& envp[i][ft_strlen(var)] == '=')
 		{
-			printf("updating var %s with the value: %s\n", var, value);
-			free (envp[i]);
-			envp[i] = malloc(ft_strlen(var) + ft_strlen(value) + 2);
-			if (!envp[i])
+			new_entry = ft_join_env_var(var, value);
+			if (!new_entry)
 				return (1);
-			sprintf(envp[i], "%s=%s", var, value);
-			printf("updating envp[%d]: %s\n", i,  envp[i]);
+			//free(envp[i]);
+			envp[i] = new_entry;
 			return (0);
 		}
 		i++;
@@ -93,22 +108,15 @@ int	update_env(char **envp, char *var, char *value)
 	return (1);
 }
 
-static void	fd_print_env(char **envp)
-{
-	int	i = 0;
-	while (envp[i])
-	{
-		printf("envp: %s\n", envp[i]);
-		i++;
-	}
-}
-
 int	add_env(char ***envp, char *var, char *value)
 {
 	int		count;
 	int		i;
 	char	**new_env;
+	char	*new_entry;
 
+	if (!envp || !var || !value)
+		return (1);
 	count = 0;
 	while ((*envp)[count])
 		count++;
@@ -121,11 +129,12 @@ int	add_env(char ***envp, char *var, char *value)
 		new_env[i] = ft_strdup((*envp)[i]);
 		i++;
 	}
-	new_env[count] = malloc(ft_strlen(var) + ft_strlen(value) + 2);
-	if (!new_env[count])
-		return (1);
-	sprintf(new_env[count], "%s=%s", var, value);
+	new_entry = ft_join_env_var(var, value);
+	if (!new_entry)
+		return (free(new_env), 1);
+	new_env[count] = new_entry;
 	new_env[count + 1] = NULL;
+	//free(*envp);
 	*envp = new_env;
 	return (0);
 }
@@ -142,11 +151,9 @@ int	cmd_export(char ***envp, t_token *tokens)
 	if (!tokens || !tokens->right)
 	{
 		j = 0;
+		sort_export_env(*envp);
 		while ((*envp)[j])
-		{
-			sort_export_env(*envp);
 			printf("export %s\n", (*envp)[j++]);
-		}
 		return (0);
 	}
 	arg = tokens->right;
@@ -155,21 +162,21 @@ int	cmd_export(char ***envp, t_token *tokens)
 		equal_sign = ft_strchr(arg->input, '=');
 		if (equal_sign)
 		{
+			if (!ft_strdup(arg->input))
+			{
+				printf("error: input is read-only\n");
+				return (1);
+			}
 			*equal_sign = '\0';
-			var = arg->input;
+			var = ft_strdup(arg->input);
 			value = equal_sign + 1;
 			if (!valid_id(var))
-				return (printf("export: not a valid argument\n"), 1);
-			fd_print_env(*envp);
+				return (printf("export: not a valid arg\n"), 1);
 			if (update_env(*envp, var, value))
 				add_env(envp, var, value);
-			fd_print_env(*envp);
 		}
-		else
-		{
-			if (!valid_id(arg->input))
-				return (printf("export: not a valid argument"), 1);
-		}
+		else if (!valid_id(arg->input))
+			return (printf("export: not a valid arg\n"), 1);
 		arg = arg->right;
 	}
 	return (0);

@@ -6,7 +6,7 @@
 /*   By: rdalal <rdalal@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/29 19:13:16 by rdalal            #+#    #+#             */
-/*   Updated: 2025/02/07 20:19:11 by rdalal           ###   ########.fr       */
+/*   Updated: 2025/03/03 19:19:03 by rdalal           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,13 +22,13 @@
 
 int	valid_id(char *var)
 {
-	if (!var || !((*var >= 'A' && *var <= 'Z') || \
-		!(*var >= 'a' && *var <= 'z')))
+	if (!var || (!((*var >= 'A' && *var <= 'Z') || \
+		(*var >= 'a' && *var <= 'z'))))
 		return (0);
 	var++;
 	while (*var)
 	{
-		if (!((*var >= 'A' && *var <= 'Z') || !(*var >= 'a' && *var <= 'z') \
+		if (!((*var >= 'A' && *var <= 'Z') || (*var >= 'a' && *var <= 'z') \
 			|| (*var >= '0' && *var <= '9') || (*var == '_')))
 			return (0);
 		var++;
