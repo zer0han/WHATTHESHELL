@@ -6,7 +6,7 @@
 /*   By: rdalal <rdalal@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/28 18:07:44 by rdalal            #+#    #+#             */
-/*   Updated: 2025/03/02 18:43:35 by rdalal           ###   ########.fr       */
+/*   Updated: 2025/03/02 21:17:04 by rdalal           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,7 +75,7 @@ int	update_env(char **envp, char *var, char *value)
 	i = 0;
 	while (envp[i])
 	{
-		//printf("envp check here[%d]: %s\n", i, envp[i]);
+		printf("envp check here[%d]: %s\n", i, envp[i]);
 		if (ft_strncmp(envp[i], var, ft_strlen(var)) == 0 && \
 			envp[i][ft_strlen(var)] == '=')
 		{
@@ -93,7 +93,7 @@ int	update_env(char **envp, char *var, char *value)
 	return (1);
 }
 
-/*static void	fd_print_env(char **envp)
+static void	fd_print_env(char **envp)
 {
 	int	i = 0;
 	while (envp[i])
@@ -101,7 +101,7 @@ int	update_env(char **envp, char *var, char *value)
 		printf("envp: %s\n", envp[i]);
 		i++;
 	}
-}*/
+}
 
 int	add_env(char ***envp, char *var, char *value)
 {
@@ -162,10 +162,10 @@ int	cmd_export(char ***envp, t_token *tokens)
 			value = equal_sign + 1;
 			if (!valid_id(var))
 				return (printf("export: not a valid argument\n"), 1);
-			//fd_print_env(*envp);
+			fd_print_env(*envp);
 			if (update_env(*envp, var, value))
 				add_env(envp, var, value);
-			//fd_print_env(*envp);
+			fd_print_env(*envp);
 		}
 		else
 		{
