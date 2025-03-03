@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rdalal <rdalal@student.42.fr>              +#+  +:+       +#+        */
+/*   By: gmechaly <gmechaly@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/10 19:08:44 by rdalal            #+#    #+#             */
-/*   Updated: 2025/03/02 18:05:01 by rdalal           ###   ########.fr       */
+/*   Updated: 2025/03/03 21:05:52 by gmechaly         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,7 @@
 # include "../libft/includes/get_next_line.h"
 # include "../libft/includes/libft.h"
 
-extern int	g_exit_status;
+volatile sig_atomic_t	g_exit_status;
 /* define identifiers stuff here
 # define ...
 */
