@@ -6,7 +6,7 @@
 /*   By: gmechaly <gmechaly@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/10 19:08:44 by rdalal            #+#    #+#             */
-/*   Updated: 2025/03/04 17:00:00 by gmechaly         ###   ########.fr       */
+/*   Updated: 2025/03/04 23:32:32 by gmechaly         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,6 +34,7 @@
 # include "../libft/includes/libft.h"
 
 extern volatile sig_atomic_t	g_exit_status;
+
 /* define identifiers stuff here
 # define ...
 */
@@ -101,7 +102,7 @@ int		count_args(t_token *node);
 void	sort_export_env(char **object);
 int		exitcode_check(char *code);
 int		valid_id(char *var);
-int		update_env(char **envp, char *var, char *value);
+int		update_env(char ***envp, char *var, char *value);
 int		add_env(char ***envp, char *var, char *value);
 
 /*	builtins			*/
@@ -115,7 +116,7 @@ int		cmd_pwd(void);
 int		cmd_echo(t_token *tokens);
 int		cmd_export(char ***envp, t_token *tokens);
 int		cmd_unset(char ***envp, t_token *tokens);
-int		cmd_env(t_token *args, char **envp);
+int		cmd_env(char **envp);
 int		cmd_exit(t_token *args, t_exec *exec_list);
 
 /*  pipes               */

@@ -6,7 +6,7 @@
 /*   By: rdalal <rdalal@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/06 16:25:27 by rdalal            #+#    #+#             */
-/*   Updated: 2025/02/27 20:01:39 by rdalal           ###   ########.fr       */
+/*   Updated: 2025/03/04 17:54:33 by rdalal           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,15 +83,14 @@ int	cmd_pwd(void)
 
 [-i | -] [Name=Value]... [Command [Argument ...]]
 */
-int	cmd_env(t_token *args, char **envp)
+int	cmd_env(char **envp)
 {
-	(void) args;
-	int	i;
+	int		i;
 
+	sort_export_env(envp);
 	i = 0;
 	while (envp[i])
 	{
-		sort_export_env(envp);
 		printf("%s\n", envp[i]);
 		i++;
 	}
