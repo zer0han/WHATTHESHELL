@@ -6,7 +6,7 @@
 /*   By: gmechaly <gmechaly@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/10 19:08:44 by rdalal            #+#    #+#             */
-/*   Updated: 2025/03/03 21:05:52 by gmechaly         ###   ########.fr       */
+/*   Updated: 2025/03/04 17:00:00 by gmechaly         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,7 @@
 # include "../libft/includes/get_next_line.h"
 # include "../libft/includes/libft.h"
 
-volatile sig_atomic_t	g_exit_status;
+extern volatile sig_atomic_t	g_exit_status;
 /* define identifiers stuff here
 # define ...
 */
@@ -212,5 +212,10 @@ void	handle_quote_after_dollar(char *input, char *ninput, int *i, int *j);
 void	copy_quote(char *input, char *ninput, int *i, int *j);
 void	copy_dquote(char *input, char *ninput, int *i, int *j);
 void	copy_squote(char *input, char *ninput, int *i, int *j);
+
+/*************SIGNALS*************/
+
+/*	 signal_handler.c	*/
+void	signals(void);
 
 #endif

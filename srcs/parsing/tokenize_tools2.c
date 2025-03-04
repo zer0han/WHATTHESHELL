@@ -6,7 +6,7 @@
 /*   By: gmechaly <gmechaly@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/10 19:40:18 by gmechaly          #+#    #+#             */
-/*   Updated: 2025/02/27 14:57:27 by gmechaly         ###   ########.fr       */
+/*   Updated: 2025/03/04 20:00:30 by gmechaly         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,7 +86,6 @@ char	**ft_split_for_tokens(char *line)
 	nb_token = ft_count_tokens(line);
 	if (nb_token < 0)
 		return (NULL);
-	// printf("allocating for %d token(s)\n", nb_token + 1);
 	result = (char **)malloc(sizeof(char *) * (nb_token + 1));
 	if (result == NULL)
 		return (NULL);
