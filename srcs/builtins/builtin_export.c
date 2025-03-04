@@ -6,11 +6,11 @@
 /*   By: rdalal <rdalal@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/28 18:07:44 by rdalal            #+#    #+#             */
-/*   Updated: 2025/03/03 20:05:29 by rdalal           ###   ########.fr       */
+/*   Updated: 2025/03/04 16:52:57 by rdalal           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-
+#include <stdlib.h>
 #include "minishell.h"
 
 /***cmd_export
@@ -83,7 +83,7 @@ void	sort_export_env(char **object)
 	}
 }
 
-int	update_env(char **envp, char *var, char *value)
+int	update_env(char ***envp, char *var, char *value)
 {
 	int		i;
 	char	*new_entry;
@@ -93,14 +93,15 @@ int	update_env(char **envp, char *var, char *value)
 	i = 0;
 	while (envp[i])
 	{
-		if (ft_strncmp(envp[i], var, ft_strlen(var)) == 0 \
-		&& envp[i][ft_strlen(var)] == '=')
+		if (ft_strncmp((*envp)[i], var, ft_strlen(var)) == 0 \
+		&& ((*envp)[i][ft_strlen(var)] == '=' || \
+		(*envp)[i][ft_strlen(var)] == '\0'))
 		{
 			new_entry = ft_join_env_var(var, value);
 			if (!new_entry)
 				return (1);
-			//free(envp[i]);
-			envp[i] = new_entry;
+			free((*envp)[i]);
+			(*envp)[i] = new_entry;
 			return (0);
 		}
 		i++;
@@ -127,6 +128,13 @@ int	add_env(char ***envp, char *var, char *value)
 	while (i < count)
 	{
 		new_env[i] = ft_strdup((*envp)[i]);
+		if (!new_env[i])
+		{
+			while (i > 0)
+				free(new_env[--i]);
+			free (new_env);
+			return (1);
+		}
 		i++;
 	}
 	new_entry = ft_join_env_var(var, value);
@@ -136,6 +144,7 @@ int	add_env(char ***envp, char *var, char *value)
 	new_env[count + 1] = NULL;
 	//free(*envp);
 	*envp = new_env;
+	printf("DEBUGGGGGG:PleAsE ADD THE neW VARiable %s=%s\n", var, value);
 	return (0);
 }
 
@@ -162,18 +171,17 @@ int	cmd_export(char ***envp, t_token *tokens)
 		equal_sign = ft_strchr(arg->input, '=');
 		if (equal_sign)
 		{
-			if (!ft_strdup(arg->input))
-			{
-				printf("error: input is read-only\n");
-				return (1);
-			}
 			*equal_sign = '\0';
 			var = ft_strdup(arg->input);
 			value = equal_sign + 1;
 			if (!valid_id(var))
-				return (printf("export: not a valid arg\n"), 1);
-			if (update_env(*envp, var, value))
-				add_env(envp, var, value);
+				return (printf("export: not a valid arg\n"), free(var), 1);
+			if (update_env(envp, var, value))
+			{
+				if (add_env(envp, var, value))
+					return (free(var), 1);
+			}
+			free(var);
 		}
 		else if (!valid_id(arg->input))
 			return (printf("export: not a valid arg\n"), 1);

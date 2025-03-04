@@ -3,14 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   signal_handler.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gmechaly <gmechaly@student.42.fr>          +#+  +:+       +#+        */
+/*   By: rdalal <rdalal@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/26 15:41:10 by gmechaly          #+#    #+#             */
-/*   Updated: 2025/03/03 23:35:34 by gmechaly         ###   ########.fr       */
+/*   Updated: 2025/03/04 15:12:43 by rdalal           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../includes/minishell.h"
+/*#include "../includes/minishell.h"
 
 static void	clear_rl_line(void)
 {
@@ -32,3 +32,4 @@ void	signals(void)
 	sigaction(SIGINT, &handle_sigint, NULL);
 	sigaction(SIGQUIT, SIG_IGN, NULL);
 }
+*/
