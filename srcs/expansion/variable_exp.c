@@ -6,7 +6,7 @@
 /*   By: gmechaly <gmechaly@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/30 13:52:27 by gmechaly          #+#    #+#             */
-/*   Updated: 2025/03/03 20:03:50 by gmechaly         ###   ########.fr       */
+/*   Updated: 2025/03/04 19:50:31 by gmechaly         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,20 +52,25 @@ int	new_input_len(char *input)
 	code = 0;
 	while (i >= 0 && input[i])
 	{
-		if (input[i] == '\"')
+		if (input[i] && input[i] == '\"')
 			code = (code + 1) % 2;
-		if (input[i] == '$' && input[i + 1] && !is_quote(input[i + 1]))
+		if (input[i] && input[i] == '$' && input[i + 1] && !is_quote(input[i + 1]))
 		{
 			i++;
-			var_name = get_var_name(&input[i]);
-			var_value = getenv(var_name);
-			if (var_value == NULL)
-				return (-1);
-			add_len += ft_strlen(var_value);
-			i += ft_strlen(var_name);
-			free(var_name);
+			if (input[i] == '?')
+				add_len += ft_strlen(ft_itoa(g_exit_status));
+			else
+			{
+				var_name = get_var_name(&input[i]);
+				var_value = getenv(var_name);
+				if (var_value == NULL)
+					return (-1);
+				add_len += ft_strlen(var_value);
+				i += ft_strlen(var_name);
+				free(var_name);
+			}
 		}
-		if (input[i] == '\'' && code == 0)
+		if (input[i] && input[i] == '\'' && code == 0)
 			i += ft_search_unquote(&input[i], '\'');
 		i++;
 	}
@@ -77,16 +82,24 @@ void	replace_var_by_value(char *input, char *ninput, int *i, int *j)
 	char	*vname;
 	char	*vval;
 
-	vname = get_var_name(&input[(*i) + 1]);
-	vval = getenv(vname);
+	if (input[(*i) + 1] == '?')
+	{
+		vval = ft_itoa(g_exit_status);
+		(*i) += 2;
+	}
+	else
+	{
+		vname = get_var_name(&input[(*i) + 1]);
+		vval = getenv(vname);
+		*i += ft_strlen(vname) + 1;
+		free(vname);
+	}
 	ninput[*j] = '\0';
 	if (vval)
 	{
 		ft_strlcat(ninput, vval, ft_strlen(ninput) + ft_strlen(vval) + 1);
 		*j += ft_strlen(vval);
 	}
-	*i += ft_strlen(vname) + 1;
-	free(vname);
 }
 
 char	*expand_variables(char *input)

@@ -6,7 +6,7 @@
 #    By: gmechaly <gmechaly@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/11/05 20:07:53 by rdalal            #+#    #+#              #
-#    Updated: 2025/03/03 17:05:00 by gmechaly         ###   ########.fr        #
+#    Updated: 2025/03/04 16:24:02 by gmechaly         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -36,6 +36,8 @@ SRCS_PIPE	=	pipe_helper.c pipes.c
 SRCS_REDIR	=	exec_redirs.c heredoc.c redirection_handler.c \
 				redirection.c
 
+SRCS_SIG	=	signal_handler.c
+
 SRCS_UTILS	=	error_handling.c
 
 SRCS_BI_PATH	= srcs/builtins/
@@ -44,6 +46,7 @@ SRCS_EXP_PATH	= srcs/expansion/
 SRCS_PARSE_PATH	= srcs/parsing/
 SRCS_PIPE_PATH	= srcs/pipe/
 SRCS_REDIR_PATH	= srcs/redirection/
+SRCS_SIG_PATH	= srcs/signals/
 SRCS_UTILS_PATH	= srcs/utils/
 
 SRCS	=	$(addprefix $(SRCS_BI_PATH), $(SRCS_BI)) \
@@ -52,6 +55,7 @@ SRCS	=	$(addprefix $(SRCS_BI_PATH), $(SRCS_BI)) \
 			$(addprefix $(SRCS_PARSE_PATH), $(SRCS_PARSE)) \
 			$(addprefix $(SRCS_PIPE_PATH), $(SRCS_PIPE)) \
 			$(addprefix $(SRCS_REDIR_PATH), $(SRCS_REDIR)) \
+			$(addprefix $(SRCS_SIG_PATH), $(SRCS_SIG)) \
 			$(addprefix $(SRCS_UTILS_PATH), $(SRCS_UTILS)) \
 			srcs/main.c
 
