@@ -6,7 +6,7 @@
 /*   By: rdalal <rdalal@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/06 16:25:27 by rdalal            #+#    #+#             */
-/*   Updated: 2025/03/04 17:54:33 by rdalal           ###   ########.fr       */
+/*   Updated: 2025/03/05 22:39:49 by rdalal           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,16 +83,61 @@ int	cmd_pwd(void)
 
 [-i | -] [Name=Value]... [Command [Argument ...]]
 */
-int	cmd_env(char **envp)
+
+static char	**dup_env(char **envp)
 {
+	char	**copy;
+	int		count;
 	int		i;
 
-	sort_export_env(envp);
-	i = 0;
-	while (envp[i])
+	count = 0;
+	if(!envp)
+		return (NULL);
+	while (envp[count])
+		count++;
+	copy = malloc(sizeof(char *) * (count + 1));
+	if (!copy)
+		return (NULL);
+	i = -1;
+	while (++i < count)
+		copy[i] = ft_strdup(envp[i]);
+	copy[count] = NULL;
+	return (copy);
+}
+
+int	cmd_env(char **envp)
+{
+	/*int		i;
+
+	i = -1;
+	while (envp[++i])
+		ft_putendl_fd(envp[i], STDOUT_FILENO);
+	return (EXIT_SUCCESS);*/
+	char	**copy;
+	int		i;
+	int		j;
+	char	*temp;
+
+	copy = dup_env(envp);
+	if (!copy)
+		exit(EXIT_FAILURE);
+	i = -1;
+	while (copy[++i])
 	{
-		printf("%s\n", envp[i]);
-		i++;
+		j = i;
+		while (copy[++j])
+		{
+			if (ft_strcmp(copy[i], copy[j]) > 0)
+			{
+				temp = copy[i];
+				copy[i] = copy[j];
+				copy[j] = temp;
+			}
+		}
 	}
-	return (0);
+	i = -1;
+	while (copy[++i])
+		printf("%s\n", copy[i]);
+	free_array(copy);
+	return (EXIT_SUCCESS);
 }

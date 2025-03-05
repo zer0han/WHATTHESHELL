@@ -6,7 +6,7 @@
 /*   By: rdalal <rdalal@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/18 19:35:01 by rdalal            #+#    #+#             */
-/*   Updated: 2025/03/04 17:56:22 by rdalal           ###   ########.fr       */
+/*   Updated: 2025/03/05 22:31:22 by rdalal           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -117,18 +117,21 @@ t_exec	*main_execution(t_token **token_tree, char **envp)
 		redirection_process(exec_list->redir);
 	if (exec_list->next)
 		exec_pipeline(exec_list, envp);
-	else
+	if (exec_list->cmd_token->input)
+		execute_cmds(exec_list->cmd_token, envp, exec_list);
+	/*else
 	{
 	//	pid = fork(); needs to move this to an if statement
 		if (pid == -1)
 			return (perror("fork"), free_exec(exec_list), NULL);
 		if (pid == 0)
-			execute_cmds(exec_list->cmd_token, envp, exec_list);
+			exec
 		else
 			wait_for_children(exec_list);
-	}
+	}*/
 	return (exec_list);
 }
+
 
 /*
 function convert_token_to_exec_list(token_tree):
