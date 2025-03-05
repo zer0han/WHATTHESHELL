@@ -6,7 +6,7 @@
 /*   By: rdalal <rdalal@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/28 18:07:44 by rdalal            #+#    #+#             */
-/*   Updated: 2025/03/04 16:52:57 by rdalal           ###   ########.fr       */
+/*   Updated: 2025/03/05 23:05:10 by rdalal           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,7 +46,7 @@ declare -x SHELL="/bin/bash"
 
 ***/
 
-static char	*ft_join_env_var(char *var, char *value)
+/*static char	*ft_join_env_var(char *var, char *value)
 {
 	char	*temp;
 	char	*result;
@@ -59,6 +59,73 @@ static char	*ft_join_env_var(char *var, char *value)
 	result = ft_strjoin(temp, value);
 	free(temp);
 	return (result);
+}*/
+static char	**dup_env(char **envp)
+{
+	char	**copy;
+	int		count;
+	int		i;
+
+	count = 0;
+	while (envp[count])
+		count++;
+	copy = malloc(sizeof(char *) * (count + 1));
+	if (!copy)
+		return (NULL);
+	i = -1;
+	while (++i < count)
+		copy[i] = ft_strdup(envp[i]);
+	copy[count] = NULL;
+	return (copy);
+}
+
+static void	print_sorted_env(char **envp)
+{
+	char	**copy;
+	int		i;
+	int		j;
+	char	*temp;
+
+	copy = dup_env(envp);
+	if (!copy)
+		exit(EXIT_FAILURE);
+	i = -1;
+	while (copy[++i])
+	{
+		j = i;
+		while (copy[++j])
+		{
+			if (ft_strcmp(copy[i], copy[j]) > 0)
+			{
+				temp = copy[i];
+				copy[i] = copy[j];
+				copy[j] = temp;
+			}
+		}
+	}
+	i = -1;
+	while (copy[++i])
+		printf("export %s\n", copy[i]);
+	free_array(copy);
+}
+
+static char	*create_env_entry(char *var, char *value)
+{
+	char	*entry;
+	int		var_len;
+	int		val_len;
+
+	if (!var || !value)
+		return (NULL);
+	var_len = ft_strlen(var);
+	val_len = ft_strlen(value);
+	entry = malloc(var_len + val_len + 2);
+	if (!entry)
+		return (NULL);
+	ft_strlcpy(entry, var, var_len + 1);
+	entry[var_len] = '=';
+	ft_strlcpy(entry + var_len + 1, value, val_len + 1);
+	return (entry);
 }
 
 void	sort_export_env(char **object)
@@ -83,6 +150,19 @@ void	sort_export_env(char **object)
 	}
 }
 
+static int	is_allocated(void *ptr)
+{
+	void	*test;
+
+	test = malloc(1);
+	if (!ptr)
+		return (0);
+	free (test);
+	if (ptr >= test & ptr <= (test + 1))
+		return (0);
+	return (1);
+}
+
 int	update_env(char ***envp, char *var, char *value)
 {
 	int		i;
@@ -90,21 +170,21 @@ int	update_env(char ***envp, char *var, char *value)
 
 	if (!envp || !var || !value)
 		return (1);
-	i = 0;
-	while (envp[i])
+	i = -1;
+	while ((*envp)[++i])
 	{
-		if (ft_strncmp((*envp)[i], var, ft_strlen(var)) == 0 \
-		&& ((*envp)[i][ft_strlen(var)] == '=' || \
-		(*envp)[i][ft_strlen(var)] == '\0'))
+		if (!ft_strncmp((*envp)[i], var, ft_strlen(var)) && \
+			((*envp)[i][ft_strlen(var)] == '=' || \
+			(*envp)[i][ft_strlen(var)] == '\0'))
 		{
-			new_entry = ft_join_env_var(var, value);
+			new_entry = create_env_entry(var, value);
 			if (!new_entry)
 				return (1);
-			free((*envp)[i]);
+			if (is_allocated((*envp)[i]))
+				free((*envp)[i]);
 			(*envp)[i] = new_entry;
 			return (0);
 		}
-		i++;
 	}
 	return (1);
 }
@@ -113,80 +193,68 @@ int	add_env(char ***envp, char *var, char *value)
 {
 	int		count;
 	int		i;
-	char	**new_env;
-	char	*new_entry;
+	char	**new;
+	char	*entry;
 
-	if (!envp || !var || !value)
+	if (!envp|| !var || !value)
 		return (1);
 	count = 0;
 	while ((*envp)[count])
 		count++;
-	new_env = malloc(sizeof(char *) * (count + 2));
-	if (!new_env)
+	entry = create_env_entry(var, value);
+	if (!entry)
 		return (1);
-	i = 0;
-	while (i < count)
-	{
-		new_env[i] = ft_strdup((*envp)[i]);
-		if (!new_env[i])
-		{
-			while (i > 0)
-				free(new_env[--i]);
-			free (new_env);
-			return (1);
-		}
-		i++;
-	}
-	new_entry = ft_join_env_var(var, value);
-	if (!new_entry)
-		return (free(new_env), 1);
-	new_env[count] = new_entry;
-	new_env[count + 1] = NULL;
-	//free(*envp);
-	*envp = new_env;
-	printf("DEBUGGGGGG:PleAsE ADD THE neW VARiable %s=%s\n", var, value);
+	new = malloc(sizeof(char *) * (count + 2));
+	if (!new)
+		return (free(entry), 1);
+	i = -1;
+	while (++i < count)
+		new[i] = ft_strdup((*envp)[i]);
+	new[count] = entry;
+	new[count + 1] = NULL;
+	//free_array((*envp));
+	*envp = new;
 	return (0);
 }
 
+static int	process_export_arg(char *arg, char ***envp)
+{
+	char	*eq;
+	char	*var;
+	char	*value;
+
+	eq = ft_strchr(arg, '=');
+	if (eq)
+	{
+		var = ft_substr(arg, 0, eq - arg);
+		value = eq + 1;
+		if (!valid_id(var))
+			return (free(var), EXIT_FAILURE);
+		if (update_env(envp, var, value))
+		{
+			if (add_env(envp, var, value))
+				return (free(var), EXIT_FAILURE);
+		}
+		free(var);
+	}
+	else if (!valid_id(arg))
+		return (EXIT_FAILURE);
+	return (EXIT_SUCCESS);
+}
 
 int	cmd_export(char ***envp, t_token *tokens)
 {
-	int		j;
-	char	*equal_sign;
-	char	*var;
-	char	*value;
 	t_token	*arg;
 
-	if (!tokens || !tokens->right)
-	{
-		j = 0;
-		sort_export_env(*envp);
-		while ((*envp)[j])
-			printf("export %s\n", (*envp)[j++]);
-		return (0);
-	}
+	if (!tokens->right)
+		return (print_sorted_env(*envp), EXIT_SUCCESS);
 	arg = tokens->right;
 	while (arg)
 	{
-		equal_sign = ft_strchr(arg->input, '=');
-		if (equal_sign)
-		{
-			*equal_sign = '\0';
-			var = ft_strdup(arg->input);
-			value = equal_sign + 1;
-			if (!valid_id(var))
-				return (printf("export: not a valid arg\n"), free(var), 1);
-			if (update_env(envp, var, value))
-			{
-				if (add_env(envp, var, value))
-					return (free(var), 1);
-			}
-			free(var);
-		}
-		else if (!valid_id(arg->input))
-			return (printf("export: not a valid arg\n"), 1);
+		if (process_export_arg(arg->input, envp))
+			return (EXIT_FAILURE);
 		arg = arg->right;
 	}
-	return (0);
+	return (EXIT_SUCCESS);
 }
 

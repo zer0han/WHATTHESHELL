@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   pipes.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gmechaly <gmechaly@student.42.fr>          +#+  +:+       +#+        */
+/*   By: rdalal <rdalal@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/12 15:44:07 by rdalal            #+#    #+#             */
-/*   Updated: 2025/03/04 23:31:06 by gmechaly         ###   ########.fr       */
+/*   Updated: 2025/03/05 17:57:12 by rdalal           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,14 +46,12 @@ void	setup_child_process(t_exec *exec, char **envp)
 void	wait_for_children(t_exec *exec)
 {
 	int	status;
-	int	i;
 
-	i = 0;
 	while (exec)
 	{
 		waitpid(exec->pid, &status, 0);
 		if (WIFEXITED(status))
-			i = WEXITSTATUS(status);
+			g_exit_status = WEXITSTATUS(status);
 		exec = exec->next;
 	}
 }
