@@ -6,7 +6,7 @@
 /*   By: rdalal <rdalal@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/06 16:25:27 by rdalal            #+#    #+#             */
-/*   Updated: 2025/03/05 22:39:49 by rdalal           ###   ########.fr       */
+/*   Updated: 2025/03/06 17:28:56 by rdalal           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,7 @@ int	cmd_cd(t_token *args)
 		if (!dir)
 		{
 			printf("cd: missing arguement\n");
-			return (1);
+			return (EXIT_FAILURE);
 		}
 	}
 	else
@@ -42,9 +42,9 @@ int	cmd_cd(t_token *args)
 	if (chdir(dir) != 0)
 	{
 		perror("cd");
-		return (1);
+		return (EXIT_FAILURE);
 	}
-	return (0);
+	return (EXIT_SUCCESS);
 }
 
 /***pwd***/	
@@ -63,12 +63,12 @@ int	cmd_pwd(void)
 	if (getcwd(cwd, sizeof(cwd)) != NULL)
 	{
 		printf("%s\n", cwd);
-		return (0);
+		return (EXIT_SUCCESS);
 	}
 	else
 	{
 		perror("pwd");
-		return (1);
+		return (EXIT_FAILURE);
 	}
 }
 

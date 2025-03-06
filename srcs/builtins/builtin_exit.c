@@ -6,7 +6,7 @@
 /*   By: rdalal <rdalal@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/14 14:07:48 by rdalal            #+#    #+#             */
-/*   Updated: 2025/03/02 19:48:54 by rdalal           ###   ########.fr       */
+/*   Updated: 2025/03/06 17:30:36 by rdalal           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,7 +74,6 @@ int	cmd_exit(t_token *token, t_exec *exec_list)
 	int	exit_code;
 
 	exit_code = 0;
-	ft_putstr_fd("exit\n", STDIN_FILENO);
 	if (token && token->right && token->right->right)
 		return(ft_putstr_fd("whattheshell: exit: too many arguments\n", STDERR_FILENO), 1);
 	if (token && token->right)
