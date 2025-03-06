@@ -6,7 +6,7 @@
 /*   By: rdalal <rdalal@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/29 19:13:16 by rdalal            #+#    #+#             */
-/*   Updated: 2025/03/03 19:19:03 by rdalal           ###   ########.fr       */
+/*   Updated: 2025/03/06 17:27:12 by rdalal           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,7 +44,7 @@ int	env_remover(char **envp, char *var)
 	i = 0;
 	var_len = ft_strlen(var);
 	if (!var || !valid_id(var))
-		return(1);
+		return(EXIT_FAILURE);
 	while (envp[i])
 	{
 		if (ft_strncmp(envp[i], var, var_len) == 0 && (envp[i][var_len] == '=' \
@@ -68,12 +68,12 @@ int	cmd_unset(char ***envp, t_token *tokens)
 	t_token	*arg;
 
 	if (!tokens || !tokens->right)
-		return (0);
+		return (EXIT_FAILURE);
 	arg = tokens->right;
 	while (arg)
 	{
 		env_remover(*envp, arg->input);
 		arg = arg->right;
 	}
-	return (0);
+	return (EXIT_SUCCESS);
 }
