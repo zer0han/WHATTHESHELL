@@ -6,7 +6,7 @@
 /*   By: rdalal <rdalal@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/22 17:31:00 by rdalal            #+#    #+#             */
-/*   Updated: 2024/11/19 13:13:18 by rdalal           ###   ########.fr       */
+/*   Updated: 2025/03/07 17:13:07 by rdalal           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -104,75 +104,3 @@ char	**ft_split(char const *s, char c)
 	return (result);
 }
 
-/*#include <stdio.h>
-
-int main(void) {
-    char **result;
-    int i;
-
-    // Test case 1
-    char str1[] = "Hello, world, this is, a test";
-    char delimiter1 = ',';
-    printf("Test case 1:\nInput: \"%s\" Delimiter: '%c'\n", str1, delimiter1);
-    result = ft_split(str1, delimiter1);
-    if (result) {
-        i = 0;
-        while (result[i]) {
-            printf("Result[%d]: \"%s\"\n", i, result[i]);
-            i++;
-        }
-        free_split(result, i);
-    } else {
-        printf("Memory allocation failed\n");
-    }
-
-    // Test case 2
-    char str2[] = "Another test case with spaces";
-    char delimiter2 = ' ';
-    printf("\nTest case 2:\nInput: \"%s\" Delimiter: '%c'\n", str2, delimiter2);
-    result = ft_split(str2, delimiter2);
-    if (result) {
-        i = 0;
-        while (result[i]) {
-            printf("Result[%d]: \"%s\"\n", i, result[i]);
-            i++;
-        }
-        free_split(result, i);
-    } else {
-        printf("Memory allocation failed\n");
-    }
-
-    // Test case 3
-    char str3[] = "One-more-test-case";
-    char delimiter3 = '-';
-    printf("\nTest case 3:\nInput: \"%s\" Delimiter: '%c'\n", str3, delimiter3);
-    result = ft_split(str3, delimiter3);
-    if (result) {
-        i = 0;
-        while (result[i]) {
-            printf("Result[%d]: \"%s\"\n", i, result[i]);
-            i++;
-        }
-        free_split(result, i);
-    } else {
-        printf("Memory allocation failed\n");
-    }
-
-	// Test case 4
-    char str4[] = "";
-    char delimiter4 = 'y';
-    printf("\nTest case 4:\nInput: \"%s\" Delimiter: '%c'\n", str4, delimiter4);
-    result = ft_split(str4, delimiter4);
-    if (result) {
-        i = 0;
-        while (result[i]) {
-            printf("Result[%d]: \"%s\"\n", i, result[i]);
-            i++;
-        }
-        free_split(result, i);
-    } else {
-        printf("Memory allocation failed\n");
-    }
-
-    return 0;
-}*/

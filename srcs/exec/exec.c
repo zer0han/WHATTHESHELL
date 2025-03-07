@@ -6,7 +6,7 @@
 /*   By: rdalal <rdalal@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/18 19:35:01 by rdalal            #+#    #+#             */
-/*   Updated: 2025/03/05 22:31:22 by rdalal           ###   ########.fr       */
+/*   Updated: 2025/03/07 22:23:22 by rdalal           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,7 @@ t_exec	*create_exec(t_token *cmd_token)
 	exec_cmd->cmd_token = cmd_token;
 	exec_cmd->cmd = cmd_token->input;
 	exec_cmd->redir = cmd_token->redir;
-	exec_cmd->args = ft_calloc(1, sizeof(char *));
+	exec_cmd->args = NULL;
 	exec_cmd->fd_in = STDIN_FILENO;
 	exec_cmd->fd_out = STDOUT_FILENO;
 	exec_cmd->fd_pipe[0] = -1;
@@ -50,9 +50,9 @@ static void	process_args(t_exec *exec_cmd, t_token *node)
 	if (!exec_cmd || !node)
 		return ;
 	arg_size = count_args(node);
-	exec_cmd = malloc(sizeof(char *) * (arg_size + 1));
+	exec_cmd->args = malloc(sizeof(char *) * (arg_size + 1));
 	if (!exec_cmd->args)
-		return ;
+		return (perror("malloc failed in process_args"));
 	i = 0;
 	while (node && (ft_strcmp(node->type, "arg") == 0 \
 		|| ft_strcmp(node->type, "option") == 0))
@@ -119,16 +119,16 @@ t_exec	*main_execution(t_token **token_tree, char **envp)
 		exec_pipeline(exec_list, envp);
 	if (exec_list->cmd_token->input)
 		execute_cmds(exec_list->cmd_token, envp, exec_list);
-	/*else
+	else
 	{
-	//	pid = fork(); needs to move this to an if statement
+		pid = fork(); //needs to move this to an if statement
 		if (pid == -1)
 			return (perror("fork"), free_exec(exec_list), NULL);
 		if (pid == 0)
-			exec
+			exec_external(exec_list->cmd_token, envp);
 		else
 			wait_for_children(exec_list);
-	}*/
+	}
 	return (exec_list);
 }
 

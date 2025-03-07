@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: gmechaly <gmechaly@student.42.fr>          +#+  +:+       +#+         #
+#    By: rdalal <rdalal@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/11/05 20:07:53 by rdalal            #+#    #+#              #
-#    Updated: 2025/03/04 16:24:02 by gmechaly         ###   ########.fr        #
+#    Updated: 2025/03/07 22:13:37 by rdalal           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -21,7 +21,7 @@ CFLAGS	= -Wextra -Wall -Werror
 READLINE_FLAGS	= -lreadline
 
 SRCS_BI		=	builtin_echo.c builtin_exit.c builtin_export.c\
-				builtin_unset.c builtins.c 
+				builtin_unset.c builtins.c extrnl_cmds.c
 
 SRCS_EXEC	=	dispatch.c exec_helper.c exec.c
 
