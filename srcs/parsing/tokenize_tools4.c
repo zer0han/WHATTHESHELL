@@ -6,7 +6,7 @@
 /*   By: gmechaly <gmechaly@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/23 14:02:50 by gmechaly          #+#    #+#             */
-/*   Updated: 2025/02/21 19:07:29 by gmechaly         ###   ########.fr       */
+/*   Updated: 2025/03/07 22:14:01 by gmechaly         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,19 +16,25 @@ void	assign_missing_cmds(t_token **tokens)
 {
 	t_token	*node;
 	char	*path;
+	int		is_pipe;
+	int		is_cmd;
 
 	node = *tokens;
+	is_pipe = 0;
+	is_cmd = 0;
 	while (node)
 	{
-		if (node->type == NULL)
+		if (node->type && !ft_strncmp(node->type, "pipe", 4))
+			is_pipe++;
+		else if (node->type == NULL && is_cmd <= is_pipe)
 		{
 			path = get_path(node->input);
 			if (path != NULL || is_builtin(node->input))
-			{
 				node->type = "cmd";
-				free(path);
-			}
+			free(path);
 		}
+		if (node->type && !ft_strncmp(node->type, "cmd", 4))
+			is_cmd++;
 		node = node->right;
 	}
 }

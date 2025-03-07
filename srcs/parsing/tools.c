@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   tools.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rdalal <rdalal@student.42.fr>              +#+  +:+       +#+        */
+/*   By: gmechaly <gmechaly@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/23 19:53:43 by gmechaly          #+#    #+#             */
-/*   Updated: 2025/02/25 19:48:37 by rdalal           ###   ########.fr       */
+/*   Updated: 2025/03/07 23:19:28 by gmechaly         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,7 @@ char	*get_path(char *cmd)
 		folder = ft_fstrjoin(cmd_paths[i], "/");
 		path = ft_fstrjoin(folder, cmd);
 		if (access(path, F_OK | X_OK) == 0)
-			return (free_tab(&cmd_paths[i + 1], 0), path);
+			return (free_tab(&cmd_paths[i + 1], 0), free(cmd_paths), path);
 		free(path);
 		i++;
 	}
