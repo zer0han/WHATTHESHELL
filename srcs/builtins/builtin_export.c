@@ -6,7 +6,7 @@
 /*   By: rdalal <rdalal@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/28 18:07:44 by rdalal            #+#    #+#             */
-/*   Updated: 2025/03/05 23:05:10 by rdalal           ###   ########.fr       */
+/*   Updated: 2025/03/07 17:13:36 by rdalal           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -152,13 +152,13 @@ void	sort_export_env(char **object)
 
 static int	is_allocated(void *ptr)
 {
-	void	*test;
+	void	*t;
 
-	test = malloc(1);
+	t = malloc(1);
 	if (!ptr)
 		return (0);
-	free (test);
-	if (ptr >= test & ptr <= (test + 1))
+	free (t);
+	if (ptr >= t & ptr <= (t + 1))
 		return (0);
 	return (1);
 }

@@ -6,7 +6,7 @@
 /*   By: rdalal <rdalal@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/10 17:31:21 by rdalal            #+#    #+#             */
-/*   Updated: 2025/03/02 17:55:54 by rdalal           ###   ########.fr       */
+/*   Updated: 2025/03/07 23:29:04 by rdalal           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,36 +14,60 @@
 
 /*call your the path functions here */
 /*fix this bullshit doesn't work causes leaks*/
-/*char	**cmd_prep(t_token *tokens, char **envp, char **cmd_path)
+
+static int	ft_count_args(t_token *tokens)
+{
+	int		count;
+	t_token	*temp;
+
+	count = 0;
+	temp = tokens;
+	while (temp)
+	{
+		count++;
+		temp = temp->right;
+	}
+	return (count);
+}
+
+static char	**fill_argv(t_token *tokens, int argc)
+{
+	char	**argv;
+	int		i;
+
+	argv = malloc(sizeof(char *) * (argc + 1));
+	if (!argv)
+		return (NULL);
+	i = 0;
+	while (i < argc && tokens)
+	{
+		argv[i] = expand_variables(tokens->input);
+		if (!argv[i])
+		{
+			free_array(argv);
+			return (NULL);
+		}
+		tokens = tokens->right;
+		i++;
+	}
+	argv[argc] = NULL;
+	return (argv);
+}
+
+char	**cmd_prep(t_token *tokens, char **envp, char **cmd_path)
 {
 	char	**argv;
 	int		argc;
-	int		i;
-	t_token	*arg;
 
 	(void)envp;
-	arg = tokens;
-	argc = 0;
-	while (arg)
-	{
-		argc++;
-		arg = arg->right;
-	}
-	argv = (char **)malloc(sizeof(char *) * (argc + 1));
+	argc = ft_count_args(tokens);
+	argv = fill_argv(tokens, argc);
 	if (!argv)
 		return (NULL);
-	arg = tokens;
-	i = 0;
-	while (i < argc)
-	{
-		argv[i] = expand_variables(arg->input);
-		arg = arg->right;
-	}
-	argv[argc] = NULL;
 	*cmd_path = get_path(argv[0]);
-	if (!(*cmd_path))
+	if (!*cmd_path)
 	{
-		printf("command not found:%s\n", argv[0]);
+		ft_putstr_fd("WHATTHESHELL: cmd not found\n", STDERR_FILENO);
 		free_array(argv);
 		return (NULL);
 	}
@@ -53,22 +77,29 @@
 void	run_cmd(char *cmd_path, char **argv, char **envp)
 {
 	pid_t	pid;
+	int		status;
 
 	pid = fork();
-	if (pid == 0)
+	if (pid == -1)
 	{
-		if (execve(cmd_path, argv, envp) == -1)
-		{
-			perror("execve");
-			exit(1);
-		}
-	}
-	else if (pid > 0)
-		wait (NULL);
-	else
 		perror("fork");
-	free(cmd_path);
-	free_array(argv);
+		free(cmd_path);
+		free_array(argv);
+	}
+	else if (pid == 0)
+	{
+		execve(cmd_path, argv, envp);
+		ft_putstr_fd("WHATTHESHELL: \n", STDERR_FILENO);	
+		free(cmd_path);
+		free_array(argv);
+		exit(127);
+	}
+	else
+	{
+		waitpid(pid, &status, 0);
+		if (WIFEXITED(status))
+			g_exit_status = WEXITSTATUS(status);
+	}
 }
 
 void	exec_external(t_token *tokens, char **envp)
@@ -76,9 +107,11 @@ void	exec_external(t_token *tokens, char **envp)
 	char	*cmd_path;
 	char	**argv;
 
+	cmd_path = NULL;
 	argv = cmd_prep(tokens, envp, &cmd_path);
 	if (!argv)
 		return ;
 	run_cmd(cmd_path, argv, envp);
+	free(cmd_path);
+	free_array(argv);
 }
-*/

@@ -6,7 +6,7 @@
 /*   By: rdalal <rdalal@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/12 15:44:07 by rdalal            #+#    #+#             */
-/*   Updated: 2025/03/05 17:57:12 by rdalal           ###   ########.fr       */
+/*   Updated: 2025/03/07 16:46:17 by rdalal           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,18 +26,29 @@ void	setup_child_process(t_exec *exec, char **envp)
 {
 	pid_t	pid;
 
-	if (exec->next && pipe(exec->fd_pipe) == -1)
-		exit(1);
+	if (exec->next)
+	{
+		exec->fd_pipe[0] = -1;
+		exec->fd_pipe[1] = -1;
+		if (pipe(exec->fd_pipe) == -1)
+			return (perror("pipe failed"));
+	}
 	pid = fork();
 	if (pid == 0)
 		child_process(exec, envp);
 	else if (pid > 0)
 	{
 		exec->pid = pid;
-		if (exec->p_pipe != -1)
+		if (exec->p_pipe >= 0)
+		{
 			close(exec->p_pipe);
-		if (exec->next)
+			exec->p_pipe = -1;
+		}
+		if (exec->next && exec->fd_pipe[1] >= 0)
+		{
 			close(exec->fd_pipe[1]);
+			exec->fd_pipe[1] = -1;
+		}
 	}
 	else
 		perror("fork");
@@ -65,8 +76,11 @@ void	exec_pipeline(t_exec *exec, char **envp)
 	while (exec)
 	{
 		setup_child_process(exec, envp);
-		if (exec->p_pipe != -1)
+		if (exec->p_pipe >= 0)
+		{
 			close(exec->p_pipe);
+			exec->p_pipe = -1;
+		}
 		exec->p_pipe = exec->fd_pipe[0];
 		exec = exec->next;
 	}
