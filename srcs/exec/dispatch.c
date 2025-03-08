@@ -6,7 +6,7 @@
 /*   By: rdalal <rdalal@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/11 14:50:45 by rdalal            #+#    #+#             */
-/*   Updated: 2025/03/07 23:29:50 by rdalal           ###   ########.fr       */
+/*   Updated: 2025/03/08 18:55:55 by rdalal           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,7 +63,7 @@ void	execute_cmds(t_token *token, char **envp, t_exec *exec_list)
 	else
 	{
 		exec_external(token, envp);
-		ft_putchar_fd('\n', STDOUT_FILENO);
+		//ft_putchar_fd('\n', STDOUT_FILENO);
 	}
 	if (status != 0)
 		free_tokens(token);
