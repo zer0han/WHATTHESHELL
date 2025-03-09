@@ -6,7 +6,7 @@
 /*   By: rdalal <rdalal@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/18 19:35:01 by rdalal            #+#    #+#             */
-/*   Updated: 2025/03/07 22:23:22 by rdalal           ###   ########.fr       */
+/*   Updated: 2025/03/09 19:37:09 by rdalal           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,6 +36,7 @@ t_exec	*create_exec(t_token *cmd_token)
 	exec_cmd->fd_out = STDOUT_FILENO;
 	exec_cmd->fd_pipe[0] = -1;
 	exec_cmd->fd_pipe[1] = -1;
+	exec_cmd->p_pipe = -1;
 	exec_cmd->pid = -1;
 	exec_cmd->next = NULL;
 	exec_cmd->prev = NULL;
@@ -62,9 +63,8 @@ static void	process_args(t_exec *exec_cmd, t_token *node)
 		{
 			while (--i >= 0)
 				free (exec_cmd->args[i]);
-			free(exec_cmd->args);
 			exec_cmd->args = NULL;
-			return ;
+			return (free_exec(exec_cmd));
 		}
 		node = node->right;
 		i++;

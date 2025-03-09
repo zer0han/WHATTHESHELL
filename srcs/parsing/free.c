@@ -6,7 +6,7 @@
 /*   By: rdalal <rdalal@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/16 14:55:26 by gmechaly          #+#    #+#             */
-/*   Updated: 2025/02/27 19:28:55 by rdalal           ###   ########.fr       */
+/*   Updated: 2025/03/09 18:48:48 by rdalal           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@ void	free_string_tab(char **str_tab)
 	free(str_tab);
 }
 
-void	free_tokens(t_token *tokens)
+/*void	free_tokens(t_token *tokens)
 {
 	while (tokens)
 	{
@@ -39,6 +39,19 @@ void	free_tokens(t_token *tokens)
 		}
 		free(tokens->left);
 	}
+}*/
+
+void	free_tokens(t_token *tokens)
+{
+	t_token	*temp;
+
+	while (tokens)
+	{
+		temp = tokens;
+		tokens = tokens->right;
+		free(temp -> input);
+		free(temp);
+	}
 }
 
 void	free_exec(t_exec *exec_list)
@@ -47,13 +60,13 @@ void	free_exec(t_exec *exec_list)
 	
 	while (exec_list)
 	{
-		temp = exec_list->next;
-		if (exec_list->args)
-			free(exec_list->args);
-		if (exec_list->redir)
-			free(exec_list->redir);
-		free (exec_list);
-		exec_list = temp;
+		temp = exec_list;
+		exec_list = exec_list->next;
+		if (temp->args)
+			free_array(temp->args);
+		if (temp->redir)
+			free(temp->redir);
+		free (temp);
 	}
 }
 
