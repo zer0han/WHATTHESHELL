@@ -6,7 +6,7 @@
 /*   By: gmechaly <gmechaly@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/30 13:52:27 by gmechaly          #+#    #+#             */
-/*   Updated: 2025/03/04 19:50:31 by gmechaly         ###   ########.fr       */
+/*   Updated: 2025/03/10 12:00:38 by gmechaly         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,7 +72,8 @@ int	new_input_len(char *input)
 		}
 		if (input[i] && input[i] == '\'' && code == 0)
 			i += ft_search_unquote(&input[i], '\'');
-		i++;
+		if (input[i] != '\0')
+			i++;
 	}
 	return (i + add_len);
 }
