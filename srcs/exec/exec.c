@@ -6,7 +6,7 @@
 /*   By: rdalal <rdalal@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/18 19:35:01 by rdalal            #+#    #+#             */
-/*   Updated: 2025/03/09 19:37:09 by rdalal           ###   ########.fr       */
+/*   Updated: 2025/03/10 20:09:59 by rdalal           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -121,13 +121,13 @@ t_exec	*main_execution(t_token **token_tree, char **envp)
 		execute_cmds(exec_list->cmd_token, envp, exec_list);
 	else
 	{
-		pid = fork(); //needs to move this to an if statement
-		if (pid == -1)
-			return (perror("fork"), free_exec(exec_list), NULL);
-		if (pid == 0)
-			exec_external(exec_list->cmd_token, envp);
-		else
-			wait_for_children(exec_list);
+		//pid = fork();
+		// if (pid == -1)
+		// 	return (perror("fork"), free_exec(exec_list), NULL);
+		// if (pid == 0)
+		exec_external(exec_list->cmd_token, envp);
+		// else 
+		// 	wait_for_children(exec_list);
 	}
 	return (exec_list);
 }

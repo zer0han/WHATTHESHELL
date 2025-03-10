@@ -6,7 +6,7 @@
 /*   By: rdalal <rdalal@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/24 20:15:44 by rdalal            #+#    #+#             */
-/*   Updated: 2025/02/27 13:24:32 by rdalal           ###   ########.fr       */
+/*   Updated: 2025/03/10 19:33:48 by rdalal           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,7 +42,7 @@ void	execute_child_redir(t_exec *exec, char **envp)
 		{
 			ft_putstr_fd("whattheshell: ", STDERR_FILENO);
 			ft_putstr_fd(exec->cmd, STDERR_FILENO);
-			ft_putendl_fd("; cmd not found", STDERR_FILENO);
+		//	ft_putendl_fd("; cmd not found", STDERR_FILENO);
 			exit(127);
 		}
 		execve(path, exec->args, envp);
