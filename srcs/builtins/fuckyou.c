@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   fuckyou.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rdalal <rdalal@student.42.fr>              +#+  +:+       +#+        */
+/*   By: gmechaly <gmechaly@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/18 18:41:24 by rdalal            #+#    #+#             */
-/*   Updated: 2025/02/28 15:39:26 by rdalal           ###   ########.fr       */
+/*   Updated: 2025/03/10 18:29:25 by gmechaly         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -308,47 +308,47 @@ int	add_env(char ***envp, char *var, char *value)
 	return (0);
 }
 
-int	cmd_export(char ***envp, char **args)
-{
-	int		i;
-	int		j;
-	char	*e_s;
-	char	*var;
-	char	*value;
+// int	cmd_export(char ***envp, char **args)
+// {
+// 	int		i;
+// 	int		j;
+// 	char	*e_s;
+// 	char	*var;
+// 	char	*value;
 
-	i = 1;
-	if (!args[1])
-	{
-		j = 0;
-		while ((*envp)[j])
-		{
-			sort_export_env(*envp);
-			printf("export %s\n", (*envp)[j++]);
-		}
-		return (0);
-	}
-	while (args[i])
-	{
-		e_s = strchr(args[i], '=');
-		if (e_s)
-		{
-			*e_s = '\0'; //to split the var and the value (var=value)
-			var = args[i];
-			value = e_s + 1;
-			if (!valid_id(var))
-				return (printf("export: not a valid argument1\n"), 1);
-			if (update_env(*envp, var, value))
-				add_env(envp, var, value);
-		}
-		else 
-		{
-			if (!valid_id(args[i]))
-				return (printf("export: not a valid argument2\n"), 1);
-		}
-		i++;
-	}
-	return (0);
-}
+// 	i = 1;
+// 	if (!args[1])
+// 	{
+// 		j = 0;
+// 		while ((*envp)[j])
+// 		{
+// 			sort_export_env(*envp);
+// 			printf("export %s\n", (*envp)[j++]);
+// 		}
+// 		return (0);
+// 	}
+// 	while (args[i])
+// 	{
+// 		e_s = strchr(args[i], '=');
+// 		if (e_s)
+// 		{
+// 			*e_s = '\0'; //to split the var and the value (var=value)
+// 			var = args[i];
+// 			value = e_s + 1;
+// 			if (!valid_id(var))
+// 				return (printf("export: not a valid argument1\n"), 1);
+// 			if (update_env(*envp, var, value))
+// 				add_env(envp, var, value);
+// 		}
+// 		else 
+// 		{
+// 			if (!valid_id(args[i]))
+// 				return (printf("export: not a valid argument2\n"), 1);
+// 		}
+// 		i++;
+// 	}
+// 	return (0);
+// }
 
 /******UNSET*****/
 int	cmd_unset(char **envp, char *var)

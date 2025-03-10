@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rdalal <rdalal@student.42.fr>              +#+  +:+       +#+        */
+/*   By: gmechaly <gmechaly@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/10 19:08:44 by rdalal            #+#    #+#             */
-/*   Updated: 2025/03/07 22:43:03 by rdalal           ###   ########.fr       */
+/*   Updated: 2025/03/10 18:38:56 by gmechaly         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,6 +54,13 @@ typedef struct s_data
 	struct s_data	*cmd;
 }					t_data;
 
+typedef struct s_envp
+{
+	char			*str;
+	struct s_envp	*next;
+	struct s_envp	*prev;
+}					t_envp;
+
 typedef struct s_token
 {
 	char			*input;
@@ -75,6 +82,7 @@ typedef struct s_exec
 	int				fd_pipe[2];
 	int				p_pipe;
 	int				pid;
+	t_envp			*envp;
 	struct s_exec	*next;
 	struct s_exec	*prev;
 }					t_exec;
@@ -91,8 +99,8 @@ int		error_message(char *context, int error_code);
 /*************EXECUTION*************/
 
 /*  exec_functions  */
-t_exec	*create_exec(t_token *cmd_token);
-t_exec	*create_exec_list(t_token *token_tree);
+t_exec	*create_exec(t_token *cmd_token, char **envp);
+t_exec	*create_exec_list(t_token *token_tree, char **envp);
 t_exec	*main_execution(t_token **token_tree, char **envp);
 /**exec_helper**/
 void	add_exec_node(t_exec **list, t_exec *new);
@@ -102,8 +110,8 @@ int		count_args(t_token *node);
 void	sort_export_env(char **object);
 int		exitcode_check(char *code);
 int		valid_id(char *var);
-int		update_env(char ***envp, char *var, char *value);
-int		add_env(char ***envp, char *var, char *value);
+// int		update_env(char ***envp, char *var, char *value);
+// int		add_env(char ***envp, char *var, char *value);
 
 /*	builtins			*/
 char	**cmd_prep(t_token *tokens, char **envp, char **cmd_path);
@@ -114,10 +122,13 @@ int		dispatch_cmds(t_token *tokens, char ***envp, t_exec *exec_list);
 int		cmd_cd(t_token *args);
 int		cmd_pwd(void);
 int		cmd_echo(t_token *tokens);
-int		cmd_export(char ***envp, t_token *tokens);
 int		cmd_unset(char ***envp, t_token *tokens);
 int		cmd_env(char **envp);
 int		cmd_exit(t_token *args, t_exec *exec_list);
+
+/*builtin_export.c*/
+void	cmd_export(t_exec *exec, t_token **tokens);
+t_envp	*envp_dup(char **envp);
 
 /*  pipes               */
 /**pipe_helper**/
@@ -189,6 +200,7 @@ t_token	*ft_tokenize(char *input);
 void	free_string_tab(char **str_tab);
 void	free_tokens(t_token *tokens);
 void	free_exec(t_exec *exec_list);
+void	free_envp(t_envp *dup);
 void	free_all(t_token *tokens, t_exec *exec_list);
 
 /*	tools.c	*/
