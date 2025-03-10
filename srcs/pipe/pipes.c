@@ -6,7 +6,7 @@
 /*   By: rdalal <rdalal@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/12 15:44:07 by rdalal            #+#    #+#             */
-/*   Updated: 2025/03/08 20:45:01 by rdalal           ###   ########.fr       */
+/*   Updated: 2025/03/10 20:09:50 by rdalal           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,6 +29,7 @@ void	setup_child_process(t_exec *exec, char **envp)
 	if (exec->next && pipe(exec->fd_pipe) == -1)
 		return (perror("pipe failed"));
 	pid = fork();
+	// pid = 0;
 	if (pid == 0)
 	{
 		child_process(exec, envp);
