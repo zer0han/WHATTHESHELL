@@ -6,7 +6,7 @@
 /*   By: rdalal <rdalal@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/11 14:50:45 by rdalal            #+#    #+#             */
-/*   Updated: 2025/03/10 19:49:16 by rdalal           ###   ########.fr       */
+/*   Updated: 2025/03/11 20:11:53 by rdalal           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,7 @@ void	dispatch_cmds(t_token *tokens, char ***envp, t_exec *exec_list)
 	// return (status);
 }
 
-static int	fd_is_builtin(t_token *token)
+int	fd_is_builtin(t_token *token)
 {
 	char	*cmd;
 

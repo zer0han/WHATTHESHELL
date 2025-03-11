@@ -6,7 +6,7 @@
 /*   By: rdalal <rdalal@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/18 19:35:01 by rdalal            #+#    #+#             */
-/*   Updated: 2025/03/10 20:09:59 by rdalal           ###   ########.fr       */
+/*   Updated: 2025/03/11 22:21:39 by rdalal           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,13 +48,16 @@ static void	process_args(t_exec *exec_cmd, t_token *node)
 	int	arg_size;
 	int	i;
 
-	if (!exec_cmd || !node)
-		return ;
+	if (!exec_cmd || !exec_cmd->cmd || !exec_cmd->cmd[0])
+	return (ft_putstr_fd("ERROR: exec->cmd is NULL!\n", STDERR_FILENO));
 	arg_size = count_args(node);
-	exec_cmd->args = malloc(sizeof(char *) * (arg_size + 1));
+	exec_cmd->args = malloc(sizeof(char *) * (arg_size + 2));
 	if (!exec_cmd->args)
 		return (perror("malloc failed in process_args"));
-	i = 0;
+	exec_cmd->args[0] = ft_strdup(exec_cmd->cmd);
+	if (!exec_cmd->args[0])
+		return (perror("strdup failed for cmd"));
+	i = 1;
 	while (node && (ft_strcmp(node->type, "arg") == 0 \
 		|| ft_strcmp(node->type, "option") == 0))
 	{
@@ -63,6 +66,7 @@ static void	process_args(t_exec *exec_cmd, t_token *node)
 		{
 			while (--i >= 0)
 				free (exec_cmd->args[i]);
+			//free(exec_cmd->args);
 			exec_cmd->args = NULL;
 			return (free_exec(exec_cmd));
 		}
@@ -91,7 +95,7 @@ t_exec	*create_exec_list(t_token *token_tree)
 			new_exec = create_exec(current_token);
 			if (!new_exec)
 				return (NULL);
-			process_args(new_exec, current_token->right); // not sure at all about this function
+			process_args(new_exec, current_token->right);
 			add_exec_node(&exec_list, new_exec);
 		}
 		current_token = current_token->right;
@@ -117,7 +121,7 @@ t_exec	*main_execution(t_token **token_tree, char **envp)
 		redirection_process(exec_list->redir);
 	if (exec_list->next)
 		exec_pipeline(exec_list, envp);
-	if (exec_list->cmd_token->input)
+	else if (exec_list->cmd_token->input)
 		execute_cmds(exec_list->cmd_token, envp, exec_list);
 	else
 	{
