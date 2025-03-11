@@ -3,7 +3,7 @@
 /*                                                        :::      ::::::::   */
 /*   exec.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rdalal <rdalal@student.42.fr>              +#+  +:+       +#+        */
+/*   By: gmechaly <gmechaly@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/18 19:35:01 by rdalal            #+#    #+#             */
 /*   Updated: 2025/03/11 22:21:39 by rdalal           ###   ########.fr       */
@@ -19,7 +19,7 @@ signal(SIGINT, SIG_IGN)
 signal(SIGQUIT, SIG_IGN)
 */
 
-t_exec	*create_exec(t_token *cmd_token)
+t_exec	*create_exec(t_token *cmd_token, char **envp)
 {
 	t_exec	*exec_cmd;
 
@@ -38,6 +38,7 @@ t_exec	*create_exec(t_token *cmd_token)
 	exec_cmd->fd_pipe[1] = -1;
 	exec_cmd->p_pipe = -1;
 	exec_cmd->pid = -1;
+	exec_cmd->envp = envp_dup(envp);
 	exec_cmd->next = NULL;
 	exec_cmd->prev = NULL;
 	return (exec_cmd);
@@ -80,7 +81,7 @@ static void	process_args(t_exec *exec_cmd, t_token *node)
 malloc the char ** with that count
 strdup every args into a string inside the char ** */
 
-t_exec	*create_exec_list(t_token *token_tree)
+t_exec	*create_exec_list(t_token *token_tree, char **envp)
 {
 	t_exec	*exec_list;
 	t_exec	*new_exec;
@@ -92,7 +93,7 @@ t_exec	*create_exec_list(t_token *token_tree)
 	{
 		if (ft_strcmp(current_token->type, "cmd") == 0)
 		{
-			new_exec = create_exec(current_token);
+			new_exec = create_exec(current_token, envp);
 			if (!new_exec)
 				return (NULL);
 			process_args(new_exec, current_token->right);
@@ -114,7 +115,7 @@ t_exec	*main_execution(t_token **token_tree, char **envp)
 	if (!token_tree || !*token_tree)
 		return (NULL);
 	temp = *token_tree;
-	exec_list = create_exec_list(temp);
+	exec_list = create_exec_list(temp, envp);
 	if (!exec_list)
 		return (NULL);
 	if (exec_list->redir)
