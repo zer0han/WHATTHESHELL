@@ -6,7 +6,7 @@
 /*   By: gmechaly <gmechaly@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/28 18:07:44 by rdalal            #+#    #+#             */
-/*   Updated: 2025/03/11 17:47:14 by gmechaly         ###   ########.fr       */
+/*   Updated: 2025/03/12 21:47:56 by gmechaly         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -186,7 +186,7 @@
 // 	return (0);
 // }
 
-static void	print_env(t_envp **dup)
+void	print_env(t_envp **dup)
 {
 	t_envp	*node;
 
@@ -198,13 +198,16 @@ static void	print_env(t_envp **dup)
 	}
 }
 
-static t_envp	*ft_last_env_node(t_envp *duplicate)
+static t_envp	*ft_last_env_node(t_envp **duplicate)
 {
-	if (duplicate == NULL)
+	t_envp	*node;
+
+	node = *duplicate;
+	if (node == NULL)
 		return (NULL);
-	while (duplicate && duplicate->next)
-		duplicate = duplicate->next;
-	return (duplicate);
+	while (node && node->next)
+		node = node->next;
+	return (node);
 }
 
 static t_envp	*create_envp_node(char *env_line, t_envp **duplicate)
@@ -222,7 +225,7 @@ static t_envp	*create_envp_node(char *env_line, t_envp **duplicate)
 	}
 	else
 	{
-		node->prev = ft_last_env_node(*duplicate);
+		node->prev = ft_last_env_node(duplicate);
 		node->prev->next = node;
 	}
 	node->next = NULL;
@@ -250,21 +253,25 @@ static void	*add_env(t_envp **dup, char *var, char *value)
 {
 	char	*new_line;
 
-	new_line = ft_strdup(var);
+	new_line = malloc(sizeof(char) * ft_strlen(var) + ft_strlen(value) + 2);
 	if (new_line == NULL)
 		return (NULL);
-	ft_strlcat(new_line, "=", ft_strlen(new_line) + 1);
-	ft_strlcat(new_line, value, ft_strlen(new_line) + ft_strlen(value) + 1);
-	if (create_envp_node(new_line, dup) == NULL)
-		return (NULL);
-	return (*dup);
+	ft_strlcpy(new_line, var, ft_strlen(var) + 1);
+	ft_strlcat(new_line, "=", ft_strlen(new_line) + 2);
+	ft_strlcat(new_line, value, ft_strlen(new_line) + ft_strlen(value) + 2);
+	*dup = create_envp_node(new_line, dup);
+	if (*dup == NULL)
+		return (printf("didn't create the node\n"), NULL);
+	return (printf("node created\n"), *dup);
 }
 
 static int	update_env(t_envp **dup, char *var, char *value)
 {
 	t_envp	*node;
+	int		i;
 
 	node = *dup;
+	i = 0;
 	while (node)
 	{
 		if (strncmp(node->str, var, ft_strlen(var)) == 0 && \
@@ -280,6 +287,7 @@ static int	update_env(t_envp **dup, char *var, char *value)
 			return (0);
 		}
 		node = node->next;
+		i++;
 	}
 	return (1);
 }
@@ -299,9 +307,11 @@ static int	process_export_arg(char *arg, t_envp **dup)
 		value = eq + 1;
 		if (!valid_id(var))
 			return (free(var), EXIT_FAILURE);
+		printf("\nlast node = %s\n", ft_last_env_node(dup)->str);
 		if (update_env(dup, var, value) > 0)
 			add_env(dup, var, value);
 		free(var);
+		// print_env(dup);
 	}
 	else if (!valid_id(arg))
 		return (EXIT_FAILURE);
@@ -319,12 +329,15 @@ int	cmd_export(t_exec *exec, t_token **tokens)
 		print_env(&exec->envp);
 		return (EXIT_SUCCESS);
 	}
+	printf("\nBefore export\n");
+	print_env(&exec->envp);
 	node = node->right;
-	while (node && !ft_strcmp(node->type, "arg"))
+	while (node && !ft_strncmp(node->type, "arg", 3))
 	{
 		retval = process_export_arg(node->input, &exec->envp);
 		if (retval == EXIT_FAILURE)
 			return (EXIT_FAILURE);
+		node = node->right;
 	}
 	return (EXIT_SUCCESS);
 }

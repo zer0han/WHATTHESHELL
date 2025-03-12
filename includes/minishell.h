@@ -6,7 +6,7 @@
 /*   By: gmechaly <gmechaly@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/10 19:08:44 by rdalal            #+#    #+#             */
-/*   Updated: 2025/03/11 17:20:54 by gmechaly         ###   ########.fr       */
+/*   Updated: 2025/03/12 21:22:10 by gmechaly         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -129,6 +129,7 @@ int		cmd_exit(t_token *args, t_exec *exec_list);
 /*builtin_export.c*/
 int		cmd_export(t_exec *exec, t_token **tokens);
 t_envp	*envp_dup(char **envp);
+void	print_env(t_envp **dup);
 
 /*  pipes               */
 /**pipe_helper**/

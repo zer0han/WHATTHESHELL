@@ -6,7 +6,7 @@
 /*   By: gmechaly <gmechaly@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/18 19:35:01 by rdalal            #+#    #+#             */
-/*   Updated: 2025/03/10 17:49:01 by gmechaly         ###   ########.fr       */
+/*   Updated: 2025/03/12 21:59:42 by gmechaly         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ signal(SIGQUIT, SIG_IGN)
 
 t_exec	*create_exec(t_token *cmd_token, char **envp)
 {
-	t_exec	*exec_cmd;
+	t_exec		*exec_cmd;
 
 	if (!cmd_token)
 		return (NULL);
