@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   builtin_export.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rdalal <rdalal@student.42.fr>              +#+  +:+       +#+        */
+/*   By: gmechaly <gmechaly@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/28 18:07:44 by rdalal            #+#    #+#             */
-/*   Updated: 2025/03/12 21:47:56 by gmechaly         ###   ########.fr       */
+/*   Updated: 2025/03/12 22:34:19 by gmechaly         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -243,7 +243,7 @@ t_envp	*envp_dup(char **envp)
 	{
 		dup_env = create_envp_node(envp[i], &dup_env);
 		if (dup_env == NULL)
-			return (free_envp(dup_env), NULL);
+			return (/*free_envp(dup_env),*/ NULL);
 		i++;
 	}
 	return(dup_env);

@@ -6,7 +6,7 @@
 /*   By: gmechaly <gmechaly@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/18 19:35:01 by rdalal            #+#    #+#             */
-/*   Updated: 2025/03/12 21:59:42 by gmechaly         ###   ########.fr       */
+/*   Updated: 2025/03/12 22:26:03 by gmechaly         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ signal(SIGINT, SIG_IGN)
 signal(SIGQUIT, SIG_IGN)
 */
 
-t_exec	*create_exec(t_token *cmd_token, char **envp)
+t_exec	*create_exec(t_token *cmd_token, char **envp, t_envp *env)
 {
 	t_exec		*exec_cmd;
 
@@ -38,7 +38,10 @@ t_exec	*create_exec(t_token *cmd_token, char **envp)
 	exec_cmd->fd_pipe[1] = -1;
 	exec_cmd->p_pipe = -1;
 	exec_cmd->pid = -1;
-	exec_cmd->envp = envp_dup(envp);
+	if (!env)
+		exec_cmd->envp = envp_dup(envp);
+	else
+		exec_cmd->envp = env;
 	exec_cmd->next = NULL;
 	exec_cmd->prev = NULL;
 	return (exec_cmd);
@@ -81,7 +84,7 @@ static void	process_args(t_exec *exec_cmd, t_token *node)
 malloc the char ** with that count
 strdup every args into a string inside the char ** */
 
-t_exec	*create_exec_list(t_token *token_tree, char **envp)
+t_exec	*create_exec_list(t_token *token_tree, char **envp, t_envp *env)
 {
 	t_exec	*exec_list;
 	t_exec	*new_exec;
@@ -93,7 +96,7 @@ t_exec	*create_exec_list(t_token *token_tree, char **envp)
 	{
 		if (ft_strcmp(current_token->type, "cmd") == 0)
 		{
-			new_exec = create_exec(current_token, envp);
+			new_exec = create_exec(current_token, envp, env);
 			if (!new_exec)
 				return (NULL);
 			process_args(new_exec, current_token->right);
@@ -105,7 +108,7 @@ t_exec	*create_exec_list(t_token *token_tree, char **envp)
 
 }
 
-t_exec	*main_execution(t_token **token_tree, char **envp)
+t_exec	*main_execution(t_token **token_tree, char **envp, t_envp *env)
 {
 	t_exec	*exec_list;
 	t_token	*temp;
@@ -115,7 +118,7 @@ t_exec	*main_execution(t_token **token_tree, char **envp)
 	if (!token_tree || !*token_tree)
 		return (NULL);
 	temp = *token_tree;
-	exec_list = create_exec_list(temp, envp);
+	exec_list = create_exec_list(temp, envp, env);
 	if (!exec_list)
 		return (NULL);
 	if (exec_list->redir)
