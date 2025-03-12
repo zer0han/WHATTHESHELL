@@ -6,7 +6,7 @@
 /*   By: rdalal <rdalal@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/24 20:15:44 by rdalal            #+#    #+#             */
-/*   Updated: 2025/02/27 13:24:32 by rdalal           ###   ########.fr       */
+/*   Updated: 2025/03/11 18:39:40 by rdalal           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,9 +17,15 @@ void	setup_redir(t_exec *exec)
 	if (exec->redir)
 		redirection_process(exec->redir);
 	if (exec->fd_in != STDIN_FILENO)
+	{
 		dup2(exec->fd_in, STDIN_FILENO);
+		close(exec->fd_in);
+	}
 	if (exec->fd_out != STDOUT_FILENO)
+	{
 		dup2(exec->fd_out, STDOUT_FILENO);
+		close(exec->fd_out);
+	}
 }
 
 void	clean_fds(t_exec *exec)
@@ -28,6 +34,10 @@ void	clean_fds(t_exec *exec)
 		close(exec->fd_in);
 	if (exec->fd_out != STDOUT_FILENO)
 		close(exec->fd_out);
+	if (exec->p_pipe >= 0)
+		close(exec->p_pipe);
+	if (exec->next)
+		close(exec->fd_pipe[1]);
 }
 
 void	execute_child_redir(t_exec *exec, char **envp)
@@ -42,7 +52,7 @@ void	execute_child_redir(t_exec *exec, char **envp)
 		{
 			ft_putstr_fd("whattheshell: ", STDERR_FILENO);
 			ft_putstr_fd(exec->cmd, STDERR_FILENO);
-			ft_putendl_fd("; cmd not found", STDERR_FILENO);
+		//	ft_putendl_fd("; cmd not found", STDERR_FILENO);
 			exit(127);
 		}
 		execve(path, exec->args, envp);

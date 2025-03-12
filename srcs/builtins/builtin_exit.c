@@ -6,7 +6,7 @@
 /*   By: rdalal <rdalal@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/14 14:07:48 by rdalal            #+#    #+#             */
-/*   Updated: 2025/03/06 17:30:36 by rdalal           ###   ########.fr       */
+/*   Updated: 2025/03/11 16:46:05 by rdalal           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -91,5 +91,3 @@ int	cmd_exit(t_token *token, t_exec *exec_list)
 	free_all(token, exec_list);
 	exit(exit_code);
 }
-
-//doesn't exit check this too

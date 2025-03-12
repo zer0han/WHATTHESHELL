@@ -49,13 +49,16 @@ static void	process_args(t_exec *exec_cmd, t_token *node)
 	int	arg_size;
 	int	i;
 
-	if (!exec_cmd || !node)
-		return ;
+	if (!exec_cmd || !exec_cmd->cmd || !exec_cmd->cmd[0])
+	return (ft_putstr_fd("ERROR: exec->cmd is NULL!\n", STDERR_FILENO));
 	arg_size = count_args(node);
-	exec_cmd->args = malloc(sizeof(char *) * (arg_size + 1));
+	exec_cmd->args = malloc(sizeof(char *) * (arg_size + 2));
 	if (!exec_cmd->args)
 		return (perror("malloc failed in process_args"));
-	i = 0;
+	exec_cmd->args[0] = ft_strdup(exec_cmd->cmd);
+	if (!exec_cmd->args[0])
+		return (perror("strdup failed for cmd"));
+	i = 1;
 	while (node && (ft_strcmp(node->type, "arg") == 0 \
 		|| ft_strcmp(node->type, "option") == 0))
 	{
@@ -64,6 +67,7 @@ static void	process_args(t_exec *exec_cmd, t_token *node)
 		{
 			while (--i >= 0)
 				free (exec_cmd->args[i]);
+			//free(exec_cmd->args);
 			exec_cmd->args = NULL;
 			return (free_exec(exec_cmd));
 		}
@@ -92,7 +96,7 @@ t_exec	*create_exec_list(t_token *token_tree, char **envp)
 			new_exec = create_exec(current_token, envp);
 			if (!new_exec)
 				return (NULL);
-			process_args(new_exec, current_token->right); // not sure at all about this function
+			process_args(new_exec, current_token->right);
 			add_exec_node(&exec_list, new_exec);
 		}
 		current_token = current_token->right;
@@ -118,17 +122,17 @@ t_exec	*main_execution(t_token **token_tree, char **envp)
 		redirection_process(exec_list->redir);
 	if (exec_list->next)
 		exec_pipeline(exec_list, envp);
-	if (exec_list->cmd_token->input)
+	else if (exec_list->cmd_token->input)
 		execute_cmds(exec_list->cmd_token, envp, exec_list);
 	else
 	{
-		pid = fork(); //needs to move this to an if statement
-		if (pid == -1)
-			return (perror("fork"), free_exec(exec_list), NULL);
-		if (pid == 0)
-			exec_external(exec_list->cmd_token, envp);
-		else
-			wait_for_children(exec_list);
+		//pid = fork();
+		// if (pid == -1)
+		// 	return (perror("fork"), free_exec(exec_list), NULL);
+		// if (pid == 0)
+		exec_external(exec_list->cmd_token, envp);
+		// else 
+		// 	wait_for_children(exec_list);
 	}
 	return (exec_list);
 }

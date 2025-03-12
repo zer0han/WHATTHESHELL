@@ -12,13 +12,13 @@
 
 #include "minishell.h"
 
-int	dispatch_cmds(t_token *tokens, char ***envp, t_exec *exec_list)
+void	dispatch_cmds(t_token *tokens, char ***envp, t_exec *exec_list)
 {
 	int		status;
 
 	status = 0;
 	if (!tokens || !tokens->input)
-		return (1);
+		return ;
 	if (ft_strcmp(tokens->input, "echo") == 0)
 		status = cmd_echo(tokens);
 	else if (ft_strcmp(tokens->input, "cd") == 0)
@@ -33,10 +33,11 @@ int	dispatch_cmds(t_token *tokens, char ***envp, t_exec *exec_list)
 		status = cmd_unset(envp, tokens);
 	else if (ft_strcmp(tokens->input, "exit") == 0)
 		status = cmd_exit(tokens, exec_list);
-	return (status);
+	g_exit_status = status;
+	// return (status);
 }
 
-static int	fd_is_builtin(t_token *token)
+int	fd_is_builtin(t_token *token)
 {
 	char	*cmd;
 
@@ -61,10 +62,7 @@ void	execute_cmds(t_token *token, char **envp, t_exec *exec_list)
 	if (fd_is_builtin(token))
 		dispatch_cmds(token, &envp, exec_list);
 	else
-	{
 		exec_external(token, envp);
-		//ft_putchar_fd('\n', STDOUT_FILENO);
-	}
-	if (status != 0)
+	if (g_exit_status != 0)
 		free_tokens(token);
 }

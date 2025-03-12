@@ -6,7 +6,7 @@
 /*   By: rdalal <rdalal@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/10 17:31:21 by rdalal            #+#    #+#             */
-/*   Updated: 2025/03/07 23:29:04 by rdalal           ###   ########.fr       */
+/*   Updated: 2025/03/11 20:13:13 by rdalal           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,8 @@ static int	ft_count_args(t_token *tokens)
 
 	count = 0;
 	temp = tokens;
-	while (temp)
+	while (temp  && ((ft_strcmp(temp->type, "arg") == 0) || \
+	ft_strcmp(temp->type, "option") == 0 || ft_strcmp(temp->type, "cmd") == 0))
 	{
 		count++;
 		temp = temp->right;
@@ -84,7 +85,7 @@ void	run_cmd(char *cmd_path, char **argv, char **envp)
 	{
 		perror("fork");
 		free(cmd_path);
-		free_array(argv);
+		return (free_array(argv));
 	}
 	else if (pid == 0)
 	{
@@ -110,8 +111,12 @@ void	exec_external(t_token *tokens, char **envp)
 	cmd_path = NULL;
 	argv = cmd_prep(tokens, envp, &cmd_path);
 	if (!argv)
+	{
+		g_exit_status = 127;
 		return ;
+	}
 	run_cmd(cmd_path, argv, envp);
+	//printf("it reaches here\n");
 	free(cmd_path);
 	free_array(argv);
 }
