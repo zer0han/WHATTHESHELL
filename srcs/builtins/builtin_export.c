@@ -6,7 +6,7 @@
 /*   By: gmechaly <gmechaly@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/28 18:07:44 by rdalal            #+#    #+#             */
-/*   Updated: 2025/03/10 18:38:42 by gmechaly         ###   ########.fr       */
+/*   Updated: 2025/03/11 17:47:14 by gmechaly         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -142,8 +142,8 @@
 // 	i = -1;
 // 	while ((*envp)[++i])
 // 	{
-// 		if (!ft_strncmp((*envp)[i], var, ft_strlen(var)) && \
-// 			((*envp)[i][ft_strlen(var)] == '=' || \
+// 		if (!ft_strncmp((*envp)[i], var, ft_strlen(var)) && 
+// 			((*envp)[i][ft_strlen(var)] == '=' || 
 // 			(*envp)[i][ft_strlen(var)] == '\0'))
 // 		{
 // 			new_entry = create_env_entry(var, value);
@@ -253,7 +253,7 @@ static void	*add_env(t_envp **dup, char *var, char *value)
 	new_line = ft_strdup(var);
 	if (new_line == NULL)
 		return (NULL);
-	ft_strlcat(new_line, "=", ft_strlen(new_line + 1));
+	ft_strlcat(new_line, "=", ft_strlen(new_line) + 1);
 	ft_strlcat(new_line, value, ft_strlen(new_line) + ft_strlen(value) + 1);
 	if (create_envp_node(new_line, dup) == NULL)
 		return (NULL);
@@ -284,7 +284,7 @@ static int	update_env(t_envp **dup, char *var, char *value)
 	return (1);
 }
 
-static void	process_export_arg(char *arg, t_envp **dup)
+static int	process_export_arg(char *arg, t_envp **dup)
 {
 	char	*eq;
 	char	*var;
@@ -298,31 +298,33 @@ static void	process_export_arg(char *arg, t_envp **dup)
 			exit(EXIT_FAILURE);
 		value = eq + 1;
 		if (!valid_id(var))
-		{
-			free(var);
-			exit(EXIT_FAILURE);
-		}
+			return (free(var), EXIT_FAILURE);
 		if (update_env(dup, var, value) > 0)
 			add_env(dup, var, value);
 		free(var);
 	}
 	else if (!valid_id(arg))
-		exit(EXIT_FAILURE);
-	exit(EXIT_SUCCESS);
+		return (EXIT_FAILURE);
+	return (EXIT_SUCCESS);
 }
 
-void	cmd_export(t_exec *exec, t_token **tokens)
+int	cmd_export(t_exec *exec, t_token **tokens)
 {
 	t_token	*node;
+	int		retval;
 
 	node = *tokens;
 	if (!node->right)
 	{
 		print_env(&exec->envp);
-		exit(EXIT_SUCCESS);
+		return (EXIT_SUCCESS);
 	}
 	node = node->right;
 	while (node && !ft_strcmp(node->type, "arg"))
-		process_export_arg(node->input, &exec->envp);
-	exit(EXIT_SUCCESS);
+	{
+		retval = process_export_arg(node->input, &exec->envp);
+		if (retval == EXIT_FAILURE)
+			return (EXIT_FAILURE);
+	}
+	return (EXIT_SUCCESS);
 }
