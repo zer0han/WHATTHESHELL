@@ -6,7 +6,7 @@
 /*   By: rdalal <rdalal@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/29 19:13:16 by rdalal            #+#    #+#             */
-/*   Updated: 2025/03/06 17:27:12 by rdalal           ###   ########.fr       */
+/*   Updated: 2025/03/12 14:33:07 by rdalal           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,20 +42,23 @@ int	env_remover(char **envp, char *var)
 	int var_len;
 
 	i = 0;
-	var_len = ft_strlen(var);
 	if (!var || !valid_id(var))
-		return(EXIT_FAILURE);
+		return (1);
+	var_len = ft_strlen(var);
+	if (!envp || !*envp)
+		return (1);
 	while (envp[i])
 	{
 		if (ft_strncmp(envp[i], var, var_len) == 0 && (envp[i][var_len] == '=' \
 			|| envp[i][var_len] == '\0'))
 		{
 			free(envp[i]);
-			while (envp[i])
+			while (envp[i + 1])
 			{
 				envp[i] = envp[i + 1];
 				i++;
 			}
+			envp[i] = NULL;
 			return (0);
 		}
 		i++;
@@ -67,13 +70,13 @@ int	cmd_unset(char ***envp, t_token *tokens)
 {
 	t_token	*arg;
 
-	if (!tokens || !tokens->right)
-		return (EXIT_FAILURE);
+	if (!tokens || !tokens->right || !envp || !*envp)
+		return (1);
 	arg = tokens->right;
 	while (arg)
 	{
 		env_remover(*envp, arg->input);
 		arg = arg->right;
 	}
-	return (EXIT_SUCCESS);
+	return (0);
 }

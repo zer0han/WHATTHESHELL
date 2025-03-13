@@ -6,7 +6,7 @@
 /*   By: rdalal <rdalal@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/10 19:08:44 by rdalal            #+#    #+#             */
-/*   Updated: 2025/03/11 22:30:44 by rdalal           ###   ########.fr       */
+/*   Updated: 2025/03/11 23:06:05 by rdalal           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -99,7 +99,7 @@ int		error_message(char *context, int error_code);
 /*************EXECUTION*************/
 
 /*  exec_functions  */
-t_exec	*create_exec(t_token *cmd_token, char **envp);
+t_exec	*create_exec(t_token *cmd_token); //, char **envp);
 t_exec	*create_exec_list(t_token *token_tree, char **envp);
 t_exec	*main_execution(t_token **token_tree, char **envp);
 /**exec_helper**/
@@ -128,7 +128,7 @@ int		cmd_exit(t_token *args, t_exec *exec_list);
 
 /*builtin_export.c*/
 void	cmd_export(t_exec *exec, t_token **tokens);
-t_envp	*envp_dup(char **envp);
+// t_envp	*envp_dup(char **envp);
 
 /*  pipes               */
 /**pipe_helper**/

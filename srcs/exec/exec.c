@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gmechaly <gmechaly@student.42.fr>          +#+  +:+       +#+        */
+/*   By: rdalal <rdalal@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/18 19:35:01 by rdalal            #+#    #+#             */
-/*   Updated: 2025/03/11 22:21:39 by rdalal           ###   ########.fr       */
+/*   Updated: 2025/03/11 23:06:58 by rdalal           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ signal(SIGINT, SIG_IGN)
 signal(SIGQUIT, SIG_IGN)
 */
 
-t_exec	*create_exec(t_token *cmd_token, char **envp)
+t_exec	*create_exec(t_token *cmd_token) //, char **envp)
 {
 	t_exec	*exec_cmd;
 
@@ -38,7 +38,7 @@ t_exec	*create_exec(t_token *cmd_token, char **envp)
 	exec_cmd->fd_pipe[1] = -1;
 	exec_cmd->p_pipe = -1;
 	exec_cmd->pid = -1;
-	exec_cmd->envp = envp_dup(envp);
+	//exec_cmd->envp = envp_dup(envp);
 	exec_cmd->next = NULL;
 	exec_cmd->prev = NULL;
 	return (exec_cmd);
@@ -87,13 +87,14 @@ t_exec	*create_exec_list(t_token *token_tree, char **envp)
 	t_exec	*new_exec;
 	t_token	*current_token;
 
+	(void)envp;
 	exec_list = NULL;
 	current_token = token_tree;
 	while (current_token)
 	{
 		if (ft_strcmp(current_token->type, "cmd") == 0)
 		{
-			new_exec = create_exec(current_token, envp);
+			new_exec = create_exec(current_token); //, envp);
 			if (!new_exec)
 				return (NULL);
 			process_args(new_exec, current_token->right);

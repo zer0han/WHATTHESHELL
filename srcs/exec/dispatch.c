@@ -6,7 +6,7 @@
 /*   By: rdalal <rdalal@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/11 14:50:45 by rdalal            #+#    #+#             */
-/*   Updated: 2025/03/11 20:11:53 by rdalal           ###   ########.fr       */
+/*   Updated: 2025/03/12 14:50:45 by rdalal           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,7 @@ void	dispatch_cmds(t_token *tokens, char ***envp, t_exec *exec_list)
 	else if (ft_strcmp(tokens->input, "env") == 0)
 		status = cmd_env(*envp);
 	else if (ft_strcmp(tokens->input, "export") == 0)
-		status = cmd_export(envp, tokens);
+		cmd_export(exec_list, &tokens);
 	else if (ft_strcmp(tokens->input, "unset") == 0)
 		status = cmd_unset(envp, tokens);
 	else if (ft_strcmp(tokens->input, "exit") == 0)
@@ -64,5 +64,5 @@ void	execute_cmds(t_token *token, char **envp, t_exec *exec_list)
 	else
 		exec_external(token, envp);
 	if (g_exit_status != 0)
-		free_tokens(token);
+		return ;
 }

@@ -6,7 +6,7 @@
 /*   By: rdalal <rdalal@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/05 13:30:19 by rdalal            #+#    #+#             */
-/*   Updated: 2025/02/27 13:27:17 by rdalal           ###   ########.fr       */
+/*   Updated: 2025/03/12 19:21:58 by rdalal           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,6 +68,7 @@ void	redirection_process(t_token *token)
 		}
 		else
 			current = current->right;
+		token = token->right;
 	}
 }
 
