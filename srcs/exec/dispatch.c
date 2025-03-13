@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   dispatch.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rdalal <rdalal@student.42.fr>              +#+  +:+       +#+        */
+/*   By: gmechaly <gmechaly@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/11 14:50:45 by rdalal            #+#    #+#             */
-/*   Updated: 2025/03/12 14:50:45 by rdalal           ###   ########.fr       */
+/*   Updated: 2025/03/12 21:22:38 by gmechaly         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,9 +26,9 @@ void	dispatch_cmds(t_token *tokens, char ***envp, t_exec *exec_list)
 	else if (ft_strcmp(tokens->input, "pwd") == 0)
 		status = cmd_pwd();
 	else if (ft_strcmp(tokens->input, "env") == 0)
-		status = cmd_env(*envp);
+		status = cmd_env(exec_list);
 	else if (ft_strcmp(tokens->input, "export") == 0)
-		cmd_export(exec_list, &tokens);
+		{status = cmd_export(exec_list, &tokens);print_env(&exec_list->envp);}
 	else if (ft_strcmp(tokens->input, "unset") == 0)
 		status = cmd_unset(envp, tokens);
 	else if (ft_strcmp(tokens->input, "exit") == 0)

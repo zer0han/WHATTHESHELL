@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rdalal <rdalal@student.42.fr>              +#+  +:+       +#+        */
+/*   By: gmechaly <gmechaly@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/10 19:08:44 by rdalal            #+#    #+#             */
-/*   Updated: 2025/03/11 23:06:05 by rdalal           ###   ########.fr       */
+/*   Updated: 2025/03/12 22:32:51 by gmechaly         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -99,9 +99,9 @@ int		error_message(char *context, int error_code);
 /*************EXECUTION*************/
 
 /*  exec_functions  */
-t_exec	*create_exec(t_token *cmd_token); //, char **envp);
-t_exec	*create_exec_list(t_token *token_tree, char **envp);
-t_exec	*main_execution(t_token **token_tree, char **envp);
+t_exec	*create_exec(t_token *cmd_token, char **envp, t_envp *env_list);
+t_exec	*create_exec_list(t_token *token_tree, char **envp, t_envp *env_list);
+t_exec	*main_execution(t_token **token_tree, char **envp, t_envp *env_list);
 /**exec_helper**/
 void	add_exec_node(t_exec **list, t_exec *new);
 //int		add_argument(t_exec *exec, char *arg);
@@ -123,12 +123,13 @@ int		cmd_cd(t_token *args);
 int		cmd_pwd(void);
 int		cmd_echo(t_token *tokens);
 int		cmd_unset(char ***envp, t_token *tokens);
-int		cmd_env(char **envp);
+int		cmd_env(t_exec *exec_list);
 int		cmd_exit(t_token *args, t_exec *exec_list);
 
 /*builtin_export.c*/
-void	cmd_export(t_exec *exec, t_token **tokens);
-// t_envp	*envp_dup(char **envp);
+int		cmd_export(t_exec *exec, t_token **tokens);
+t_envp	*envp_dup(char **envp);
+void	print_env(t_envp **dup);
 
 /*  pipes               */
 /**pipe_helper**/

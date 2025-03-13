@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rdalal <rdalal@student.42.fr>              +#+  +:+       +#+        */
+/*   By: gmechaly <gmechaly@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/26 18:40:32 by gmechaly          #+#    #+#             */
-/*   Updated: 2025/03/11 16:44:30 by rdalal           ###   ########.fr       */
+/*   Updated: 2025/03/12 22:31:17 by gmechaly         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,15 +30,17 @@
 
 int	main(int argc, char **argv, char **envp)
 {
-	char				*input;
-	t_token				*tokens;
-	t_exec				*exec_data;
+	char		*input;
+	t_token		*tokens;
+	t_exec		*exec_data;
+	t_envp		*env_linklist;
 
 	(void)argc;
-	(void)argv;(void)envp;
+	(void)argv;
 	signals();
 	input = readline("WHATTHESHELL: ");
 	tokens = NULL;
+	env_linklist = NULL;
 	while (input != NULL)
 	{
 		if (*input)
@@ -47,7 +49,8 @@ int	main(int argc, char **argv, char **envp)
 		// ft_print_tokens(&tokens);
 		if (tokens)
 		{
-			exec_data = main_execution(&tokens, envp);
+			exec_data = main_execution(&tokens, envp, env_linklist);
+			env_linklist = exec_data->envp;
 			free_all(tokens, exec_data);
 		}
 		input = readline("WHATTHESHELL: ");

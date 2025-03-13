@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   builtins.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rdalal <rdalal@student.42.fr>              +#+  +:+       +#+        */
+/*   By: gmechaly <gmechaly@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/06 16:25:27 by rdalal            #+#    #+#             */
-/*   Updated: 2025/03/10 19:45:00 by rdalal           ###   ########.fr       */
+/*   Updated: 2025/03/11 17:20:14 by gmechaly         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,60 +84,36 @@ int	cmd_pwd(void)
 [-i | -] [Name=Value]... [Command [Argument ...]]
 */
 
-static char	**dup_env(char **envp)
+// static char	**dup_env(char **envp)
+// {
+// 	char	**copy;
+// 	int		count;
+// 	int		i;
+
+// 	count = 0;
+// 	if(!envp)
+// 		return (NULL);
+// 	while (envp[count])
+// 		count++;
+// 	copy = malloc(sizeof(char *) * (count + 1));
+// 	if (!copy)
+// 		return (NULL);
+// 	i = -1;
+// 	while (++i < count)
+// 		copy[i] = ft_strdup(envp[i]);
+// 	copy[count] = NULL;
+// 	return (copy);
+// }
+
+int	cmd_env(t_exec *exec_list)
 {
-	char	**copy;
-	int		count;
-	int		i;
+	t_envp	*env;
 
-	count = 0;
-	if(!envp)
-		return (NULL);
-	while (envp[count])
-		count++;
-	copy = malloc(sizeof(char *) * (count + 1));
-	if (!copy)
-		return (NULL);
-	i = -1;
-	while (++i < count)
-		copy[i] = ft_strdup(envp[i]);
-	copy[count] = NULL;
-	return (copy);
-}
-
-int	cmd_env(char **envp)
-{
-	/*int		i;
-
-	i = -1;
-	while (envp[++i])
-		ft_putendl_fd(envp[i], STDOUT_FILENO);
-	return (EXIT_SUCCESS);*/
-	char	**copy;
-	int		i;
-	int		j;
-	char	*temp;
-
-	copy = dup_env(envp);
-	if (!copy)
-		exit(EXIT_FAILURE);
-	i = -1;
-	while (copy[++i])
+	env = exec_list->envp;
+	while (env)
 	{
-		j = i;
-		while (copy[++j])
-		{
-			if (ft_strcmp(copy[i], copy[j]) > 0)
-			{
-				temp = copy[i];
-				copy[i] = copy[j];
-				copy[j] = temp;
-			}
-		}
+		printf("%s\n", env->str);
+		env = env->next;
 	}
-	i = -1;
-	while (copy[++i])
-		printf("%s\n", copy[i]);
-	free_array(copy);
 	return (EXIT_SUCCESS);
 }
