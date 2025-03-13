@@ -64,5 +64,5 @@ void	execute_cmds(t_token *token, char **envp, t_exec *exec_list)
 	else
 		exec_external(token, envp);
 	if (g_exit_status != 0)
-		free_tokens(token);
+		return ;
 }

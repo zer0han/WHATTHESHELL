@@ -6,7 +6,7 @@
 /*   By: rdalal <rdalal@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/16 14:55:26 by gmechaly          #+#    #+#             */
-/*   Updated: 2025/03/11 22:33:18 by rdalal           ###   ########.fr       */
+/*   Updated: 2025/03/12 14:52:03 by rdalal           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,8 +67,14 @@ void	free_tokens(t_token *tokens)
 	{
 		temp = tokens;
 		tokens = tokens->right;
-		free(temp->input);
-		free(temp);
+		if (temp->input)
+		{
+			free(temp->input);
+			temp->input = NULL;
+		}
+		if (temp)
+			free(temp);
+		temp = NULL;
 	}
 	tokens = NULL;
 }

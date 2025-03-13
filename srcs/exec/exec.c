@@ -3,7 +3,7 @@
 /*                                                        :::      ::::::::   */
 /*   exec.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gmechaly <gmechaly@student.42.fr>          +#+  +:+       +#+        */
+/*   By: rdalal <rdalal@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/18 19:35:01 by rdalal            #+#    #+#             */
 /*   Updated: 2025/03/12 22:26:03 by gmechaly         ###   ########.fr       */
@@ -90,6 +90,7 @@ t_exec	*create_exec_list(t_token *token_tree, char **envp, t_envp *env)
 	t_exec	*new_exec;
 	t_token	*current_token;
 
+	(void)envp;
 	exec_list = NULL;
 	current_token = token_tree;
 	while (current_token)
