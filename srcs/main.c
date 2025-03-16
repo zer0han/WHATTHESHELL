@@ -6,7 +6,7 @@
 /*   By: gmechaly <gmechaly@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/26 18:40:32 by gmechaly          #+#    #+#             */
-/*   Updated: 2025/03/14 18:00:54 by gmechaly         ###   ########.fr       */
+/*   Updated: 2025/03/16 16:41:23 by gmechaly         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,7 +45,7 @@ int	main(int argc, char **argv, char **envp)
 	{
 		if (*input)
 			add_history(input);
-		tokens = ft_minishell_parsing(input);
+		tokens = ft_minishell_parsing(input, env_linklist);
 		// ft_print_tokens(&tokens);
 		if (tokens)
 		{
