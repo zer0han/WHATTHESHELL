@@ -6,18 +6,18 @@
 /*   By: gmechaly <gmechaly@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/20 15:27:16 by gmechaly          #+#    #+#             */
-/*   Updated: 2025/03/07 22:22:47 by gmechaly         ###   ########.fr       */
+/*   Updated: 2025/03/16 16:41:56 by gmechaly         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
 
-t_token	*ft_minishell_parsing(char *input)
+t_token	*ft_minishell_parsing(char *input, t_envp *env)
 {
 	char	*new_input;
 	t_token	*tokens;
 
-	new_input = expand_variables(input);
+	new_input = expand_variables(input, env);
 	free(input);
 	if (new_input == NULL)
 		return (NULL);
