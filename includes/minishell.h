@@ -6,7 +6,7 @@
 /*   By: rdalal <rdalal@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/10 19:08:44 by rdalal            #+#    #+#             */
-/*   Updated: 2025/03/16 18:13:48 by rdalal           ###   ########.fr       */
+/*   Updated: 2025/03/16 19:04:10 by rdalal           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,6 +86,12 @@ typedef struct s_exec
 	struct s_exec	*next;
 	struct s_exec	*prev;
 }					t_exec;
+
+typedef struct s_redir
+{
+	t_token			*redir;
+	struct s_redir	*next;
+}					t_redir;
 
 /*functions here*/
 
