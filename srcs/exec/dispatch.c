@@ -6,7 +6,7 @@
 /*   By: rdalal <rdalal@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/11 14:50:45 by rdalal            #+#    #+#             */
-/*   Updated: 2025/03/16 16:03:46 by rdalal           ###   ########.fr       */
+/*   Updated: 2025/03/16 18:14:19 by rdalal           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,7 +60,7 @@ void	execute_cmds(t_token *token, char **envp, t_envp *env, t_exec *exec_list)
 		return ;
 	status = 0;
 	if (exec_list->redir)
-		redirection_process(exec_list, exec_list->redir, envp);
+		redirection_process(exec_list, exec_list->redir);
 	if (fd_is_builtin(token))
 		dispatch_cmds(token, env, exec_list);
 	else

@@ -6,7 +6,7 @@
 /*   By: rdalal <rdalal@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/12 15:44:07 by rdalal            #+#    #+#             */
-/*   Updated: 2025/03/15 21:11:52 by rdalal           ###   ########.fr       */
+/*   Updated: 2025/03/16 18:14:47 by rdalal           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,7 +77,7 @@ void	exec_pipeline(t_exec *exec, char **envp)
 	while (exec)
 	{
 		if (exec->redir)
-			redirection_process(exec, exec->redir, envp);
+			redirection_process(exec, exec->redir);
 		setup_child_process(exec, envp);
 		// if (exec->p_pipe >= 0)
 		// 	close(exec->p_pipe);

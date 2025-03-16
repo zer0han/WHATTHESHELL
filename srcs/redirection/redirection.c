@@ -6,7 +6,7 @@
 /*   By: rdalal <rdalal@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/05 13:30:19 by rdalal            #+#    #+#             */
-/*   Updated: 2025/03/15 21:10:08 by rdalal           ###   ########.fr       */
+/*   Updated: 2025/03/16 18:13:28 by rdalal           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,7 +84,7 @@ int apply_redirection(t_exec *exec, t_token *redir, t_token *file)
 // 	}
 // }
 
-void	redirection_process(t_exec *exec, t_token *token, char **envp)
+void	redirection_process(t_exec *exec, t_token *token)
 {
 	t_token	*file;
 	t_token	*current = token;
@@ -99,7 +99,7 @@ void	redirection_process(t_exec *exec, t_token *token, char **envp)
 			file = current->right;
 			if (!file || !file->input)
 				return (handle_error("syntax error", EINVAL, &token));
-			if (redir_execute_cmd(exec, envp) != 0)
+			if (apply_redirection(exec, token->redir, file) != 0)
 				return ;
 
 			current = file->right;
