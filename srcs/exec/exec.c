@@ -6,7 +6,7 @@
 /*   By: gmechaly <gmechaly@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/18 19:35:01 by rdalal            #+#    #+#             */
-/*   Updated: 2025/03/16 11:06:36 by gmechaly         ###   ########.fr       */
+/*   Updated: 2025/03/16 15:35:15 by rdalal           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -109,6 +109,7 @@ t_exec	*main_execution(t_token **token_tree, char **envp, t_envp *env)
 	t_exec	*exec_list;
 	t_token	*temp;
 	pid_t	pid;
+	t_exec	*current;
 	
 	pid = 0;
 	if (!token_tree || !*token_tree)
@@ -117,22 +118,19 @@ t_exec	*main_execution(t_token **token_tree, char **envp, t_envp *env)
 	exec_list = create_exec_list(temp);
 	if (!exec_list)
 		return (NULL);
-	if (exec_list->redir)
-		redirection_process(exec_list->redir);
+	current = exec_list;
+	while (current)
+	{
+		if (current->redir)
+			redirection_process(current, current->redir, envp);
+		current = current->next;
+	}
 	if (exec_list->next)
 		exec_pipeline(exec_list, envp);
 	else if (exec_list->cmd_token->input)
 		execute_cmds(exec_list->cmd_token, envp, env, exec_list);
 	else
-	{
-		//pid = fork();
-		// if (pid == -1)
-		// 	return (perror("fork"), free_exec(exec_list), NULL);
-		// if (pid == 0)
 		exec_external(exec_list->cmd_token, envp);
-		// else 
-		// 	wait_for_children(exec_list);
-	}
 	return (exec_list);
 }
 

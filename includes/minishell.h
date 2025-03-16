@@ -3,7 +3,7 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gmechaly <gmechaly@student.42.fr>          +#+  +:+       +#+        */
+/*   By: rdalal <rdalal@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/10 19:08:44 by rdalal            #+#    #+#             */
 /*   Updated: 2025/03/16 11:34:27 by gmechaly         ###   ########.fr       */
@@ -134,7 +134,7 @@ void	print_env(t_envp **dup);
 /*  pipes               */
 /**pipe_helper**/
 void	handle_pipe_redir(t_exec *exec);
-void	apply_redir(t_exec *exec);
+void	apply_redir_pipe(t_exec *exec);
 void	child_process(t_exec *exec, char **envp);
 /**pipe**/
 void	setup_child_process(t_exec *exec, char **envp);
@@ -147,17 +147,17 @@ int		create_heredoc_file(char **temp);
 int		handle_heredoc(t_token *redir, t_token *file);
 void	read_heredoc_content(int fd, char *limit);
 /**redir_handler**/
-int		handle_output(t_token *redir, t_token *file, t_token **token);
-int		handle_append(t_token *redir, t_token *file, t_token **token);
-int		handle_input(t_token *redir, t_token *file, t_token **token);
+int		handle_output(t_token *redir, t_token *file);//, t_token *token);
+int		handle_append(t_token *redir, t_token *file);//, t_token *token);
+int		handle_input(t_token *file);
 /**redirection_exec**/
 void	setup_redir(t_exec *exec);
 void	clean_fds(t_exec *exec);
 void	execute_child_redir(t_exec *exec, char **envp);
-void	redir_execute_cmd(t_exec *exec, char **envp);
+int		redir_execute_cmd(t_exec *exec, char **envp);
 /**redirection**/
-void	redirection_process(t_token *token);
-int		apply_redirection(t_token *redir, t_token *file, t_token **token);
+void	redirection_process(t_exec *exec, t_token *token, char **envp);
+int		apply_redirection(t_exec *exec, t_token *redir, t_token *file);
 
 
 /*************PARSING*************/

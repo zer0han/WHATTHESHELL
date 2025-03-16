@@ -6,7 +6,7 @@
 /*   By: rdalal <rdalal@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/12 15:44:07 by rdalal            #+#    #+#             */
-/*   Updated: 2025/03/11 22:20:26 by rdalal           ###   ########.fr       */
+/*   Updated: 2025/03/15 21:11:52 by rdalal           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,12 +31,13 @@ void	setup_child_process(t_exec *exec, char **envp)
 	pid = fork();
 	if (pid == 0)
 	{
+		if (exec->redir)
+			setup_redir(exec);
 		handle_pipe_redir(exec);
-		setup_redir(exec);
 		if (!get_path(exec->cmd))
 			exit (127);
 		execve(get_path(exec->cmd), exec->args, envp);
-		perror("execve");
+		perror("execve failed");
 		exit(1);
 	}
 	else if (pid > 0)
@@ -75,6 +76,8 @@ void	exec_pipeline(t_exec *exec, char **envp)
 	head = exec;
 	while (exec)
 	{
+		if (exec->redir)
+			redirection_process(exec, exec->redir, envp);
 		setup_child_process(exec, envp);
 		// if (exec->p_pipe >= 0)
 		// 	close(exec->p_pipe);

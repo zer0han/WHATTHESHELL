@@ -6,7 +6,7 @@
 /*   By: rdalal <rdalal@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/24 19:21:49 by rdalal            #+#    #+#             */
-/*   Updated: 2025/02/27 13:25:58 by rdalal           ###   ########.fr       */
+/*   Updated: 2025/03/15 20:30:16 by rdalal           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,6 @@ void	read_heredoc_content(int fd, char *limit)
 		free(line);
 	}
 }
-
 int	handle_heredoc(t_token *redir, t_token *file)
 {
 	char	*temp;
@@ -49,15 +48,21 @@ int	handle_heredoc(t_token *redir, t_token *file)
 	(void)redir;
 	fd = create_heredoc_file(&temp);
 	if (fd == -1)
-		return (1);
+		return (-1);
+
 	read_heredoc_content(fd, file->input);
 	close(fd);
+
 	fd = open(temp, O_RDONLY);
 	unlink(temp);
 	free(temp);
+
 	if (fd == -1)
-		return (error_message("heredoc", errno), 1);
-	dup2(fd, STDIN_FILENO);
-	close(fd);
-	return (0);
+	{
+		error_message("heredoc", errno);
+		return (-1);
+	}
+
+	return (fd);  // FIXED: Return correct fd_in for heredoc
 }
+
