@@ -6,7 +6,7 @@
 /*   By: gmechaly <gmechaly@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/30 13:52:27 by gmechaly          #+#    #+#             */
-/*   Updated: 2025/03/10 12:00:38 by gmechaly         ###   ########.fr       */
+/*   Updated: 2025/03/16 17:09:27 by gmechaly         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,7 @@ char	*get_var_name(char *input_i)
 	return (var_name);
 }
 
-int	new_input_len(char *input)
+int	new_input_len(char *input, t_envp *env)
 {
 	int		i;
 	int		add_len;
@@ -62,9 +62,9 @@ int	new_input_len(char *input)
 			else
 			{
 				var_name = get_var_name(&input[i]);
-				var_value = getenv(var_name);
+				var_value = my_getenv(var_name, &env);
 				if (var_value == NULL)
-					return (-1);
+					return (free(var_name), -1);
 				add_len += ft_strlen(var_value);
 				i += ft_strlen(var_name);
 				free(var_name);
@@ -78,7 +78,7 @@ int	new_input_len(char *input)
 	return (i + add_len);
 }
 
-void	replace_var_by_value(char *input, char *ninput, int *i, int *j)
+void	replace_var_by_value(char *input, char *ninput, int *i, int *j, t_envp *env)
 {
 	char	*vname;
 	char	*vval;
@@ -91,7 +91,7 @@ void	replace_var_by_value(char *input, char *ninput, int *i, int *j)
 	else
 	{
 		vname = get_var_name(&input[(*i) + 1]);
-		vval = getenv(vname);
+		vval = my_getenv(vname, &env);
 		*i += ft_strlen(vname) + 1;
 		free(vname);
 	}
@@ -103,13 +103,13 @@ void	replace_var_by_value(char *input, char *ninput, int *i, int *j)
 	}
 }
 
-char	*expand_variables(char *input)
+char	*expand_variables(char *input, t_envp *env)
 {
 	char	*ninput;
 	int		i;
 	int		j;
 
-	i = new_input_len(input);
+	i = new_input_len(input, env);
 	if (i > 0)
 		ninput = (char *)malloc(sizeof(char) * (i + 1));
 	if (i <= 0 || ninput == NULL)
@@ -119,11 +119,11 @@ char	*expand_variables(char *input)
 	while (input[i])
 	{
 		if (is_quote(input[i]) && input[i + 1])
-			copy_quote(input, ninput, &i, &j);
+			copy_quote(input, ninput, &i, &j, env);
 		else if (input[i] == '$' && is_quote(input[i + 1]))
 			handle_quote_after_dollar(input, ninput, &i, &j);
 		else if (input[i] == '$' && input[i + 1])
-			replace_var_by_value(input, ninput, &i, &j);
+			replace_var_by_value(input, ninput, &i, &j, env);
 		else if (input[i] != '\'')
 			ninput[j++] = input[i++];
 		else

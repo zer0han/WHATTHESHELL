@@ -6,7 +6,7 @@
 /*   By: rdalal <rdalal@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/10 19:08:44 by rdalal            #+#    #+#             */
-/*   Updated: 2025/03/16 19:04:10 by rdalal           ###   ########.fr       */
+/*   Updated: 2025/03/16 19:13:32 by rdalal           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,7 +82,6 @@ typedef struct s_exec
 	int				fd_pipe[2];
 	int				p_pipe;
 	int				pid;
-	t_envp			*envp;
 	struct s_exec	*next;
 	struct s_exec	*prev;
 }					t_exec;
@@ -217,21 +216,22 @@ char	*ft_fstrjoin(char *s1, char *s2);
 int		is_builtin(char *cmd);
 
 /*	main.c	*/
-t_token	*ft_minishell_parsing(char *input);
+t_token	*ft_minishell_parsing(char *input, t_envp *env);
 
 /*************EXPANSION*************/
 
 /*	variable_exp.c	*/
 char	*get_var_name(char *input_i);
-int		new_input_len(char *input);
-void	replace_var_by_value(char *input, char *ninput, int *i, int *j);
-char	*expand_variables(char *input);
+int		new_input_len(char *input, t_envp *env);
+void	replace_var_by_value(char *input, char *ninput, int *i, int *j, t_envp *env);
+char	*expand_variables(char *input, t_envp *env);
 
 /*	 variable_exp_tools.c	*/
 void	handle_quote_after_dollar(char *input, char *ninput, int *i, int *j);
-void	copy_quote(char *input, char *ninput, int *i, int *j);
-void	copy_dquote(char *input, char *ninput, int *i, int *j);
+void	copy_quote(char *input, char *ninput, int *i, int *j, t_envp *env);
+void	copy_dquote(char *input, char *ninput, int *i, int *j, t_envp *env);
 void	copy_squote(char *input, char *ninput, int *i, int *j);
+char	*my_getenv(char *var_name, t_envp **env);
 
 /*************SIGNALS*************/
 

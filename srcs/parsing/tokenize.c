@@ -6,7 +6,7 @@
 /*   By: gmechaly <gmechaly@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/15 17:40:07 by gmechaly          #+#    #+#             */
-/*   Updated: 2025/03/07 22:18:48 by gmechaly         ###   ########.fr       */
+/*   Updated: 2025/03/16 14:01:14 by gmechaly         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,7 +50,8 @@ t_token	*ft_tokenize(char *input)
 	{
 		tokens = create_node(&tokens, char_tokens[i]);
 		if (tokens == NULL)
-			return (free_string_tab(&char_tokens[i]), free_tokens(tokens), NULL);
+			return (free_string_tab(&char_tokens[i]), \
+			free_tokens(tokens), NULL);
 		free(char_tokens[i]);
 		i++;
 	}
