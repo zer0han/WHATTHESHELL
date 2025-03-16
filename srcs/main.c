@@ -6,7 +6,7 @@
 /*   By: rdalal <rdalal@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/26 18:40:32 by gmechaly          #+#    #+#             */
-/*   Updated: 2025/03/13 21:24:17 by rdalal           ###   ########.fr       */
+/*   Updated: 2025/03/16 16:00:27 by rdalal           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,7 @@ int	main(int argc, char **argv, char **envp)
 	signals();
 	input = readline("WHATTHESHELL: ");
 	tokens = NULL;
-	env_linklist = NULL;
+	env_linklist = envp_dup(envp);
 	while (input != NULL)
 	{
 		if (*input)
@@ -50,11 +50,11 @@ int	main(int argc, char **argv, char **envp)
 		if (tokens)
 		{
 			exec_data = main_execution(&tokens, envp, env_linklist);
-			env_linklist = exec_data->envp;
 			free_all(tokens, exec_data);
 		}
 		input = readline("WHATTHESHELL: ");
 	}
 	free(input);
+	free_envp(env_linklist);
 	return (0);
 }

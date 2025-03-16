@@ -6,7 +6,7 @@
 /*   By: gmechaly <gmechaly@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/06 16:25:27 by rdalal            #+#    #+#             */
-/*   Updated: 2025/03/11 17:20:14 by gmechaly         ###   ########.fr       */
+/*   Updated: 2025/03/16 11:02:42 by gmechaly         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -105,11 +105,8 @@ int	cmd_pwd(void)
 // 	return (copy);
 // }
 
-int	cmd_env(t_exec *exec_list)
+int	cmd_env(t_envp *env)
 {
-	t_envp	*env;
-
-	env = exec_list->envp;
 	while (env)
 	{
 		printf("%s\n", env->str);

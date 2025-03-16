@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   builtin_exit.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rdalal <rdalal@student.42.fr>              +#+  +:+       +#+        */
+/*   By: gmechaly <gmechaly@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/14 14:07:48 by rdalal            #+#    #+#             */
-/*   Updated: 2025/03/11 16:46:05 by rdalal           ###   ########.fr       */
+/*   Updated: 2025/03/16 11:34:48 by gmechaly         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,7 +69,7 @@ int	exitcode_check(char *code)
 	return (0);
 }
 
-int	cmd_exit(t_token *token, t_exec *exec_list)
+int	cmd_exit(t_token *token, t_exec *exec_list, t_envp *env)
 {
 	int	exit_code;
 
@@ -89,5 +89,6 @@ int	cmd_exit(t_token *token, t_exec *exec_list)
 	else
 		exit_code = 0;
 	free_all(token, exec_list);
+	free_envp(env);
 	exit(exit_code);
 }

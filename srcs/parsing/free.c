@@ -6,7 +6,7 @@
 /*   By: rdalal <rdalal@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/16 14:55:26 by gmechaly          #+#    #+#             */
-/*   Updated: 2025/03/12 14:52:03 by rdalal           ###   ########.fr       */
+/*   Updated: 2025/03/16 16:00:52 by rdalal           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -112,5 +112,19 @@ void	free_all(t_token *tokens, t_exec *exec_list)
 	{
 		free_exec(exec_list);
 		exec_list = NULL;
+	}
+}
+
+void	free_envp(t_envp *dup)
+{
+	t_envp	*temp;
+
+	temp = dup;
+	while (dup)
+	{
+		free(dup->str);
+		temp = temp->next;
+		free(dup);
+		dup = temp;
 	}
 }
