@@ -6,7 +6,7 @@
 /*   By: gmechaly <gmechaly@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/11 14:50:45 by rdalal            #+#    #+#             */
-/*   Updated: 2025/03/14 16:46:49 by gmechaly         ###   ########.fr       */
+/*   Updated: 2025/03/16 11:34:34 by gmechaly         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,9 +30,9 @@ void	dispatch_cmds(t_token *tokens, t_envp *env, t_exec *exec_list)
 	else if (ft_strcmp(tokens->input, "export") == 0)
 		status = cmd_export(env, &tokens);
 	else if (ft_strcmp(tokens->input, "unset") == 0)
-		status = cmd_unset(envp, tokens);
+		status = cmd_unset(env, tokens);
 	else if (ft_strcmp(tokens->input, "exit") == 0)
-		status = cmd_exit(tokens, exec_list);
+		status = cmd_exit(tokens, exec_list, env);
 	g_exit_status = status;
 	// return (status);
 }
@@ -52,7 +52,7 @@ int	fd_is_builtin(t_token *token)
 	return (0);
 }
 
-void	execute_cmds(t_token *token, t_envp *env, t_exec *exec_list)
+void	execute_cmds(t_token *token, char **envp, t_envp *env, t_exec *exec_list)
 {
 	int		status;
 

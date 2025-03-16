@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   builtin_export.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rdalal <rdalal@student.42.fr>              +#+  +:+       +#+        */
+/*   By: gmechaly <gmechaly@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/28 18:07:44 by rdalal            #+#    #+#             */
-/*   Updated: 2025/03/13 17:04:07 by rdalal           ###   ########.fr       */
+/*   Updated: 2025/03/16 11:17:18 by gmechaly         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -193,7 +193,7 @@ void	print_env(t_envp **dup)
 	node = *dup;
 	while (node)
 	{
-		printf("%s\n", node->str);
+		printf("export %s\n", node->str);
 		node = node->next;
 	}
 }
@@ -260,9 +260,10 @@ static void	*add_env(t_envp **dup, char *var, char *value)
 	ft_strlcat(new_line, "=", ft_strlen(new_line) + 2);
 	ft_strlcat(new_line, value, ft_strlen(new_line) + ft_strlen(value) + 2);
 	*dup = create_envp_node(new_line, dup);
+	free(new_line);
 	if (*dup == NULL)
-		return (printf("didn't create the node\n"), NULL);
-	return (printf("node created\n"), *dup);
+		return (NULL);
+	return (*dup);
 }
 
 static int	update_env(t_envp **dup, char *var, char *value)
@@ -281,9 +282,9 @@ static int	update_env(t_envp **dup, char *var, char *value)
 			node->str = malloc(ft_strlen(var) + ft_strlen(value) + 2);
 			if (node->str == NULL)
 				return (-1);
-			ft_strlcpy(node->str, var, ft_strlen(var));
-			ft_strlcat(node->str, "=", ft_strlen(node->str) + 1);
-			ft_strlcat(node->str, value, ft_strlen(node->str) + ft_strlen(value));
+			ft_strlcpy(node->str, var, ft_strlen(var) + 1);
+			ft_strlcat(node->str, "=", ft_strlen(node->str) + 2);
+			ft_strlcat(node->str, value, ft_strlen(node->str) + ft_strlen(value) + 2);
 			return (0);
 		}
 		node = node->next;
@@ -307,18 +308,19 @@ static int	process_export_arg(char *arg, t_envp **dup)
 		value = eq + 1;
 		if (!valid_id(var))
 			return (free(var), EXIT_FAILURE);
-		printf("\nlast node = %s\n", ft_last_env_node(dup)->str);
 		if (update_env(dup, var, value) > 0)
-			add_env(dup, var, value);
+		{
+			if (add_env(dup, var, value) == NULL)
+				return (free(var), EXIT_FAILURE);
+		}
 		free(var);
-		// print_env(dup);
 	}
 	else if (!valid_id(arg))
 		return (EXIT_FAILURE);
 	return (EXIT_SUCCESS);
 }
 
-int	cmd_export(t_exec *exec, t_token **tokens)
+int	cmd_export(t_envp *env, t_token **tokens)
 {
 	t_token	*node;
 	int		retval;
@@ -326,15 +328,14 @@ int	cmd_export(t_exec *exec, t_token **tokens)
 	node = *tokens;
 	if (!node->right)
 	{
-		print_env(&exec->envp);
+		print_env(&env);
 		return (EXIT_SUCCESS);
 	}
-	printf("\nBefore export\n");
-	print_env(&exec->envp);
+	// print_env(&exec->envp);
 	node = node->right;
 	while (node && !ft_strncmp(node->type, "arg", 3))
 	{
-		retval = process_export_arg(node->input, &exec->envp);
+		retval = process_export_arg(node->input, &env);
 		if (retval == EXIT_FAILURE)
 			return (EXIT_FAILURE);
 		node = node->right;

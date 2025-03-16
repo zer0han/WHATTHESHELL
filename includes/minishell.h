@@ -6,7 +6,7 @@
 /*   By: gmechaly <gmechaly@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/10 19:08:44 by rdalal            #+#    #+#             */
-/*   Updated: 2025/03/14 17:59:35 by gmechaly         ###   ########.fr       */
+/*   Updated: 2025/03/16 11:34:27 by gmechaly         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -100,7 +100,7 @@ int		error_message(char *context, int error_code);
 
 /*  exec_functions  */
 t_exec	*create_exec(t_token *cmd_token);
-t_exec	*create_exec_list(t_token *token_tree, char **envp, t_envp *env_list);
+t_exec	*create_exec_list(t_token *token_tree);
 t_exec	*main_execution(t_token **token_tree, char **envp, t_envp *env_list);
 /**exec_helper**/
 void	add_exec_node(t_exec **list, t_exec *new);
@@ -117,17 +117,17 @@ int		valid_id(char *var);
 char	**cmd_prep(t_token *tokens, char **envp, char **cmd_path);
 void	run_cmd(char *cmd_path, char **argv, char **envp);
 void	exec_external(t_token *tokens, char **envp);
-void	execute_cmds(t_token *token, t_envp *env, t_exec *exec_list);
+void	execute_cmds(t_token *token, char **envp, t_envp *env, t_exec *exec_list);
 void	dispatch_cmds(t_token *tokens, t_envp *env, t_exec *exec_list);
 int		cmd_cd(t_token *args);
 int		cmd_pwd(void);
 int		cmd_echo(t_token *tokens);
-int		cmd_unset(char ***envp, t_token *tokens);
-int		cmd_env(t_exec *exec_list);
-int		cmd_exit(t_token *args, t_exec *exec_list);
+int		cmd_unset(t_envp *env, t_token *tokens);
+int		cmd_env(t_envp *env);
+int		cmd_exit(t_token *args, t_exec *exec_list, t_envp *env);
 
 /*builtin_export.c*/
-int		cmd_export(t_exec *exec, t_token **tokens);
+int		cmd_export(t_envp *env, t_token **tokens);
 t_envp	*envp_dup(char **envp);
 void	print_env(t_envp **dup);
 

@@ -6,7 +6,7 @@
 /*   By: gmechaly <gmechaly@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/18 19:35:01 by rdalal            #+#    #+#             */
-/*   Updated: 2025/03/14 15:28:39 by gmechaly         ###   ########.fr       */
+/*   Updated: 2025/03/16 11:06:36 by gmechaly         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,13 +80,12 @@ static void	process_args(t_exec *exec_cmd, t_token *node)
 malloc the char ** with that count
 strdup every args into a string inside the char ** */
 
-t_exec	*create_exec_list(t_token *token_tree, char **envp, t_envp *env)
+t_exec	*create_exec_list(t_token *token_tree)
 {
 	t_exec	*exec_list;
 	t_exec	*new_exec;
 	t_token	*current_token;
 
-	(void)envp;
 	exec_list = NULL;
 	current_token = token_tree;
 	while (current_token)
@@ -115,7 +114,7 @@ t_exec	*main_execution(t_token **token_tree, char **envp, t_envp *env)
 	if (!token_tree || !*token_tree)
 		return (NULL);
 	temp = *token_tree;
-	exec_list = create_exec_list(temp, envp, env);
+	exec_list = create_exec_list(temp);
 	if (!exec_list)
 		return (NULL);
 	if (exec_list->redir)
@@ -123,7 +122,7 @@ t_exec	*main_execution(t_token **token_tree, char **envp, t_envp *env)
 	if (exec_list->next)
 		exec_pipeline(exec_list, envp);
 	else if (exec_list->cmd_token->input)
-		execute_cmds(exec_list->cmd_token, env, exec_list);
+		execute_cmds(exec_list->cmd_token, envp, env, exec_list);
 	else
 	{
 		//pid = fork();
