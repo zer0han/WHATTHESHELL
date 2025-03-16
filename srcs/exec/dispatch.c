@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   dispatch.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gmechaly <gmechaly@student.42.fr>          +#+  +:+       +#+        */
+/*   By: rdalal <rdalal@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/11 14:50:45 by rdalal            #+#    #+#             */
-/*   Updated: 2025/03/16 11:34:34 by gmechaly         ###   ########.fr       */
+/*   Updated: 2025/03/16 16:03:46 by rdalal           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 void	dispatch_cmds(t_token *tokens, t_envp *env, t_exec *exec_list)
 {
-	int		status;
+	int	status;
 
 	status = 0;
 	if (!tokens || !tokens->input)
@@ -59,6 +59,8 @@ void	execute_cmds(t_token *token, char **envp, t_envp *env, t_exec *exec_list)
 	if (!token || !token->input)
 		return ;
 	status = 0;
+	if (exec_list->redir)
+		redirection_process(exec_list, exec_list->redir, envp);
 	if (fd_is_builtin(token))
 		dispatch_cmds(token, env, exec_list);
 	else

@@ -6,7 +6,7 @@
 /*   By: rdalal <rdalal@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/05 13:30:19 by rdalal            #+#    #+#             */
-/*   Updated: 2025/03/12 19:21:58 by rdalal           ###   ########.fr       */
+/*   Updated: 2025/03/15 21:10:08 by rdalal           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,26 +35,61 @@
 * redirects STDIN to the temp file
 */
 
-int	apply_redirection(t_token *redir, t_token *file, t_token **token)
+int apply_redirection(t_exec *exec, t_token *redir, t_token *file)
 {
-	if (ft_strcmp(redir->input, ">") == 0)
-		return (handle_output(redir, file, token));
-	if (ft_strcmp(redir->input, ">>") == 0)
-		return (handle_append(redir, file, token));
-	if (ft_strcmp(redir->input, "<") == 0)
-		return (handle_input (redir, file, token));
-	if (ft_strcmp(redir->input, "<<") == 0)
-		return (handle_heredoc(redir, file));
-	return (0);
+    if (!redir || !file || !file->input)
+        return (handle_error("syntax error", EINVAL, &redir), 1);
+
+    if (ft_strcmp(redir->input, ">") == 0)
+        exec->fd_out = open(file->input, O_WRONLY | O_CREAT | O_TRUNC, 0644);
+    else if (ft_strcmp(redir->input, ">>") == 0)
+        exec->fd_out = open(file->input, O_WRONLY | O_CREAT | O_APPEND, 0644);
+    else if (ft_strcmp(redir->input, "<") == 0)
+        exec->fd_in = open(file->input, O_RDONLY);  // FIXED: Correct FD
+    else if (ft_strcmp(redir->input, "<<") == 0)
+        exec->fd_in = handle_heredoc(redir, file);  // FIXED: Assign correct fd
+
+    // If opening the file failed, print error and return failure
+    if (exec->fd_in == -1 || exec->fd_out == -1)
+    {
+        handle_error(file->input, errno, &redir);
+        return (1);
+    }
+    return (0);
 }
 
-void	redirection_process(t_token *token)
+
+// void	redirection_process(t_exec *exec, t_token *token)
+// {
+// 	t_token	*file;
+// 	t_token	*current;
+
+// 	current = token;
+// 	while (current)
+// 	{
+// 		if (current->input && (ft_strcmp(current->input, ">") == 0 \
+// 			|| ft_strcmp(current->input, ">>") == 0 \
+// 			|| ft_strcmp(current->input, "<") == 0 \
+// 			|| ft_strcmp(current->input, "<<") == 0))
+// 		{
+// 			file = current->right;
+// 			if (!file || !file->input)
+// 				return ;//(handle_error("syntax error", EINVAL, &token));
+// 			if (apply_redirection(exec, current, file) != 0)
+// 				return ;
+// 			current = file->right;
+// 		}
+// 		else
+// 			current = current->right;
+// 	}
+// }
+
+void	redirection_process(t_exec *exec, t_token *token, char **envp)
 {
 	t_token	*file;
-	t_token	*current;
+	t_token	*current = token;
 
-	current = token;
-	while (token)
+	while (current)
 	{
 		if (current->input && (ft_strcmp(current->input, ">") == 0 \
 			|| ft_strcmp(current->input, ">>") == 0 \
@@ -63,119 +98,14 @@ void	redirection_process(t_token *token)
 		{
 			file = current->right;
 			if (!file || !file->input)
-				handle_error("syntax error", EINVAL, &token);
+				return (handle_error("syntax error", EINVAL, &token));
+			if (redir_execute_cmd(exec, envp) != 0)
+				return ;
+
 			current = file->right;
 		}
 		else
 			current = current->right;
-		token = token->right;
 	}
 }
-
-/*void	heredoc_redirection(t_token *hd_token)
-{
-	char	*delimiter;
-	char	*line;
-	char	*temp_name;
-	int		fd_temp;
-
-	temp_name = "file_name"; //use a unique file in minishell to check the heredoc redirection
-	if (!hd_token || !hd_token->right || !hd_token->right->input)
-	{
-		ft_putstr_fd("Heredoc: missing delimiter\n", STDERR_FILENO);
-		exit (1);
-	}
-	delimiter = hd_token->right->input;
-	fd_temp = open(temp_name, O_WRONLY | O_CREAT | O_TRUNC, 0644);
-	if (fd_temp == -1)
-	{
-		perror("open temp file here");
-		exit (1);
-	}
-	while (1)
-	{
-		line = readline("> ");
-		if (!line)
-			break ;
-		if (ft_strcmp(line, delimiter) == 0)
-		{
-			free (line);
-			break ;
-		}
-		write(fd_temp, line, ft_strlen(line));
-		write(fd_temp, "\n", 1);
-		free (line);
-	}
-	close (fd_temp);
-	fd_temp = open (temp_name, O_RDONLY);
-	if (fd_temp == -1)
-	{
-		perror("open temp file for heredoc reading\n");
-		exit (1);
-	}
-	dup2(fd_temp, STDIN_FILENO);
-	close (fd_temp);
-}
-
-void	redirection_process(t_token *tokens)
-{
-	t_token	*current;
-	int		fd;
-
-	current = tokens;
-	while (current)
-	{
-		if (current->type && ft_strcmp(current->type, "redirection") == 0)
-		{
-			if (ft_strcmp(current->input, ">") == 0)
-			{
-				//output redirection: turncate (or create)
-				if (current->right && current->right->input)
-				{
-					fd = open(current->right->input, O_WRONLY | O_CREAT | O_TRUNC, 0644);
-					if (fd == -1)
-					{
-						perror("open");
-						exit(1);
-					}
-					dup2(fd, STDOUT_FILENO);
-					closee (fd);
-				}
-			}
-			else if (ft_strcmp(current->input, ">>") == 0)
-			{
-			// append output redirection
-				if (current->right && current->right->input)
-				{
-					fd = open(current->right->input, O_WRONLY | O_CREAT | O_APPEND, 0644);
-					if (fd == -1)
-					{
-						perror("open");
-						exit(1);
-					}
-					dup2(fd, STDOUT_FILENO);
-					close(fd);
-				}
-			}
-			else if (ft_strcmp(current->input, "<") == 0)
-			{
-				//input redirection: open file for reading
-				if (current->right && current->right->input)
-				{
-					fd = open(current->right->input, O_RDONLY);
-					if (fd == -1)
-					{
-						perror("open");
-						exit (1);
-					}
-					dup2(fd, STDIN_FILENO);
-					close (fd);
-				}
-			}
-			else if (ft_strcmp(current->input, "<<") == 0)
-				heredoc_redirection(current);
-		}
-		current = current->right;
-	}
-}*/
 
