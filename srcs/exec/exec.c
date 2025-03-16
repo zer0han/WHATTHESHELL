@@ -6,7 +6,7 @@
 /*   By: rdalal <rdalal@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/18 19:35:01 by rdalal            #+#    #+#             */
-/*   Updated: 2025/03/16 16:04:04 by rdalal           ###   ########.fr       */
+/*   Updated: 2025/03/16 18:17:01 by rdalal           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,6 +28,7 @@ t_exec	*create_exec(t_token *cmd_token)
 	exec_cmd = malloc(sizeof(t_exec));
 	if (!exec_cmd)
 		return (NULL);
+	cmd_token->redir = NULL;
 	exec_cmd->cmd_token = cmd_token;
 	exec_cmd->cmd = cmd_token->input;
 	exec_cmd->redir = cmd_token->redir;
@@ -109,7 +110,6 @@ t_exec	*main_execution(t_token **token_tree, char **envp, t_envp *env)
 	t_exec	*exec_list;
 	t_token	*temp;
 	pid_t	pid;
-	t_exec	*current;
 	
 	pid = 0;
 	if (!token_tree || !*token_tree)
@@ -118,13 +118,8 @@ t_exec	*main_execution(t_token **token_tree, char **envp, t_envp *env)
 	exec_list = create_exec_list(temp);
 	if (!exec_list)
 		return (NULL);
-	current = exec_list;
-	while (current)
-	{
-		if (current->redir)
-			redirection_process(current, current->redir, envp);
-		current = current->next;
-	}
+	if (exec_list->redir)
+		redirection_process(exec_list, exec_list->redir);
 	if (exec_list->next)
 		exec_pipeline(exec_list, envp);
 	else if (exec_list->cmd_token->input)

@@ -6,7 +6,7 @@
 /*   By: rdalal <rdalal@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/25 15:45:14 by rdalal            #+#    #+#             */
-/*   Updated: 2025/03/15 21:01:37 by rdalal           ###   ########.fr       */
+/*   Updated: 2025/03/16 16:19:30 by rdalal           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,6 +80,8 @@ void	handle_pipe_redir(t_exec *exec)
 		}
 		close(exec->fd_pipe[1]);
 	}
+	if (exec->next)
+		close(exec->fd_pipe[0]);
 	printf("[DEBUG] Pipe setup: fd_in=%d, fd_out=%d, p_pipe=%d\n", exec->fd_in, exec->fd_out, exec->p_pipe);
 }
 

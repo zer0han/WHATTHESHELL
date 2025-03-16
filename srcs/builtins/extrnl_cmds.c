@@ -6,9 +6,7 @@
 /*   By: rdalal <rdalal@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/10 17:31:21 by rdalal            #+#    #+#             */
-/*   Updated: 2025/03/11 20:13:13 by rdalal           ###   ########.fr       */
-/*                                                                            */
-/* ************************************************************************** */
+/*   Updated: 2025/03/16 16:56:27 by rdalal           ###   ########.frargv[i] =****** */
 
 #include "minishell.h"
 
@@ -42,7 +40,7 @@ static char	**fill_argv(t_token *tokens, int argc)
 	i = 0;
 	while (i < argc && tokens)
 	{
-		argv[i] = expand_variables(tokens->input);
+		argv[i] = (tokens->input);
 		if (!argv[i])
 		{
 			free_array(argv);

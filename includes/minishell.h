@@ -6,7 +6,7 @@
 /*   By: rdalal <rdalal@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/10 19:08:44 by rdalal            #+#    #+#             */
-/*   Updated: 2025/03/16 16:03:13 by rdalal           ###   ########.fr       */
+/*   Updated: 2025/03/16 18:13:48 by rdalal           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -154,9 +154,9 @@ int		handle_input(t_token *file);
 void	setup_redir(t_exec *exec);
 void	clean_fds(t_exec *exec);
 void	execute_child_redir(t_exec *exec, char **envp);
-int		redir_execute_cmd(t_exec *exec, char **envp);
+void	redir_execute_cmd(t_exec *exec, char **envp);
 /**redirection**/
-void	redirection_process(t_exec *exec, t_token *token, char **envp);
+void	redirection_process(t_exec *exec, t_token *token);
 int		apply_redirection(t_exec *exec, t_token *redir, t_token *file);
 
 
