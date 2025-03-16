@@ -6,7 +6,7 @@
 /*   By: rdalal <rdalal@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/18 19:35:01 by rdalal            #+#    #+#             */
-/*   Updated: 2025/03/16 18:17:01 by rdalal           ###   ########.fr       */
+/*   Updated: 2025/03/16 18:58:01 by rdalal           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,6 @@ t_exec	*create_exec(t_token *cmd_token)
 	exec_cmd = malloc(sizeof(t_exec));
 	if (!exec_cmd)
 		return (NULL);
-	cmd_token->redir = NULL;
 	exec_cmd->cmd_token = cmd_token;
 	exec_cmd->cmd = cmd_token->input;
 	exec_cmd->redir = cmd_token->redir;
