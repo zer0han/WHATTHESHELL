@@ -40,7 +40,7 @@ static char	**fill_argv(t_token *tokens, int argc)
 	i = 0;
 	while (i < argc && tokens)
 	{
-		argv[i] = (tokens->input);
+		argv[i] = expand_variables(tokens->input);
 		if (!argv[i])
 		{
 			free_array(argv);
