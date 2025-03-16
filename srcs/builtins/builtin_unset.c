@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   builtin_unset.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rdalal <rdalal@student.42.fr>              +#+  +:+       +#+        */
+/*   By: gmechaly <gmechaly@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/29 19:13:16 by rdalal            #+#    #+#             */
-/*   Updated: 2025/03/12 14:33:07 by rdalal           ###   ########.fr       */
+/*   Updated: 2025/03/16 11:01:56 by gmechaly         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,46 +36,56 @@ int	valid_id(char *var)
 	return (1);
 }
 
-int	env_remover(char **envp, char *var)
+static void	remove_clean_env(t_envp **env, t_envp *node)
 {
-	int	i;
-	int var_len;
+	if (node->next && node->prev)
+	{
+		node->next->prev = node->prev;
+		node->prev->next = node->next;
+	}
+	else if (node->next && !node->prev)
+	{
+		node->next->prev = NULL;
+		env = &node->next;
+	}
+	else if (node->prev && !node->next)
+		node->prev->next = NULL;
+}
 
-	i = 0;
+int	env_remover(t_envp **env, char *var)
+{
+	int		var_len;
+	t_envp	*node;
+
+	node = *env;
 	if (!var || !valid_id(var))
 		return (1);
 	var_len = ft_strlen(var);
-	if (!envp || !*envp)
-		return (1);
-	while (envp[i])
+	while (node)
 	{
-		if (ft_strncmp(envp[i], var, var_len) == 0 && (envp[i][var_len] == '=' \
-			|| envp[i][var_len] == '\0'))
+		if (ft_strncmp(node->str, var, var_len) == 0 && (node->str[var_len] == '=' \
+			|| node->str[var_len] == '\0'))
 		{
-			free(envp[i]);
-			while (envp[i + 1])
-			{
-				envp[i] = envp[i + 1];
-				i++;
-			}
-			envp[i] = NULL;
+			free(node->str);
+			remove_clean_env(env, node);
+			free(node);
 			return (0);
 		}
-		i++;
+		node = node->next;
 	}
 	return (0);
 }
 
-int	cmd_unset(char ***envp, t_token *tokens)
+int	cmd_unset(t_envp *env, t_token *tokens)
 {
 	t_token	*arg;
 
-	if (!tokens || !tokens->right || !envp || !*envp)
+	if (!tokens || !tokens->right || !env)
 		return (1);
 	arg = tokens->right;
 	while (arg)
 	{
-		env_remover(*envp, arg->input);
+		env_remover(&env, arg->input);
 		arg = arg->right;
 	}
 	return (0);

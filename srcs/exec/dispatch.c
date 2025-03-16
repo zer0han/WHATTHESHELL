@@ -12,7 +12,7 @@
 
 #include "minishell.h"
 
-void	dispatch_cmds(t_token *tokens, char ***envp, t_exec *exec_list)
+void	dispatch_cmds(t_token *tokens, t_envp *env, t_exec *exec_list)
 {
 	int	status;
 
@@ -26,13 +26,13 @@ void	dispatch_cmds(t_token *tokens, char ***envp, t_exec *exec_list)
 	else if (ft_strcmp(tokens->input, "pwd") == 0)
 		status = cmd_pwd();
 	else if (ft_strcmp(tokens->input, "env") == 0)
-		status = cmd_env(exec_list);
+		status = cmd_env(env);
 	else if (ft_strcmp(tokens->input, "export") == 0)
-		{status = cmd_export(exec_list, &tokens);print_env(&exec_list->envp);}
+		status = cmd_export(env, &tokens);
 	else if (ft_strcmp(tokens->input, "unset") == 0)
-		status = cmd_unset(envp, tokens);
+		status = cmd_unset(env, tokens);
 	else if (ft_strcmp(tokens->input, "exit") == 0)
-		status = cmd_exit(tokens, exec_list);
+		status = cmd_exit(tokens, exec_list, env);
 	g_exit_status = status;
 	// return (status);
 }
@@ -52,7 +52,7 @@ int	fd_is_builtin(t_token *token)
 	return (0);
 }
 
-void	execute_cmds(t_token *token, char **envp, t_exec *exec_list)
+void	execute_cmds(t_token *token, char **envp, t_envp *env, t_exec *exec_list)
 {
 	int		status;
 
@@ -62,7 +62,7 @@ void	execute_cmds(t_token *token, char **envp, t_exec *exec_list)
 	if (exec_list->redir)
 		redirection_process(exec_list, exec_list->redir, envp);
 	if (fd_is_builtin(token))
-		dispatch_cmds(token, &envp, exec_list);
+		dispatch_cmds(token, env, exec_list);
 	else
 		exec_external(token, envp);
 	if (g_exit_status != 0)
