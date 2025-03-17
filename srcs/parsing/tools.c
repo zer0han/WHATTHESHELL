@@ -6,11 +6,25 @@
 /*   By: gmechaly <gmechaly@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/23 19:53:43 by gmechaly          #+#    #+#             */
-/*   Updated: 2025/03/07 23:19:28 by gmechaly         ###   ########.fr       */
+/*   Updated: 2025/03/17 21:40:34 by gmechaly         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
+
+static void	free_tab(char **tab, int code)
+{
+	int	i;
+
+	i = 0;
+	while (tab[i] != NULL)
+	{
+		free(tab[i]);
+		i++;
+	}
+	if (code != 0)
+		free(tab);
+}
 
 char	*get_path(char *cmd)
 {
@@ -28,7 +42,8 @@ char	*get_path(char *cmd)
 		folder = ft_fstrjoin(cmd_paths[i], "/");
 		path = ft_fstrjoin(folder, cmd);
 		if (access(path, F_OK | X_OK) == 0)
-			return (free_tab(&cmd_paths[i + 1], 0), free(cmd_paths), path);
+			return (free_tab(&cmd_paths[i + 1], 0), \
+					free(cmd_paths), path);
 		free(path);
 		i++;
 	}
@@ -36,50 +51,41 @@ char	*get_path(char *cmd)
 	return (NULL);
 }
 
-void	free_tab(char **tab, int code)
+int	is_quote(char c)
+{
+	if (c == '\'' || c == '\"')
+		return (1);
+	return (0);
+}
+
+int	is_space(char s)
+{
+	if (s == ' ' || (s >= '\t' && s <= '\r'))
+		return (1);
+	return (0);
+}
+
+void	alloc_fail(char **result, int iword)
 {
 	int	i;
 
 	i = 0;
-	while (tab[i] != NULL)
+	while (i < iword)
 	{
-		free(tab[i]);
+		if (result[i])
+			free (result[i]);
 		i++;
 	}
-	if (code != 0)
-		free(tab);
+	free (result);
 }
 
-char	*ft_fstrjoin(char *s1, char *s2)
-{
-	char	*dst;
-	int		i;
-	int		j;
+// int	is_builtin(char *cmd)
+// {
+// 	int	len;
 
-	i = 0;
-	j = 0;
-	if (s1 == NULL && s2 == NULL)
-		return (NULL);
-	dst = malloc(sizeof(char) * (ft_strlen(s1) + ft_strlen(s2) + 1));
-	if (dst == NULL)
-		return (free(s1), NULL);
-	while (s1 != NULL && s1[i])
-		dst[j++] = s1[i++];
-	i = 0;
-	free (s1);
-	while (s2 != NULL && s2[i])
-		dst[j++] = s2[i++];
-	dst[j] = '\0';
-	return (dst);
-}
-
-int	is_builtin(char *cmd)
-{
-	int	len;
-
-	len = ft_strlen(cmd);
-	if (!ft_strncmp(cmd, "cd", len) || !ft_strncmp(cmd, "export", len) \
-	|| !ft_strncmp(cmd, "unset", len) || !ft_strncmp(cmd, "exit", len))
-		return (1);
-	return (0);
-}
+// 	len = ft_strlen(cmd);
+// 	if (!ft_strncmp(cmd, "cd", len) || !ft_strncmp(cmd, "export", len) \
+// 	|| !ft_strncmp(cmd, "unset", len) || !ft_strncmp(cmd, "exit", len))
+// 		return (1);
+// 	return (0);
+// }

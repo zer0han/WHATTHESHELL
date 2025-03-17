@@ -1,36 +1,27 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   tokenize_tools5.c                                  :+:      :+:    :+:   */
+/*   split_utils.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: gmechaly <gmechaly@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/02/11 14:46:49 by gmechaly          #+#    #+#             */
-/*   Updated: 2025/02/21 19:07:51 by gmechaly         ###   ########.fr       */
+/*   Created: 2025/03/17 21:38:42 by gmechaly          #+#    #+#             */
+/*   Updated: 2025/03/17 21:39:53 by gmechaly         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-//call with assign_nosep_token(&input[i], &i);
-char	*assign_nosep_token(char *input, int *i)
+
+int	ft_search_unquote(char *line, char quote)
 {
-	(*i)++;
-	if (input[0] == '|')
-		return (ft_strdup("|"));
-	else if (input[0] == '<' && input[1] != input[0])
-		return (ft_strdup("<"));
-	else if (input[0] == '>' && input[1] != input[0])
-		return (ft_strdup(">"));
-	(*i)++;
-	if (input[0] == '>' && input[1] == input[0])
-		return (ft_strdup(">>"));
-	else if (input[0] == '<' && input[1] == input[0])
-		return (ft_strdup("<<"));
-	else
-	{
-		(*i) -= 2;
-		return (NULL);
-	}
+	int	i;
+
+	i = 1;
+	while (line[i] && line[i] != quote)
+		i++;
+	if (line[i] == quote)
+		return (i);
+	return (printf("closing quote missing\n"), INT_MIN);
 }
 
 int	is_nosep_token(char *input, int *i)

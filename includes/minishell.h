@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rdalal <rdalal@student.42.fr>              +#+  +:+       +#+        */
+/*   By: gmechaly <gmechaly@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/10 19:08:44 by rdalal            #+#    #+#             */
-/*   Updated: 2025/03/16 19:04:10 by rdalal           ###   ########.fr       */
+/*   Updated: 2025/03/17 23:46:52 by gmechaly         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -119,6 +119,7 @@ int		valid_id(char *var);
 // int		add_env(char ***envp, char *var, char *value);
 
 /*	builtins			*/
+int		fd_is_builtin(t_token *token);
 char	**cmd_prep(t_token *tokens, char **envp, char **cmd_path);
 void	run_cmd(char *cmd_path, char **argv, char **envp);
 void	exec_external(t_token *tokens, char **envp);
@@ -167,40 +168,41 @@ int		apply_redirection(t_exec *exec, t_token *redir, t_token *file);
 
 /*************PARSING*************/
 
-/*	tokenize_tools1.c	*/
-void	alloc_fail(char **result, int iword);
-char	*ft_strncdup(char const *src);
-int		ft_count_tokens(char *line);
-int		ft_search_unquote(char *line, char quote);
-int		is_space(char s);
-
-/*	tokenize_tools2.c	*/
-char	*ft_strnqdup(char *src, char quote);
-char	**ft_split_for_tokens(char *line);
-void	*ft_split_for_tokens_2(char *line, char **result, int *i, int *iword);
-t_token	*ft_lastnode(t_token *tokens);
-
-/*	tokenize_tools3.c	*/
-int		is_quote(char c);
-t_token	*is_special_str(t_token **tokens, char *str);
+/*	assign_tokens.c	*/
 void	*assign_token_type(t_token **tokens);
-void	*assign_token_type2(t_token **tokens, t_token *node);
-void	*assign_token_type3(t_token **tokens, t_token *node);
-
-/*	tokenize_tools4.c	*/
 void	assign_missing_cmds(t_token **tokens);
 void	assign_options_and_args(t_token **tokens);
+
+/*	custom_libft.c	*/
+char	*ft_strncdup(char const *src);
+char	*ft_strnqdup(char *src, char quote);
+char	*ft_fstrjoin(char *s1, char *s2);
+
+/*	parse_tokens.c	*/
 void	parse_after_cmds(t_token **node);
 void	*parse_tokens(t_token **tokens);
 void	*is_null_token(t_token **tokens);
 
-/*	tokenize_tools5.c	*/
-char	*assign_nosep_token(char *input, int *i);
-int		is_nosep_token(char *input, int *i);
+/*	split_for_tokens.c	*/
+char	**ft_split_for_tokens(char *line);
+
+/*	split_utils.c	*/
+int	ft_search_unquote(char *line, char quote);
+int	is_nosep_token(char *input, int *i);
+
+/*	struct_utils.c	*/
+t_token	*create_node(t_token **tokens, char *char_token);
+t_token	*ft_lastnode(t_token *tokens);
+t_token	*is_special_str(t_token **tokens, char *str);
 
 /*	tokenize.c	*/
-t_token	*create_node(t_token **tokens, char *char_token);
 t_token	*ft_tokenize(char *input);
+
+/*	tools.c	*/
+char	*get_path(char *cmd);
+int		is_quote(char c);
+int		is_space(char s);
+void	alloc_fail(char **result, int iword);
 
 /*	free.c	*/
 void	free_string_tab(char **str_tab);
@@ -208,12 +210,6 @@ void	free_tokens(t_token *tokens);
 void	free_exec(t_exec *exec_list);
 void	free_envp(t_envp *dup);
 void	free_all(t_token *tokens, t_exec *exec_list);
-
-/*	tools.c	*/
-char	*get_path(char *cmd);
-void	free_tab(char **tab, int code);
-char	*ft_fstrjoin(char *s1, char *s2);
-int		is_builtin(char *cmd);
 
 /*	main.c	*/
 t_token	*ft_minishell_parsing(char *input, t_envp *env);

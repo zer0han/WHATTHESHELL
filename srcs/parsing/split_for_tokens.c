@@ -1,52 +1,74 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   tokenize_tools2.c                                  :+:      :+:    :+:   */
+/*   split_for_tokens.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: gmechaly <gmechaly@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/01/10 19:40:18 by gmechaly          #+#    #+#             */
-/*   Updated: 2025/03/04 20:00:30 by gmechaly         ###   ########.fr       */
+/*   Created: 2025/03/17 17:05:39 by gmechaly          #+#    #+#             */
+/*   Updated: 2025/03/17 23:43:14 by gmechaly         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../includes/minishell.h"
+#include "minishell.h"
 
-t_token	*ft_lastnode(t_token *tokens)
+static int	ft_count_tokens_tool(char *line, int *i, int *count)
 {
-	if (tokens == NULL)
-		return (NULL);
-	while (tokens->right != NULL && tokens != NULL)
-		tokens = tokens->right;
-	return (tokens);
+	while (line[*i] && is_space(line[*i]) == 0 \
+	&& line[*i] != '<' && line[*i] != '>' && line[*i] != '|')
+		(*i)++;
+	(*count)++;
 }
 
-char	*ft_strnqdup(char *src, char quote)
+static char	*assign_nosep_token(char *input, int *i)
 {
-	char	*dst;
-	int		len;
-	int		i;
-
-	len = 0;
-	i = 0;
-	// printf("%s\n", src);
-	if (src[len] == quote)
-		len++;
-	while (src[len] && src[len] != quote)
-		len++;
-	dst = (char *)malloc(sizeof(char) * (len + 1));
-	if (dst == NULL)
-		return (NULL);
-	while (src[i + 1] && src[i + 1] != quote)
+	(*i)++;
+	if (input[0] == '|')
+		return (ft_strdup("|"));
+	else if (input[0] == '<' && input[1] != input[0])
+		return (ft_strdup("<"));
+	else if (input[0] == '>' && input[1] != input[0])
+		return (ft_strdup(">"));
+	(*i)++;
+	if (input[0] == '>' && input[1] == input[0])
+		return (ft_strdup(">>"));
+	else if (input[0] == '<' && input[1] == input[0])
+		return (ft_strdup("<<"));
+	else
 	{
-		dst[i] = src[i + 1];
-		i++;
+		(*i) -= 2;
+		return (NULL);
 	}
-	dst[i] = '\0';
-	return (dst);
 }
 
-void	*ft_split_for_tokens_2(char *line, char **result, int *i, int *iword)
+static int	ft_count_tokens(char *line)
+{
+	int	i;
+	int	count;
+
+	i = 0;
+	count = 0;
+	while (line[i])
+	{
+		if (is_space(line[i]))
+			i++;
+		else if (is_nosep_token(&line[i], &i))
+			count++;
+		else if (line[i] == '\'' || line[i] == '\"')
+		{
+			i += ft_search_unquote(&line[i], line[i]) + 1;
+			count++;
+		}
+		else if (!is_space(line[i]) && line[i + 1] != '\"' \
+				&& line[i + 1] != '\'')
+			ft_count_tokens_tool(line, &i, &count);
+		if (i < 0)
+			return (-1);
+	}
+	return (count);
+}
+
+static void	*ft_split_for_tokens_2(char *line, char **result, int *i, int *iword)
 {
 	if (line[*i] == '\"' || line[*i] == '\'')
 	{
