@@ -6,7 +6,7 @@
 /*   By: gmechaly <gmechaly@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/10 19:08:44 by rdalal            #+#    #+#             */
-/*   Updated: 2025/03/17 23:46:52 by gmechaly         ###   ########.fr       */
+/*   Updated: 2025/03/18 15:47:19 by gmechaly         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -97,7 +97,6 @@ typedef struct s_redir
 
 /*************ERROR HANDLING********/
 
-void	free_array(char **args);
 void	handle_error(char *context, int errnum, t_token **tokens);
 int		error_message(char *context, int error_code);
 
@@ -206,6 +205,7 @@ void	alloc_fail(char **result, int iword);
 
 /*	free.c	*/
 void	free_string_tab(char **str_tab);
+void	free_array(char **args);
 void	free_tokens(t_token *tokens);
 void	free_exec(t_exec *exec_list);
 void	free_envp(t_envp *dup);
