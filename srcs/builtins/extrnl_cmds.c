@@ -6,7 +6,7 @@
 /*   By: rdalal <rdalal@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/10 17:31:21 by rdalal            #+#    #+#             */
-/*   Updated: 2025/03/16 19:12:50 by rdalal           ###   ########.fr       */
+/*   Updated: 2025/03/18 16:31:22 by rdalal           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,7 @@ static int	ft_count_args(t_token *tokens)
 	return (count);
 }
 
-static char	**fill_argv(t_token *tokens, int argc)
+static char	**fill_argv(t_token *tokens, int argc, t_envp *env)
 {
 	char	**argv;
 	int		i;
@@ -42,7 +42,7 @@ static char	**fill_argv(t_token *tokens, int argc)
 	i = 0;
 	while (i < argc && tokens)
 	{
-		argv[i] = expand_variables();
+		argv[i] = expand_variables(tokens->input, env);
 		if (!argv[i])
 		{
 			free_array(argv);
@@ -55,14 +55,14 @@ static char	**fill_argv(t_token *tokens, int argc)
 	return (argv);
 }
 
-char	**cmd_prep(t_token *tokens, char **envp, char **cmd_path)
+static char	**cmd_prep(t_token *tokens, char **envp, char **cmd_path, t_envp *env)
 {
 	char	**argv;
 	int		argc;
 
 	(void)envp;
 	argc = ft_count_args(tokens);
-	argv = fill_argv(tokens, argc);
+	argv = fill_argv(tokens, argc, env);
 	if (!argv)
 		return (NULL);
 	*cmd_path = get_path(argv[0]);
@@ -103,13 +103,13 @@ void	run_cmd(char *cmd_path, char **argv, char **envp)
 	}
 }
 
-void	exec_external(t_token *tokens, char **envp)
+void	exec_external(t_token *tokens, char **envp, t_envp *env)
 {
 	char	*cmd_path;
 	char	**argv;
 
 	cmd_path = NULL;
-	argv = cmd_prep(tokens, envp, &cmd_path);
+	argv = cmd_prep(tokens, envp, &cmd_path, env);
 	if (!argv)
 	{
 		g_exit_status = 127;
