@@ -1,4 +1,4 @@
 # Wrong minishell
 
-nice cock !
+voila nice cock !
 merci mon gars !
