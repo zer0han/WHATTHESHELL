@@ -6,34 +6,11 @@
 /*   By: gmechaly <gmechaly@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/15 17:40:07 by gmechaly          #+#    #+#             */
-/*   Updated: 2025/03/16 14:01:14 by gmechaly         ###   ########.fr       */
+/*   Updated: 2025/03/17 23:02:59 by gmechaly         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
-
-t_token	*create_node(t_token **tokens, char *char_token)
-{
-	t_token	*node;
-
-	node = ft_calloc(1, sizeof(t_token));
-	if (node == NULL)
-		return (NULL);
-	node->input = ft_strdup(char_token);
-	node->type = NULL;
-	if (!(*tokens))
-	{
-		tokens = &node;
-		node->left = NULL;
-	}
-	else
-	{
-		node->left = ft_lastnode(*tokens);
-		node->left->right = node;
-	}
-	node->right = NULL;
-	return (*tokens);
-}
 
 t_token	*ft_tokenize(char *input)
 {

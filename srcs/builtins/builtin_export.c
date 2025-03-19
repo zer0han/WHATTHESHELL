@@ -6,7 +6,7 @@
 /*   By: gmechaly <gmechaly@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/28 18:07:44 by rdalal            #+#    #+#             */
-/*   Updated: 2025/03/16 11:17:18 by gmechaly         ###   ########.fr       */
+/*   Updated: 2025/03/17 23:50:13 by gmechaly         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -142,8 +142,8 @@ declare -x SHELL="/bin/bash"
 // 	i = -1;
 // 	while ((*envp)[++i])
 // 	{
-// 		if (!ft_strncmp((*envp)[i], var, ft_strlen(var)) && \
-// 			((*envp)[i][ft_strlen(var)] == '=' || \
+// 		if (!ft_strncmp((*envp)[i], var, ft_strlen(var)) && /*\*/
+// 			((*envp)[i][ft_strlen(var)] == '=' || /*\*/
 // 			(*envp)[i][ft_strlen(var)] == '\0'))
 // 		{
 // 			new_entry = create_env_entry(var, value);

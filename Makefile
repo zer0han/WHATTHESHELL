@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: rdalal <rdalal@student.42.fr>              +#+  +:+       +#+         #
+#    By: gmechaly <gmechaly@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/11/05 20:07:53 by rdalal            #+#    #+#              #
-#    Updated: 2025/03/18 17:58:13 by rdalal           ###   ########.fr        #
+#    Updated: 2025/03/19 18:01:20 by gmechaly         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -20,16 +20,16 @@ CFLAGS	= -Wextra -Wall -Werror
 
 READLINE_FLAGS	= -lreadline
 
-SRCS_BI		=	builtin_echo.c builtin_exit.c builtin_export.c\
+SRCS_BI		=	builtin_echo.c builtin_exit.c builtin_export.c \
 				builtin_unset.c builtins.c extrnl_cmds.c
 
 SRCS_EXEC	=	dispatch.c exec_helper.c exec.c
 
 SRCS_EXP	=	variable_exp.c variable_exp_tools.c
 
-SRCS_PARSE	=	tokenize_tools1.c tokenize_tools2.c tokenize_tools3.c \
-				tokenize_tools4.c tokenize_tools5.c tokenize.c \
-				tools.c free.c main.c
+SRCS_PARSE	=	assign_tokens.c custom_libft.c parse_tokens.c \
+				split_for_tokens.c split_utils.c struct_utils.c \
+				tokenize.c tools.c free.c main.c
 
 SRCS_PIPE	=	pipe_helper.c pipes.c
 
