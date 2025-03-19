@@ -6,7 +6,7 @@
 /*   By: rdalal <rdalal@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/18 19:35:01 by rdalal            #+#    #+#             */
-/*   Updated: 2025/03/16 18:17:01 by rdalal           ###   ########.fr       */
+/*   Updated: 2025/03/19 17:55:56 by rdalal           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,19 @@ signal(SIGINT, SIG_IGN)
 signal(SIGQUIT, SIG_IGN)
 */
 
+// t_redir	*ft_last_redir_node(t_redir **list)
+// {
+// 	t_redir	*node;
+
+// 	if (!list)
+// 		return (NULL);
+// 	node = *list;
+// 	while (node)
+// 		node = node->next;
+// 	return (node);
+// }
+
+
 t_exec	*create_exec(t_token *cmd_token)
 {
 	t_exec		*exec_cmd;
@@ -28,10 +41,9 @@ t_exec	*create_exec(t_token *cmd_token)
 	exec_cmd = malloc(sizeof(t_exec));
 	if (!exec_cmd)
 		return (NULL);
-	cmd_token->redir = NULL;
 	exec_cmd->cmd_token = cmd_token;
 	exec_cmd->cmd = cmd_token->input;
-	exec_cmd->redir = cmd_token->redir;
+	exec_cmd->redir = init_redir(&cmd_token);
 	exec_cmd->args = NULL;
 	exec_cmd->fd_in = STDIN_FILENO;
 	exec_cmd->fd_out = STDOUT_FILENO;
@@ -118,39 +130,13 @@ t_exec	*main_execution(t_token **token_tree, char **envp, t_envp *env)
 	exec_list = create_exec_list(temp);
 	if (!exec_list)
 		return (NULL);
-	if (exec_list->redir)
-		redirection_process(exec_list, exec_list->redir);
 	if (exec_list->next)
 		exec_pipeline(exec_list, envp);
 	else if (exec_list->cmd_token->input)
 		execute_cmds(exec_list->cmd_token, envp, env, exec_list);
 	else
-		exec_external(exec_list->cmd_token, envp);
+		exec_external(exec_list->cmd_token, envp, env);
 	return (exec_list);
 }
 
 
-/*
-function convert_token_to_exec_list(token_tree):
-  exec_list = empty list
-  current_token = token_tree
-
-  while current_token is not NULL:
-    if current_token.type is PIPE:
-      # Process command before the pipe (left side)
-      command_exec = create_exec_for_command(current_token.left) # Assume this function exists
-      add command_exec to exec_list
-      current_token = current_token.right # Move to command after pipe (right side)
-    else: # It's a simple command (or last part of pipe)
-      command_exec = create_exec_for_command(current_token) # Assume this function exists
-      add command_exec to exec_list
-      current_token = NULL # End of command/pipeline
-
-  return exec_list
-
-function create_exec_for_command(cmd_token):
-  exec_cmd = create new t_exec struct
-  exec_cmd.cmd = cmd_token.input      # Command name
-  # ... (set up args, redirections, file descriptors in t_exec based on cmd_token) ...
-  return exec_cmd
-*/
