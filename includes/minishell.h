@@ -6,7 +6,7 @@
 /*   By: gmechaly <gmechaly@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/10 19:08:44 by rdalal            #+#    #+#             */
-/*   Updated: 2025/03/19 17:40:55 by gmechaly         ###   ########.fr       */
+/*   Updated: 2025/03/19 18:03:56 by gmechaly         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,14 +68,31 @@ typedef struct s_token
 	int				*value;
 	struct s_token	*left;
 	struct s_token	*right;
-	struct s_token	*redir;
 }					t_token;
+
+typedef enum e_redir_type
+{
+	REDIR_OUT,
+	REDIR_IN,
+	REDIR_APPEND,
+	HEREDOC
+}	t_redir_type;
+
+typedef struct s_redir
+{
+	t_redir_type	type;
+	char			*file;
+	char			*delimiter;
+	//t_token			*redir;
+	struct s_redir	*next;
+	struct s_redir	*prev;
+}					t_redir;
 
 typedef struct s_exec
 {
 	char			*cmd;
 	char			**args;
-	t_token			*redir;
+	t_redir			*redir;
 	t_token			*cmd_token;
 	int				fd_in;
 	int				fd_out;
@@ -85,12 +102,6 @@ typedef struct s_exec
 	struct s_exec	*next;
 	struct s_exec	*prev;
 }					t_exec;
-
-typedef struct s_redir
-{
-	t_token			*redir;
-	struct s_redir	*next;
-}					t_redir;
 
 typedef struct s_vexp
 {
@@ -128,9 +139,9 @@ int		valid_id(char *var);
 
 /*	builtins			*/
 int		fd_is_builtin(t_token *token);
-char	**cmd_prep(t_token *tokens, char **envp, char **cmd_path);
+//char	**cmd_prep(t_token *tokens, char **envp, char **cmd_path);
 void	run_cmd(char *cmd_path, char **argv, char **envp);
-void	exec_external(t_token *tokens, char **envp);
+void	exec_external(t_token *tokens, char **envp, t_envp *env);
 void	execute_cmds(t_token *token, char **envp, t_envp *env, t_exec *exec_list);
 void	dispatch_cmds(t_token *tokens, t_envp *env, t_exec *exec_list);
 int		cmd_cd(t_token *args);
@@ -149,7 +160,7 @@ void	print_env(t_envp **dup);
 /**pipe_helper**/
 void	handle_pipe_redir(t_exec *exec);
 void	apply_redir_pipe(t_exec *exec);
-void	child_process(t_exec *exec, char **envp);
+void	child_process(t_exec *exec, char **envp, t_envp *env);
 /**pipe**/
 void	setup_child_process(t_exec *exec, char **envp);
 void	wait_for_children(t_exec *exec);
@@ -157,21 +168,17 @@ void	exec_pipeline(t_exec *exec, char **envp);
 
 /*  redirection         */
 /**heredoc**/
-int		create_heredoc_file(char **temp);
-int		handle_heredoc(t_token *redir, t_token *file);
-void	read_heredoc_content(int fd, char *limit);
+
 /**redir_handler**/
-int		handle_output(t_token *redir, t_token *file);//, t_token *token);
-int		handle_append(t_token *redir, t_token *file);//, t_token *token);
-int		handle_input(t_token *file);
+
 /**redirection_exec**/
-void	setup_redir(t_exec *exec);
-void	clean_fds(t_exec *exec);
-void	execute_child_redir(t_exec *exec, char **envp);
-void	redir_execute_cmd(t_exec *exec, char **envp);
+
 /**redirection**/
-void	redirection_process(t_exec *exec, t_token *token);
-int		apply_redirection(t_exec *exec, t_token *redir, t_token *file);
+int		apply_redirection(t_exec *exec);
+void	cleanup_redirection(t_redir *redir);
+t_redir	*init_redir(t_token **cmd_token);
+void	setup_redir(t_exec *exec);
+void	redirection_process(t_exec *exec, t_redir *redir_list);
 
 
 /*************PARSING*************/

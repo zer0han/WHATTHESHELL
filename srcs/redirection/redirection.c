@@ -6,7 +6,7 @@
 /*   By: rdalal <rdalal@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/05 13:30:19 by rdalal            #+#    #+#             */
-/*   Updated: 2025/03/16 18:13:28 by rdalal           ###   ########.fr       */
+/*   Updated: 2025/03/19 17:44:50 by rdalal           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,77 +35,141 @@
 * redirects STDIN to the temp file
 */
 
-int apply_redirection(t_exec *exec, t_token *redir, t_token *file)
+static int	handle_output(t_redir *redir, t_exec *exec)
 {
-    if (!redir || !file || !file->input)
-        return (handle_error("syntax error", EINVAL, &redir), 1);
+	int	fd;
 
-    if (ft_strcmp(redir->input, ">") == 0)
-        exec->fd_out = open(file->input, O_WRONLY | O_CREAT | O_TRUNC, 0644);
-    else if (ft_strcmp(redir->input, ">>") == 0)
-        exec->fd_out = open(file->input, O_WRONLY | O_CREAT | O_APPEND, 0644);
-    else if (ft_strcmp(redir->input, "<") == 0)
-        exec->fd_in = open(file->input, O_RDONLY);  // FIXED: Correct FD
-    else if (ft_strcmp(redir->input, "<<") == 0)
-        exec->fd_in = handle_heredoc(redir, file);  // FIXED: Assign correct fd
+	fd = open(redir->file, O_WRONLY | O_CREAT | O_TRUNC, 0644);
+	if (fd < 0)
+		return (error_message(redir->file, errno), 0);
+	if (exec->fd_out != STDOUT_FILENO)
+		close(exec->fd_out);
+	exec->fd_out = fd;
+	return (1);
+}
 
-    // If opening the file failed, print error and return failure
-    if (exec->fd_in == -1 || exec->fd_out == -1)
-    {
-        handle_error(file->input, errno, &redir);
-        return (1);
-    }
-    return (0);
+static int	handle_append(t_redir *redir, t_exec *exec)
+{
+	int	fd;
+
+	fd = open(redir->file, O_WRONLY | O_CREAT | O_APPEND, 0644);
+	if (fd < 0)
+		return (error_message(redir->file, errno), 0);
+	if (exec->fd_out != STDOUT_FILENO)
+		close(exec->fd_out);
+	exec->fd_out = fd;
+	return (1);
+}
+
+static int	handle_input(t_redir *redir, t_exec *exec)
+{
+	int	fd;
+
+	fd = open(redir->file, O_RDONLY);
+	if (fd < 0)
+		return (error_message(redir->file, errno), 0);
+	if (exec->fd_in != STDIN_FILENO)
+		close(exec->fd_in);
+	exec->fd_in = fd;
+	return (1);
+}
+
+static int	handle_heredoc(t_redir *redir, t_exec *exec)
+{
+	int		fd;
+	char	*line;
+	char	*temp_file;
+
+	temp_file = ft_strjoin("/tmp/.heredoc", ft_itoa(getpid()));
+	if (!temp_file)
+		return (error_message("heredoc", ENOMEM), 0);
+	fd = open(temp_file, O_WRONLY | O_CREAT | O_TRUNC, 0644);
+	if (fd < 0)
+	{
+		free(temp_file);
+		return (error_message("heredoc", errno), 0);
+	}
+	signal(SIGINT, SIG_DFL);
+	while (1)
+	{
+		line = readline("WHATTHESHELL ");
+		if (!line || ft_strcmp(line, redir->delimiter) == 0)
+		{
+			free (line);
+			break ;
+		}
+		write (fd, line, ft_strlen(line));
+		write(fd, "\n", 1);
+		free(line);
+	}
+	close (fd);
+	exec->fd_in = open(temp_file, O_RDONLY);
+	unlink(temp_file);
+	free(temp_file);
+	if (fd < 0)
+		return (error_message("heredoc", errno), 0);
+	if (exec->fd_in != STDIN_FILENO)
+		close(exec->fd_in);
+	return (1);
 }
 
 
-// void	redirection_process(t_exec *exec, t_token *token)
-// {
-// 	t_token	*file;
-// 	t_token	*current;
-
-// 	current = token;
-// 	while (current)
-// 	{
-// 		if (current->input && (ft_strcmp(current->input, ">") == 0 \
-// 			|| ft_strcmp(current->input, ">>") == 0 \
-// 			|| ft_strcmp(current->input, "<") == 0 \
-// 			|| ft_strcmp(current->input, "<<") == 0))
-// 		{
-// 			file = current->right;
-// 			if (!file || !file->input)
-// 				return ;//(handle_error("syntax error", EINVAL, &token));
-// 			if (apply_redirection(exec, current, file) != 0)
-// 				return ;
-// 			current = file->right;
-// 		}
-// 		else
-// 			current = current->right;
-// 	}
-// }
-
-void	redirection_process(t_exec *exec, t_token *token)
+int	apply_redirection(t_exec *exec)
 {
-	t_token	*file;
-	t_token	*current = token;
+	t_redir	*redir;
 
-	while (current)
+	redir = exec->redir;
+	while (redir)
 	{
-		if (current->input && (ft_strcmp(current->input, ">") == 0 \
-			|| ft_strcmp(current->input, ">>") == 0 \
-			|| ft_strcmp(current->input, "<") == 0 \
-			|| ft_strcmp(current->input, "<<") == 0))
+		if (redir->type == REDIR_OUT) 
 		{
-			file = current->right;
-			if (!file || !file->input)
-				return (handle_error("syntax error", EINVAL, &token));
-			if (apply_redirection(exec, token->redir, file) != 0)
-				return ;
-
-			current = file->right;
+			if (!handle_output(redir, exec))
+			return (fprintf(stderr, "redir failed: output\n"), 0);
 		}
-		else
-			current = current->right;
+		else if (redir->type == REDIR_APPEND) 
+		{
+			if (!handle_append(redir, exec))
+			return (fprintf(stderr, "redir failed: append\n"), 0);
+		}
+		else if  (redir->type == REDIR_IN) 
+		{
+			if (!handle_input(redir, exec))
+			return (fprintf(stderr, "redir failed: input\n"), 0);
+		}
+		else if (redir->type == HEREDOC) 
+		{
+			if (!handle_heredoc(redir, exec))
+			return (fprintf(stderr, "redir failed: heredoc\n"), 0);
+		}
+		printf("redir applied: %d\n", redir->type);
+		redir = redir->next;
 	}
+	return (1);
+}
+
+void	setup_redir(t_exec *exec)
+{
+	if (exec->redir)
+		redirection_process(exec, exec->redir);
+	printf("before dup2 : fd_in = %d, fd_out = %d\n", exec->fd_in, exec->fd_out);
+	if (exec->fd_in != STDIN_FILENO)
+	{
+		if (dup2(exec->fd_in, STDIN_FILENO) == -1)
+		{
+			perror("Error: dup2 failed in stdin");
+			exit(EXIT_FAILURE);
+		}
+		close (exec->fd_in);
+	}
+	if (exec->fd_out != STDOUT_FILENO)
+	{
+		if (dup2(exec->fd_out, STDOUT_FILENO) == -1)
+		{
+			perror("Error: dup2 failed in stdout");
+			exit(EXIT_FAILURE);
+		}
+		close (exec->fd_out);
+	}
+	printf("after dup2: fd_in = %d, fd_out = %d\n", exec->fd_in, exec->fd_out);
 }
 
