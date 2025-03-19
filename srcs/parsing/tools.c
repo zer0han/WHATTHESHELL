@@ -6,7 +6,7 @@
 /*   By: gmechaly <gmechaly@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/23 19:53:43 by gmechaly          #+#    #+#             */
-/*   Updated: 2025/03/17 21:40:34 by gmechaly         ###   ########.fr       */
+/*   Updated: 2025/03/19 16:32:29 by gmechaly         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,7 +84,7 @@ void	alloc_fail(char **result, int iword)
 // 	int	len;
 
 // 	len = ft_strlen(cmd);
-// 	if (!ft_strncmp(cmd, "cd", len) || !ft_strncmp(cmd, "export", len) \
+// 	if (!ft_strncmp(cmd, "cd", len) || !ft_strncmp(cmd, "export", len) /*\*/
 // 	|| !ft_strncmp(cmd, "unset", len) || !ft_strncmp(cmd, "exit", len))
 // 		return (1);
 // 	return (0);

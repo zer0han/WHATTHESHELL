@@ -6,7 +6,7 @@
 /*   By: gmechaly <gmechaly@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/10 19:08:44 by rdalal            #+#    #+#             */
-/*   Updated: 2025/03/18 15:47:19 by gmechaly         ###   ########.fr       */
+/*   Updated: 2025/03/19 17:40:55 by gmechaly         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -91,6 +91,15 @@ typedef struct s_redir
 	t_token			*redir;
 	struct s_redir	*next;
 }					t_redir;
+
+typedef struct s_vexp
+{
+	int		i;
+	int		j;
+	char	*o_ipt;
+	char	*n_ipt;
+}			t_vexp;
+
 
 /*functions here*/
 
@@ -219,14 +228,14 @@ t_token	*ft_minishell_parsing(char *input, t_envp *env);
 /*	variable_exp.c	*/
 char	*get_var_name(char *input_i);
 int		new_input_len(char *input, t_envp *env);
-void	replace_var_by_value(char *input, char *ninput, int *i, int *j, t_envp *env);
+void	replace_var_by_value(t_vexp *data, t_envp *env);
 char	*expand_variables(char *input, t_envp *env);
 
 /*	 variable_exp_tools.c	*/
-void	handle_quote_after_dollar(char *input, char *ninput, int *i, int *j);
-void	copy_quote(char *input, char *ninput, int *i, int *j, t_envp *env);
-void	copy_dquote(char *input, char *ninput, int *i, int *j, t_envp *env);
-void	copy_squote(char *input, char *ninput, int *i, int *j);
+void	handle_quote_after_dollar(t_vexp *data);
+void	copy_quote(t_vexp *data, t_envp *env);
+void	copy_dquote(t_vexp *data, t_envp *env);
+void	copy_squote(t_vexp *data);
 char	*my_getenv(char *var_name, t_envp **env);
 
 /*************SIGNALS*************/

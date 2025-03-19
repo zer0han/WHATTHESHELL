@@ -6,7 +6,7 @@
 /*   By: gmechaly <gmechaly@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/17 17:05:39 by gmechaly          #+#    #+#             */
-/*   Updated: 2025/03/17 23:43:14 by gmechaly         ###   ########.fr       */
+/*   Updated: 2025/03/19 16:32:00 by gmechaly         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,14 +68,14 @@ static int	ft_count_tokens(char *line)
 	return (count);
 }
 
-static void	*ft_split_for_tokens_2(char *line, char **result, int *i, int *iword)
+static void	*ft_split_for_tokens_2(char *line, char **res, int *i, int *iword)
 {
 	if (line[*i] == '\"' || line[*i] == '\'')
 	{
-		result[*iword] = ft_strnqdup(&line[*i], line[*i]);
-		if (result[*iword] == NULL)
-			return (alloc_fail(result, *iword), NULL);
-		*i += ft_strlen(result[*iword]) + 2;
+		res[*iword] = ft_strnqdup(&line[*i], line[*i]);
+		if (res[*iword] == NULL)
+			return (alloc_fail(res, *iword), NULL);
+		*i += ft_strlen(res[*iword]) + 2;
 		if (line[*i] == '\"' || line[*i] == '\'')
 			(*i)++;
 		(*iword)++;
@@ -85,15 +85,15 @@ static void	*ft_split_for_tokens_2(char *line, char **result, int *i, int *iword
 	{
 		while (line[*i] && is_space(line[*i]))
 			(*i)++;
-		result[*iword] = ft_strncdup(&line[*i]);
-		if (result[*iword] == NULL)
-			return (alloc_fail(result, *iword), NULL);
-		*i += ft_strlen(result[*iword]);
+		res[*iword] = ft_strncdup(&line[*i]);
+		if (res[*iword] == NULL)
+			return (alloc_fail(res, *iword), NULL);
+		*i += ft_strlen(res[*iword]);
 		(*iword)++;
 	}
 	else
 		(*i)++;
-	return (*result);
+	return (*res);
 }
 
 char	**ft_split_for_tokens(char *line)
