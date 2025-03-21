@@ -6,7 +6,7 @@
 /*   By: gmechaly <gmechaly@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/23 14:02:50 by gmechaly          #+#    #+#             */
-/*   Updated: 2025/03/19 16:06:22 by gmechaly         ###   ########.fr       */
+/*   Updated: 2025/03/19 18:51:27 by gmechaly         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,7 @@ void	*parse_tokens(t_token **tokens)
 		if (node->type && !ft_strncmp(node->type, "cmd", 3))
 		{
 			path = get_path(node->input);
-			if (path == NULL && !fd_is_builtin(node->input))
+			if (path == NULL && !fd_is_builtin(node))
 				return (printf("%s : invalid cmd\n", node->input), NULL);
 			free(path);
 		}

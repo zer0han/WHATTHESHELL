@@ -6,7 +6,7 @@
 #    By: gmechaly <gmechaly@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/11/05 20:07:53 by rdalal            #+#    #+#              #
-#    Updated: 2025/03/19 18:01:20 by gmechaly         ###   ########.fr        #
+#    Updated: 2025/03/19 20:17:07 by gmechaly         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -25,11 +25,11 @@ SRCS_BI		=	builtin_echo.c builtin_exit.c builtin_export.c \
 
 SRCS_EXEC	=	dispatch.c exec_helper.c exec.c
 
-SRCS_EXP	=	variable_exp.c variable_exp_tools.c
+SRCS_EXP	=	variable_exp.c variable_exp_tools.c var_tools.c
 
 SRCS_PARSE	=	assign_tokens.c custom_libft.c parse_tokens.c \
 				split_for_tokens.c split_utils.c struct_utils.c \
-				tokenize.c tools.c free.c main.c
+				tokenize.c tools.c free_chars.c free_structs.c main.c
 
 SRCS_PIPE	=	pipe_helper.c pipes.c
 
