@@ -6,7 +6,7 @@
 /*   By: gmechaly <gmechaly@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/10 19:08:44 by rdalal            #+#    #+#             */
-/*   Updated: 2025/03/19 20:08:35 by gmechaly         ###   ########.fr       */
+/*   Updated: 2025/03/21 19:55:27 by gmechaly         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -202,7 +202,7 @@ void	*is_null_token(t_token **tokens);
 char	**ft_split_for_tokens(char *line);
 
 /*	split_utils.c	*/
-int	ft_search_unquote(char *line, char quote);
+int	ft_search_unquote(const char *line, char quote);
 int	is_nosep_token(char *input, int *i);
 
 /*	struct_utils.c	*/

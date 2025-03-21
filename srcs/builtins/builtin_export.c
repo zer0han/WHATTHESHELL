@@ -6,7 +6,7 @@
 /*   By: gmechaly <gmechaly@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/28 18:07:44 by rdalal            #+#    #+#             */
-/*   Updated: 2025/03/17 23:50:13 by gmechaly         ###   ########.fr       */
+/*   Updated: 2025/03/21 19:02:52 by gmechaly         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -243,7 +243,7 @@ t_envp	*envp_dup(char **envp)
 	{
 		dup_env = create_envp_node(envp[i], &dup_env);
 		if (dup_env == NULL)
-			return (/*free_envp(dup_env),*/ NULL);
+			return (NULL);
 		i++;
 	}
 	return(dup_env);
@@ -331,7 +331,6 @@ int	cmd_export(t_envp *env, t_token **tokens)
 		print_env(&env);
 		return (EXIT_SUCCESS);
 	}
-	// print_env(&exec->envp);
 	node = node->right;
 	while (node && !ft_strncmp(node->type, "arg", 3))
 	{
