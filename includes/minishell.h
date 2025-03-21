@@ -6,7 +6,7 @@
 /*   By: gmechaly <gmechaly@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/10 19:08:44 by rdalal            #+#    #+#             */
-/*   Updated: 2025/03/19 18:03:56 by gmechaly         ###   ########.fr       */
+/*   Updated: 2025/03/19 20:08:35 by gmechaly         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -219,9 +219,11 @@ int		is_quote(char c);
 int		is_space(char s);
 void	alloc_fail(char **result, int iword);
 
-/*	free.c	*/
+/*	free_chars.c	*/
 void	free_string_tab(char **str_tab);
 void	free_array(char **args);
+
+/*	free_structs.c	*/
 void	free_tokens(t_token *tokens);
 void	free_exec(t_exec *exec_list);
 void	free_envp(t_envp *dup);
@@ -232,10 +234,13 @@ t_token	*ft_minishell_parsing(char *input, t_envp *env);
 
 /*************EXPANSION*************/
 
-/*	variable_exp.c	*/
+/*	var_tools.c	*/
+int		get_var_len(char *input, int *i, int *add_len, t_envp *env);
 char	*get_var_name(char *input_i);
-int		new_input_len(char *input, t_envp *env);
 void	replace_var_by_value(t_vexp *data, t_envp *env);
+
+/*	variable_exp.c	*/
+int		new_input_len(char *input, t_envp *env);
 char	*expand_variables(char *input, t_envp *env);
 
 /*	 variable_exp_tools.c	*/
