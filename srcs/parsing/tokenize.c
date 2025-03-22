@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   tokenize.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gmechaly <gmechaly@student.42.fr>          +#+  +:+       +#+        */
+/*   By: rdalal <rdalal@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/15 17:40:07 by gmechaly          #+#    #+#             */
-/*   Updated: 2025/03/16 14:01:14 by gmechaly         ###   ########.fr       */
+/*   Updated: 2025/03/22 20:36:23 by rdalal           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,7 @@
 t_token	*create_node(t_token **tokens, char *char_token)
 {
 	t_token	*node;
+	t_token	*last;
 
 	node = ft_calloc(1, sizeof(t_token));
 	if (node == NULL)
@@ -23,15 +24,16 @@ t_token	*create_node(t_token **tokens, char *char_token)
 	node->type = NULL;
 	if (!(*tokens))
 	{
-		tokens = &node;
+		*tokens = node;
 		node->left = NULL;
 	}
 	else
 	{
-		node->left = ft_lastnode(*tokens);
-		node->left->right = node;
+		last = ft_lastnode(*tokens);
+		last->right = node;
+		node->left = last;
 	}
-	node->right = NULL;
+	//node->right = NULL;
 	return (*tokens);
 }
 

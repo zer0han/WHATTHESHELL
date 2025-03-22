@@ -6,7 +6,7 @@
 /*   By: rdalal <rdalal@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/21 14:05:00 by gmechaly          #+#    #+#             */
-/*   Updated: 2025/03/16 19:14:24 by rdalal           ###   ########.fr       */
+/*   Updated: 2025/03/22 18:22:14 by rdalal           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,7 +51,7 @@ void	*assign_token_type(t_token **tokens)
 	node = is_special_str(tokens, ">>");
 	if (node != NULL)
 	{
-		if (node->left && node->right)
+		if (node->right) //if (node->left && node->right)
 		{
 			node->type = "append mode";
 			node->right->type = "file";
@@ -71,7 +71,7 @@ void	*assign_token_type2(t_token **tokens, t_token *node)
 		{
 			node->type = "redirection";
 			node->right->type = "file";
-			node = is_special_str(&node->right, "<");
+			node = is_special_str(&node->right->right, "<");
 		}
 		else
 			return (printf("parse error near < token"), NULL);
@@ -83,7 +83,7 @@ void	*assign_token_type2(t_token **tokens, t_token *node)
 		{
 			node->right->type = "file";
 			node->type = "redirection";
-			node = is_special_str(&node->right, ">");
+			node = is_special_str(&node->right->right, ">");
 		}
 		else
 			return (printf("parse error near > token"), NULL);
@@ -96,7 +96,7 @@ void	*assign_token_type3(t_token **tokens, t_token *node)
 	node = is_special_str(tokens, "|");
 	while (node != NULL)
 	{
-		if (node->right && node->left)
+		if (node->right)// && node->left)
 		{
 			node->right->type = "cmd";
 			node->type = "pipe";

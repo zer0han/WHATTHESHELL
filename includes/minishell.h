@@ -6,7 +6,7 @@
 /*   By: rdalal <rdalal@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/10 19:08:44 by rdalal            #+#    #+#             */
-/*   Updated: 2025/03/19 17:55:06 by rdalal           ###   ########.fr       */
+/*   Updated: 2025/03/22 19:05:07 by rdalal           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -132,9 +132,10 @@ int		valid_id(char *var);
 /*	builtins			*/
 //char	**cmd_prep(t_token *tokens, char **envp, char **cmd_path);
 void	run_cmd(char *cmd_path, char **argv, char **envp);
-void	exec_external(t_token *tokens, char **envp, t_envp *env);
+void	exec_external(t_token *tokens, char **envp, t_envp *env, t_exec *exec);
 void	execute_cmds(t_token *token, char **envp, t_envp *env, t_exec *exec_list);
 void	dispatch_cmds(t_token *tokens, t_envp *env, t_exec *exec_list);
+int		fd_is_builtin(t_token *token);
 int		cmd_cd(t_token *args);
 int		cmd_pwd(void);
 int		cmd_echo(t_token *tokens);
@@ -153,9 +154,9 @@ void	handle_pipe_redir(t_exec *exec);
 void	apply_redir_pipe(t_exec *exec);
 void	child_process(t_exec *exec, char **envp, t_envp *env);
 /**pipe**/
-void	setup_child_process(t_exec *exec, char **envp);
+void	setup_child_process(t_exec *exec, char **envp, t_envp *env);
 void	wait_for_children(t_exec *exec);
-void	exec_pipeline(t_exec *exec, char **envp);
+void	exec_pipeline(t_exec *exec, char **envp, t_envp *env);
 
 /*  redirection         */
 /**heredoc**/
@@ -169,7 +170,6 @@ int		apply_redirection(t_exec *exec);
 void	cleanup_redirection(t_redir *redir);
 t_redir	*init_redir(t_token **cmd_token);
 void	setup_redir(t_exec *exec);
-void	redirection_process(t_exec *exec, t_redir *redir_list);
 
 
 /*************PARSING*************/

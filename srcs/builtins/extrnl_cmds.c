@@ -6,7 +6,7 @@
 /*   By: rdalal <rdalal@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/10 17:31:21 by rdalal            #+#    #+#             */
-/*   Updated: 2025/03/19 17:55:44 by rdalal           ###   ########.fr       */
+/*   Updated: 2025/03/19 19:30:46 by rdalal           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -103,20 +103,48 @@ void	run_cmd(char *cmd_path, char **argv, char **envp)
 	}
 }
 
-void	exec_external(t_token *tokens, char **envp, t_envp *env)
-{
-	char	*cmd_path;
-	char	**argv;
+// void	exec_external(t_token *tokens, char **envp, t_envp *env)
+// {
+// 	char	*cmd_path;
+// 	char	**argv;
 
-	cmd_path = NULL;
-	argv = cmd_prep(tokens, envp, &cmd_path, env);
-	if (!argv)
-	{
-		g_exit_status = 127;
-		return ;
-	}
-	run_cmd(cmd_path, argv, envp);
-	//printf("it reaches here\n");
-	free(cmd_path);
-	free_array(argv);
+// 	cmd_path = NULL;
+// 	argv = cmd_prep(tokens, envp, &cmd_path, env);
+// 	if (!argv)
+// 	{
+// 		g_exit_status = 127;
+// 		return ;
+// 	}
+// 	run_cmd(cmd_path, argv, envp);
+// 	printf("it reaches here\n");
+// 	free(cmd_path);
+// 	free_array(argv);
+// }
+
+void exec_external(t_token *tokens, char **envp, t_envp *env, t_exec *exec)
+{
+    char *cmd_path;
+    char **argv;
+
+    cmd_path = NULL;
+    argv = cmd_prep(tokens, envp, &cmd_path, env);
+    if (!argv)
+    {
+        g_exit_status = 127;
+        return;
+    }
+
+    if (!apply_redirection(exec)) // Ensure redirection is successful
+    {
+        free(cmd_path);
+        free_array(argv);
+        g_exit_status = 1;
+        return;
+    }
+
+    run_cmd(cmd_path, argv, envp);
+    printf("Command executed successfully\n");
+
+    free(cmd_path);
+    free_array(argv);
 }
