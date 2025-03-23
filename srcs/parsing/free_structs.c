@@ -6,7 +6,7 @@
 /*   By: gmechaly <gmechaly@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/16 14:55:26 by gmechaly          #+#    #+#             */
-/*   Updated: 2025/03/19 19:43:23 by gmechaly         ###   ########.fr       */
+/*   Updated: 2025/03/23 20:32:33 by gmechaly         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,7 +49,7 @@ void	free_exec(t_exec *exec_list)
 			free(temp->args);
 		}
 		if (temp->redir)
-			free(temp->redir);
+			cleanup_redirection(temp->redir);
 		free (temp);
 	}
 }
