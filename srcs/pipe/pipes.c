@@ -6,7 +6,7 @@
 /*   By: rdalal <rdalal@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/12 15:44:07 by rdalal            #+#    #+#             */
-/*   Updated: 2025/03/23 18:52:35 by rdalal           ###   ########.fr       */
+/*   Updated: 2025/03/24 00:07:56 by rdalal           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,6 +60,7 @@ volatile sig_atomic_t	g_exit_status = 0;
 // 	else
 // 		perror("fork");
 // }
+
 void	setup_child_process(t_exec *exec, char **envp, t_envp *env)
 {
 	pid_t pid;
@@ -75,23 +76,24 @@ void	setup_child_process(t_exec *exec, char **envp, t_envp *env)
 		perror("fork failed");
 		return ;
 	}
-	if (pid == 0)
+	if (pid > 0)
 	{
-		close(exec->fd_pipe[0]);
+		if (exec->next)
+			close(exec->fd_pipe[0]);
 		child_process(exec, envp, env);
 	}
-	else if (pid > 0)
+	else
 	{
 		exec->pid = pid;
 		if (exec->p_pipe >= 0)
 			close(exec->p_pipe);
 		if (exec->next)
 		{
-		close(exec->fd_pipe[1]);
+			close(exec->fd_pipe[1]);
 			exec->next->p_pipe = exec->fd_pipe[0];
 		}
-		else
-			waitpid(pid, NULL, 0);
+		// else
+		// 	waitpid(pid, NULL, 0);
 	}
 }
 
@@ -102,7 +104,7 @@ void	wait_for_children(t_exec *exec)
 	status = 0;
 	while (exec)
 	{
-		waitpid(exec->pid, &status, 0);
+		//waitpid(exec->pid, &status, 0);
 		if (WIFEXITED(status))
 			g_exit_status = WEXITSTATUS(status);
 		exec = exec->next;
@@ -136,5 +138,26 @@ void	exec_pipeline(t_exec *exec, char **envp, t_envp *env)
 			close (head->fd_pipe[1]);
 		head = head->next;
 	}
+	// t_exec *head = exec;
+
+    // // Setup all child processes
+    // while (exec)
+    // {
+    //     setup_child_process(exec, envp, env);
+    //     exec = exec->next;
+    // }
+
+    // // Wait for all children to finish
+    // wait_for_children(head);
+
+    // // Close all pipe FDs
+    // while (head)
+    // {
+    //     if (head->fd_pipe[0] != -1)
+    //         close(head->fd_pipe[0]);
+    //     if (head->fd_pipe[1] != -1)
+    //         close(head->fd_pipe[1]);
+    //     head = head->next;
+    // }
 }
 
