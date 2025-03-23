@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   redirection.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rdalal <rdalal@student.42.fr>              +#+  +:+       +#+        */
+/*   By: gmechaly <gmechaly@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/05 13:30:19 by rdalal            #+#    #+#             */
-/*   Updated: 2025/03/19 17:44:50 by rdalal           ###   ########.fr       */
+/*   Updated: 2025/03/23 20:21:12 by gmechaly         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -92,7 +92,7 @@ static int	handle_heredoc(t_redir *redir, t_exec *exec)
 	signal(SIGINT, SIG_DFL);
 	while (1)
 	{
-		line = readline("WHATTHESHELL ");
+		line = readline("> ");
 		if (!line || ft_strcmp(line, redir->delimiter) == 0)
 		{
 			free (line);

@@ -6,13 +6,13 @@
 /*   By: gmechaly <gmechaly@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/17 21:38:42 by gmechaly          #+#    #+#             */
-/*   Updated: 2025/03/17 21:39:53 by gmechaly         ###   ########.fr       */
+/*   Updated: 2025/03/21 19:55:09 by gmechaly         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int	ft_search_unquote(char *line, char quote)
+int	ft_search_unquote(const char *line, char quote)
 {
 	int	i;
 

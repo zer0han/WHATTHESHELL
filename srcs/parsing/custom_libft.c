@@ -6,7 +6,7 @@
 /*   By: gmechaly <gmechaly@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/17 21:34:08 by gmechaly          #+#    #+#             */
-/*   Updated: 2025/03/17 21:35:52 by gmechaly         ###   ########.fr       */
+/*   Updated: 2025/03/23 16:19:42 by gmechaly         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,12 @@ char	*ft_strncdup(char const *src)
 	i = 0;
 	while (src[len] && is_space(src[len]) == 0 \
 	&& src[len] != '<' && src[len] != '>' && src[len] != '|')
-		len++;
+	{
+		if (is_quote(src[len]))
+			len += ft_search_unquote(&src[len], src[len]) + 1;
+		else
+			len++;
+	}
 	dest = (char *)malloc(sizeof(char) * (len + 1));
 	if (dest == NULL)
 		return (NULL);
