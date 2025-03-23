@@ -3,18 +3,20 @@
 /*                                                        :::      ::::::::   */
 /*   struct_utils.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gmechaly <gmechaly@student.42.fr>          +#+  +:+       +#+        */
+/*   By: rdalal <rdalal@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/10 19:40:18 by gmechaly          #+#    #+#             */
-/*   Updated: 2025/03/17 23:03:10 by gmechaly         ###   ########.fr       */
+/*   Updated: 2025/03/23 20:41:11 by rdalal           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
 
+
 t_token	*create_node(t_token **tokens, char *char_token)
 {
 	t_token	*node;
+	t_token	*last;
 
 	node = ft_calloc(1, sizeof(t_token));
 	if (node == NULL)
@@ -23,13 +25,14 @@ t_token	*create_node(t_token **tokens, char *char_token)
 	node->type = NULL;
 	if (!(*tokens))
 	{
-		tokens = &node;
+		*tokens = node;
 		node->left = NULL;
 	}
 	else
 	{
-		node->left = ft_lastnode(*tokens);
-		node->left->right = node;
+		last = ft_lastnode(*tokens);
+		last->right = node;
+		node->left = last;
 	}
 	node->right = NULL;
 	return (*tokens);

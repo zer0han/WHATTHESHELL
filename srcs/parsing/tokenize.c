@@ -3,14 +3,15 @@
 /*                                                        :::      ::::::::   */
 /*   tokenize.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gmechaly <gmechaly@student.42.fr>          +#+  +:+       +#+        */
+/*   By: rdalal <rdalal@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/15 17:40:07 by gmechaly          #+#    #+#             */
-/*   Updated: 2025/03/17 23:02:59 by gmechaly         ###   ########.fr       */
+/*   Updated: 2025/03/23 20:41:00 by rdalal           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
+
 
 t_token	*ft_tokenize(char *input)
 {

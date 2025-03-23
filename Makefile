@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: gmechaly <gmechaly@student.42.fr>          +#+  +:+       +#+         #
+#    By: rdalal <rdalal@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/11/05 20:07:53 by rdalal            #+#    #+#              #
-#    Updated: 2025/03/19 20:17:07 by gmechaly         ###   ########.fr        #
+#    Updated: 2025/03/23 20:40:08 by rdalal           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -33,7 +33,7 @@ SRCS_PARSE	=	assign_tokens.c custom_libft.c parse_tokens.c \
 
 SRCS_PIPE	=	pipe_helper.c pipes.c
 
-SRCS_REDIR	=	exec_redirs.c heredoc.c redirection_handler.c \
+SRCS_REDIR	=	exec_redirs.c redirection_handler.c \
 				redirection.c
 
 SRCS_SIG	=	signal_handler.c

@@ -6,7 +6,7 @@
 /*   By: rdalal <rdalal@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/24 18:27:39 by rdalal            #+#    #+#             */
-/*   Updated: 2025/03/19 17:36:41 by rdalal           ###   ########.fr       */
+/*   Updated: 2025/03/22 20:38:17 by rdalal           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,6 +86,12 @@ static int	parse_redir_node(t_token **node, t_redir **tail)
 	t_redir	*new = ft_calloc(1, sizeof(t_redir));
 	if (!new)
 		return (0);
+	if (!(*node)->right || !(*node)->right->input)
+	{
+		free(new);
+		ft_putstr_fd("Syntax error\n", 2);
+		return (0);
+	}
 	if (ft_strcmp((*node)->input, ">") == 0)
 		new->type = REDIR_OUT;
 	else if (ft_strcmp((*node)->input, ">>") == 0)
@@ -94,17 +100,19 @@ static int	parse_redir_node(t_token **node, t_redir **tail)
 		new->type = REDIR_IN;
 	else if (ft_strcmp((*node)->input, "<<") == 0)
 		new->type = HEREDOC;
-	if (!(*node)->right || !(*node)->right->input)
-	{
-		free(new);
-		ft_putstr_fd("minishell: syntax error\n", 2);
-		return (0);
-	}
 	if (new->type == HEREDOC)
 		new->delimiter = ft_strdup((*node)->right->input);
 	else
 		new->file = ft_strdup((*node)->right->input);
 
+	if (!(*node)->right || !(*node)->right->input)
+	{
+		free(new->file);
+		free(new->delimiter);
+		free(new);
+		ft_putstr_fd("WHATTHESHELL: syntax error\n", 2);
+		return (0);
+	}
 	*tail = new;
 	*node = (*node)->right->right;
 	return (1);
@@ -119,12 +127,17 @@ t_redir	*init_redir(t_token **cmd_token)
 	node = *cmd_token;
 	redir_list = NULL;
 	tail = &redir_list;
-	while (node)
+	while (node->left && (ft_strcmp(node->left->type, "pipe") != 0))
+		node = node->left;
+	fprintf(stderr, "DEBUG: [init_redir] starting at token %s\n", node->input);
+	while (node && (ft_strcmp(node->type, "pipe") != 0))
 	{
+		fprintf(stderr, "DEBUG: [init_redir] processing token %s\n", node->input);
 		if (ft_strcmp(node->type, "redirection") == 0 
 			|| ft_strcmp(node->type, "append mode") == 0 
 			|| ft_strcmp(node->type, "heredoc") == 0)
 		{
+			fprintf(stderr, "DEBUG: [init_redir] redirection initialized and processing token here %s\n", node->input);
 			if (!parse_redir_node(&node, tail))
 				return (cleanup_redirection(redir_list), NULL);
 		}
@@ -134,10 +147,3 @@ t_redir	*init_redir(t_token **cmd_token)
 	return (redir_list);
 }
 
-void	redirection_process(t_exec *exec, t_redir *redir_list)
-{
-	if (!exec || !redir_list)
-		return ;
-	if (!apply_redirection(exec))
-		return ;
-}

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   heredoc.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gmechaly <gmechaly@student.42.fr>          +#+  +:+       +#+        */
+/*   By: rdalal <rdalal@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/24 19:21:49 by rdalal            #+#    #+#             */
-/*   Updated: 2025/03/23 20:16:38 by gmechaly         ###   ########.fr       */
+/*   Updated: 2025/03/23 20:39:51 by rdalal           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,7 @@ char	**setup_cmd(t_token *node)
 	return (cmd);
 }
 
-int	multi_line_part()
+/*int	multi_line_part()
 {
 	
 }
@@ -56,3 +56,4 @@ int	heredoc(t_token **tokens)
 		node = node->right;
 	delim = ft_strdup(node->input);
 }
+*/

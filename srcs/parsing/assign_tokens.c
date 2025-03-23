@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   assign_tokens.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gmechaly <gmechaly@student.42.fr>          +#+  +:+       +#+        */
+/*   By: rdalal <rdalal@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/21 14:05:00 by gmechaly          #+#    #+#             */
-/*   Updated: 2025/03/19 18:51:08 by gmechaly         ###   ########.fr       */
+/*   Updated: 2025/03/23 20:35:53 by rdalal           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,7 +76,7 @@ void	*assign_token_type(t_token **tokens)
 	node = is_special_str(tokens, ">>");
 	if (node != NULL)
 	{
-		if (node->left && node->right)
+		if (node->right) //if (node->left && node->right)
 		{
 			node->type = "append mode";
 			node->right->type = "file";

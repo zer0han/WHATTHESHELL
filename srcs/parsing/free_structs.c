@@ -6,7 +6,7 @@
 /*   By: gmechaly <gmechaly@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/16 14:55:26 by gmechaly          #+#    #+#             */
-/*   Updated: 2025/03/23 20:32:33 by gmechaly         ###   ########.fr       */
+/*   Updated: 2025/03/23 20:58:57 by gmechaly         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,3 +81,21 @@ void	free_envp(t_envp *dup)
 		dup = temp;
 	}
 }
+
+
+/*void	free_tokens(t_token *tokens)
+{
+	t_token	*temp;
+
+	while (tokens)
+	{
+		temp = tokens->right;
+		if (tokens->input)
+		{
+			free(tokens->input);
+			tokens->input = NULL;
+		}
+		free(tokens);
+		tokens = temp;
+	}
+}*/
