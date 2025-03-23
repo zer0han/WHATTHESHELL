@@ -6,7 +6,7 @@
 /*   By: gmechaly <gmechaly@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/17 17:05:39 by gmechaly          #+#    #+#             */
-/*   Updated: 2025/03/21 19:32:27 by gmechaly         ###   ########.fr       */
+/*   Updated: 2025/03/23 16:19:54 by gmechaly         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,11 +14,11 @@
 
 static void	ft_count_tokens_tool(char *line, int *i, int *count)
 {
-	while (line[*i] && is_space(line[*i]) == 0 \
+	while (*i >= 0 && line[*i] && is_space(line[*i]) == 0 \
 	&& line[*i] != '<' && line[*i] != '>' && line[*i] != '|')
 	{
 		if (is_quote(line[*i]))
-			*i += ft_search_unquote(&line[*i], line[*i]);
+			*i += ft_search_unquote(&line[*i], line[*i]) + 1;
 		else
 			(*i)++;
 	}

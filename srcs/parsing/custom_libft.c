@@ -6,7 +6,7 @@
 /*   By: gmechaly <gmechaly@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/17 21:34:08 by gmechaly          #+#    #+#             */
-/*   Updated: 2025/03/21 19:26:34 by gmechaly         ###   ########.fr       */
+/*   Updated: 2025/03/23 16:19:42 by gmechaly         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ char	*ft_strncdup(char const *src)
 	&& src[len] != '<' && src[len] != '>' && src[len] != '|')
 	{
 		if (is_quote(src[len]))
-			len += ft_search_unquote(&src[len], src[len]);
+			len += ft_search_unquote(&src[len], src[len]) + 1;
 		else
 			len++;
 	}

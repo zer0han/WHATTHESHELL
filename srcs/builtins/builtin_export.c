@@ -6,7 +6,7 @@
 /*   By: gmechaly <gmechaly@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/28 18:07:44 by rdalal            #+#    #+#             */
-/*   Updated: 2025/03/21 19:02:52 by gmechaly         ###   ########.fr       */
+/*   Updated: 2025/03/23 16:35:17 by gmechaly         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -259,6 +259,8 @@ static void	*add_env(t_envp **dup, char *var, char *value)
 	ft_strlcpy(new_line, var, ft_strlen(var) + 1);
 	ft_strlcat(new_line, "=", ft_strlen(new_line) + 2);
 	ft_strlcat(new_line, value, ft_strlen(new_line) + ft_strlen(value) + 2);
+	if (is_quote(new_line[ft_strlen(new_line) - 1]))
+		new_line[ft_strlen(new_line) - 1] = '\0';
 	*dup = create_envp_node(new_line, dup);
 	free(new_line);
 	if (*dup == NULL)
@@ -285,6 +287,8 @@ static int	update_env(t_envp **dup, char *var, char *value)
 			ft_strlcpy(node->str, var, ft_strlen(var) + 1);
 			ft_strlcat(node->str, "=", ft_strlen(node->str) + 2);
 			ft_strlcat(node->str, value, ft_strlen(node->str) + ft_strlen(value) + 2);
+			if (is_quote(node->str[ft_strlen(node->str) - 1]))
+				node->str[ft_strlen(node->str) - 1] = '\0';
 			return (0);
 		}
 		node = node->next;
@@ -306,6 +310,8 @@ static int	process_export_arg(char *arg, t_envp **dup)
 		if (!var)
 			exit(EXIT_FAILURE);
 		value = eq + 1;
+		if (is_quote(*value))
+			value++;
 		if (!valid_id(var))
 			return (free(var), EXIT_FAILURE);
 		if (update_env(dup, var, value) > 0)
