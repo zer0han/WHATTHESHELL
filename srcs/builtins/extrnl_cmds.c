@@ -6,7 +6,7 @@
 /*   By: rdalal <rdalal@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/10 17:31:21 by rdalal            #+#    #+#             */
-/*   Updated: 2025/03/19 19:30:46 by rdalal           ###   ########.fr       */
+/*   Updated: 2025/03/24 00:09:44 by rdalal           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,7 +87,7 @@ void	run_cmd(char *cmd_path, char **argv, char **envp)
 		free(cmd_path);
 		return (free_array(argv));
 	}
-	else if (pid == 0)
+	else if (pid > 0)
 	{
 		execve(cmd_path, argv, envp);
 		ft_putstr_fd("WHATTHESHELL: \n", STDERR_FILENO);	
@@ -103,8 +103,9 @@ void	run_cmd(char *cmd_path, char **argv, char **envp)
 	}
 }
 
-// void	exec_external(t_token *tokens, char **envp, t_envp *env)
+// void exec_external(t_token *tokens, char **envp, t_envp *env, t_exec *exec)
 // {
+// 	(void)exec;
 // 	char	*cmd_path;
 // 	char	**argv;
 

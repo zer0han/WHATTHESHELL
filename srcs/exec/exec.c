@@ -6,7 +6,7 @@
 /*   By: rdalal <rdalal@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/18 19:35:01 by rdalal            #+#    #+#             */
-/*   Updated: 2025/03/21 18:15:27 by rdalal           ###   ########.fr       */
+/*   Updated: 2025/03/24 00:19:04 by rdalal           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -117,6 +117,8 @@ t_exec	*create_exec_list(t_token *token_tree)
 
 }
 
+// int	is_pipe()
+
 t_exec	*main_execution(t_token **token_tree, char **envp, t_envp *env)
 {
 	t_exec	*exec_list;
@@ -130,13 +132,11 @@ t_exec	*main_execution(t_token **token_tree, char **envp, t_envp *env)
 	exec_list = create_exec_list(temp);
 	if (!exec_list)
 		return (NULL);
-	if (exec_list->next)
-		exec_pipeline(exec_list, envp, env);
-	else if (exec_list->cmd_token->input)
-		execute_cmds(exec_list->cmd_token, envp, env, exec_list);
-	else
-		exec_external(exec_list->cmd_token, envp, env, exec_list);
+	//if (exec_list->next)
+	exec_pipeline(exec_list, envp, env);
+	// if (fd_is_builtin(exec_list->cmd_token))
+	// 	execute_cmds(exec_list->cmd_token, envp, env, exec_list);
+	// else
+	// 	exec_external(exec_list->cmd_token, envp, env, exec_list);
 	return (exec_list);
 }
-
-
