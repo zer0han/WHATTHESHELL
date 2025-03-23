@@ -6,7 +6,7 @@
 /*   By: rdalal <rdalal@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/11 14:50:45 by rdalal            #+#    #+#             */
-/*   Updated: 2025/03/18 22:09:06 by rdalal           ###   ########.fr       */
+/*   Updated: 2025/03/21 21:59:56 by rdalal           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,6 +52,23 @@ int	fd_is_builtin(t_token *token)
 	return (0);
 }
 
+// void	execute_cmds(t_token *token, char **envp, t_envp *env, t_exec *exec_list)
+// {
+// 	int		status;
+
+// 	if (!token || !token->input)
+// 		return ;
+// 	status = 0;
+// 	if (!apply_redirection(exec_list))	
+// 		g_exit_status = 1;
+// 	if (fd_is_builtin(token))
+// 		dispatch_cmds(token, env, exec_list);
+// 	else
+// 		exec_external(token, envp, env, exec_list);
+// 	if (g_exit_status != 0)
+// 		return ;
+// }
+
 void	execute_cmds(t_token *token, char **envp, t_envp *env, t_exec *exec_list)
 {
 	int		status;
@@ -59,12 +76,23 @@ void	execute_cmds(t_token *token, char **envp, t_envp *env, t_exec *exec_list)
 	if (!token || !token->input)
 		return ;
 	status = 0;
+
+	// Apply redirection before execution
 	if (!apply_redirection(exec_list))	
+	{
 		g_exit_status = 1;
+		return;  // Stop execution if redirection fails
+	}
+
+	// Debugging: Check if redirection is applied
+	printf("Redirection applied: STDIN = %d, STDOUT = %d\n", dup(0), dup(1));
+
+	// Check if command is a built-in
 	if (fd_is_builtin(token))
 		dispatch_cmds(token, env, exec_list);
 	else
-		exec_external(token, envp, env);
+		exec_external(token, envp, env, exec_list);
+
 	if (g_exit_status != 0)
 		return ;
 }

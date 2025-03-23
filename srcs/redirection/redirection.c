@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   redirection.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gmechaly <gmechaly@student.42.fr>          +#+  +:+       +#+        */
+/*   By: rdalal <rdalal@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/05 13:30:19 by rdalal            #+#    #+#             */
-/*   Updated: 2025/03/23 20:21:12 by gmechaly         ###   ########.fr       */
+/*   Updated: 2025/03/23 20:31:17 by rdalal           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,12 +39,15 @@ static int	handle_output(t_redir *redir, t_exec *exec)
 {
 	int	fd;
 
+	(void) exec;
 	fd = open(redir->file, O_WRONLY | O_CREAT | O_TRUNC, 0644);
-	if (fd < 0)
+	if (fd == -1)
 		return (error_message(redir->file, errno), 0);
-	if (exec->fd_out != STDOUT_FILENO)
-		close(exec->fd_out);
-	exec->fd_out = fd;
+	if (dup2(fd, STDOUT_FILENO) == -1)
+	{	close(fd);
+		return (error_message("dup2", errno), 0);
+	}
+	close (fd);
 	return (1);
 }
 
@@ -52,25 +55,31 @@ static int	handle_append(t_redir *redir, t_exec *exec)
 {
 	int	fd;
 
+	(void)exec;
 	fd = open(redir->file, O_WRONLY | O_CREAT | O_APPEND, 0644);
-	if (fd < 0)
+	if (fd == -1)
 		return (error_message(redir->file, errno), 0);
-	if (exec->fd_out != STDOUT_FILENO)
-		close(exec->fd_out);
-	exec->fd_out = fd;
+	if (dup2(fd, STDOUT_FILENO) == -1)
+	{	close(fd);
+		return (error_message("dup2", errno), 0);
+	}
+	close (fd);
 	return (1);
 }
 
-static int	handle_input(t_redir *redir, t_exec *exec)
+static int  handle_input(t_redir *redir, t_exec *exec)
 {
 	int	fd;
 
+	(void)exec;
 	fd = open(redir->file, O_RDONLY);
-	if (fd < 0)
+	if (fd== -1)
 		return (error_message(redir->file, errno), 0);
-	if (exec->fd_in != STDIN_FILENO)
-		close(exec->fd_in);
-	exec->fd_in = fd;
+	if (dup2(fd, STDIN_FILENO) == -1)
+	{	close(fd);
+		return (error_message("dup2", errno), 0);
+	}
+	close (fd);
 	return (1);
 }
 
@@ -113,7 +122,6 @@ static int	handle_heredoc(t_redir *redir, t_exec *exec)
 	return (1);
 }
 
-
 int	apply_redirection(t_exec *exec)
 {
 	t_redir	*redir;
@@ -121,48 +129,100 @@ int	apply_redirection(t_exec *exec)
 	redir = exec->redir;
 	while (redir)
 	{
-		if (redir->type == REDIR_OUT) 
-		{
-			if (!handle_output(redir, exec))
-			return (fprintf(stderr, "redir failed: output\n"), 0);
-		}
-		else if (redir->type == REDIR_APPEND) 
-		{
-			if (!handle_append(redir, exec))
-			return (fprintf(stderr, "redir failed: append\n"), 0);
-		}
-		else if  (redir->type == REDIR_IN) 
-		{
-			if (!handle_input(redir, exec))
-			return (fprintf(stderr, "redir failed: input\n"), 0);
-		}
-		else if (redir->type == HEREDOC) 
-		{
-			if (!handle_heredoc(redir, exec))
-			return (fprintf(stderr, "redir failed: heredoc\n"), 0);
-		}
-		printf("redir applied: %d\n", redir->type);
+		if (redir->type == REDIR_OUT && !handle_output(redir, exec))
+			return (0);
+		else if (redir->type == REDIR_APPEND && !handle_append(redir, exec))
+			return (0);
+		else if (redir->type == REDIR_IN && !handle_input(redir, exec))
+			return (0);
+		else if (redir->type == HEREDOC && !handle_heredoc(redir, exec))
+			return (0);
 		redir = redir->next;
 	}
 	return (1);
 }
 
+// int apply_redirection(t_exec *exec)
+// {
+//    // int fd;
+//     t_redir *redir = exec->redir;
+
+//     while (redir)
+//     {
+//         fprintf(stderr, "Redirection type: %d, File: %s\n", redir->type, redir->file);
+
+//         if (redir->type == REDIR_IN)
+//         {
+//             exec->fd_in = open(redir->file, O_RDONLY);
+//             if (exec->fd_in == -1)
+//             {
+//                 perror(redir->file);
+//                 return (0);
+//             }
+//             if (dup2(exec->fd_in, STDIN_FILENO) == -1)
+//             {
+//                 perror("dup2 failed");
+//                 close(exec->fd_in);
+//                 return (0);
+//             }
+//             close(exec->fd_in);
+//         }
+//         else if (redir->type == REDIR_OUT)
+//         {
+//             exec->fd_in = open(redir->file, O_WRONLY | O_CREAT | O_TRUNC, 0644);
+//             if (exec->fd_in == -1)
+//             {
+//                 perror(redir->file);
+//                 return (0);
+//             }
+//             if (dup2(fd, STDOUT_FILENO) == -1)
+//             {
+//                 perror("dup2 failed");
+//                 close(fd);
+//                 return (0);
+//             }
+//             close(fd);
+//         }
+//         else if (redir->type == REDIR_APPEND)
+//         {
+//             fd = open(redir->file, O_WRONLY | O_CREAT | O_APPEND, 0644);
+//             if (fd == -1)
+//             {
+//                 perror(redir->file);
+//                 return (0);
+//             }
+//             if (dup2(fd, STDOUT_FILENO) == -1)
+//             {
+//                 perror("dup2 failed");
+//                 close(fd);
+//                 return (0);
+//             }
+//             close(fd);
+//         }
+//         redir = redir->next;
+//     }
+//     return (1);
+// }
+
 void	setup_redir(t_exec *exec)
 {
 	if (exec->redir)
-		redirection_process(exec, exec->redir);
-	printf("before dup2 : fd_in = %d, fd_out = %d\n", exec->fd_in, exec->fd_out);
-	if (exec->fd_in != STDIN_FILENO)
+		apply_redirection(exec);
+	fprintf(stderr, "before dup2 : fd_in = %d, fd_out = %d\n", exec->fd_in, exec->fd_out);
+	if (exec->fd_in != STDIN_FILENO && exec->fd_in != -1)
 	{
+        fprintf(stderr, "[setup_redir] redirecting input from fd %d to STDIN\n", exec->fd_in);
 		if (dup2(exec->fd_in, STDIN_FILENO) == -1)
 		{
 			perror("Error: dup2 failed in stdin");
 			exit(EXIT_FAILURE);
 		}
 		close (exec->fd_in);
+		
 	}
-	if (exec->fd_out != STDOUT_FILENO)
+	if (exec->fd_out != STDOUT_FILENO && exec->fd_out != -1)
 	{
+        fprintf(stderr, "[setup_redir] redirecting output from fd %d to STDOUT\n", exec->fd_in);
 		if (dup2(exec->fd_out, STDOUT_FILENO) == -1)
 		{
 			perror("Error: dup2 failed in stdout");
@@ -170,6 +230,7 @@ void	setup_redir(t_exec *exec)
 		}
 		close (exec->fd_out);
 	}
-	printf("after dup2: fd_in = %d, fd_out = %d\n", exec->fd_in, exec->fd_out);
+	fprintf(stderr, "after dup2: fd_in = %d, fd_out = %d\n", exec->fd_in, exec->fd_out);
 }
+
 

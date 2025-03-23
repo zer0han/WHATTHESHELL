@@ -3,14 +3,39 @@
 /*                                                        :::      ::::::::   */
 /*   tokenize.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gmechaly <gmechaly@student.42.fr>          +#+  +:+       +#+        */
+/*   By: rdalal <rdalal@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/15 17:40:07 by gmechaly          #+#    #+#             */
-/*   Updated: 2025/03/17 23:02:59 by gmechaly         ###   ########.fr       */
+/*   Updated: 2025/03/23 20:32:54 by rdalal           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
+
+t_token	*create_node(t_token **tokens, char *char_token)
+{
+	t_token	*node;
+	t_token	*last;
+
+	node = ft_calloc(1, sizeof(t_token));
+	if (node == NULL)
+		return (NULL);
+	node->input = ft_strdup(char_token);
+	node->type = NULL;
+	if (!(*tokens))
+	{
+		*tokens = node;
+		node->left = NULL;
+	}
+	else
+	{
+		last = ft_lastnode(*tokens);
+		last->right = node;
+		node->left = last;
+	}
+	node->right = NULL;
+	return (*tokens);
+}
 
 t_token	*ft_tokenize(char *input)
 {
