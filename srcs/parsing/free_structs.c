@@ -1,46 +1,16 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   free.c                                             :+:      :+:    :+:   */
+/*   free_structs.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: rdalal <rdalal@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/16 14:55:26 by gmechaly          #+#    #+#             */
-/*   Updated: 2025/03/23 17:53:25 by rdalal           ###   ########.fr       */
+/*   Updated: 2025/03/23 20:34:39 by rdalal           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
-
-void	free_string_tab(char **str_tab)
-{
-	int	i;
-
-	i = 0;
-	while (str_tab[i])
-	{
-		free(str_tab[i]);
-		i++;
-	}
-	free(str_tab);
-}
-
-void	free_array(char **args)
-{
-	int	i;
-
-	i = 0;
-	if (!args)
-		return ;
-	while (args[i])
-	{
-		free(args[i]);
-		args[i] = NULL;
-		i++;
-	}
-	free(args);
-	args = NULL;
-}
 
 void	free_tokens(t_token *tokens)
 {
@@ -66,7 +36,7 @@ void	free_exec(t_exec *exec_list)
 {
 	t_exec	*temp;
 	int		i;
-	
+
 	while (exec_list)
 	{
 		temp = exec_list;

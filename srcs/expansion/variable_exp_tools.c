@@ -6,65 +6,66 @@
 /*   By: gmechaly <gmechaly@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/05 16:26:32 by gmechaly          #+#    #+#             */
-/*   Updated: 2025/03/16 16:50:23 by gmechaly         ###   ########.fr       */
+/*   Updated: 2025/03/19 17:57:29 by gmechaly         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
 
-void	handle_quote_after_dollar(char *input, char *ninput, int *i, int *j)
+void	handle_quote_after_dollar(t_vexp *data)
 {
-	if (input[*i + 1] == '\'')
-		(*i)++;
-	else if (input[*i + 1] == '\"')
+	if (data->o_ipt[data->i + 1] == '\'')
+		data->i++;
+	else if (data->o_ipt[data->i + 1] == '\"')
 	{
-		ninput[*j] = input[*i];
-		*i += 2;
-		(*j)++;
-		while (input[*i] && input[*i] != '<' && input[*i] != '>' && \
-		input[*i] != '|' && input[*i] != '\"')
+		data->n_ipt[data->j] = data->o_ipt[data->i];
+		data->i += 2;
+		data->j++;
+		while (data->o_ipt[data->i] && data->o_ipt[data->i] != '<' \
+		&& data->o_ipt[data->i] != '>' && data->o_ipt[data->i] != '|' \
+		&& data->o_ipt[data->i] != '\"')
 		{
-			ninput[*j] = input[*i];
-			(*i)++;
-			(*j)++;
+			data->n_ipt[data->j] = data->o_ipt[data->i];
+			data->i++;
+			data->j++;
 		}
-		ninput[*j] = '\0';
-		if (input[*i] == '\"')
-			(*i)++;
+		data->n_ipt[data->j] = '\0';
+		if (data->o_ipt[data->i] == '\"')
+			data->i++;
 	}
 }
 
-void	copy_quote(char *input, char *ninput, int *i, int *j, t_envp *env)
+void	copy_quote(t_vexp *data, t_envp *env)
 {
-	if (input[*i] == '\'')
-		copy_squote(input, ninput, i, j);
-	else if (input[*i] == '\"')
-		copy_dquote(input, ninput, i, j, env);
+	if (data->o_ipt[data->i] == '\'')
+		copy_squote(data);
+	else if (data->o_ipt[data->i] == '\"')
+		copy_dquote(data, env);
 }
 
-void	copy_dquote(char *input, char *ninput, int *i, int *j, t_envp *env)
+void	copy_dquote(t_vexp *data, t_envp *env)
 {
-	if (input[*i] == '\"')
-		ninput[(*j)++] = input[(*i)++];
-	while (input[*i] && input[*i] != '\"')
+	if (data->o_ipt[data->i] == '\"')
+		data->n_ipt[data->j++] = data->o_ipt[data->i++];
+	while (data->o_ipt[data->i] && data->o_ipt[data->i] != '\"')
 	{
-		if (input[*i] == '$' && input[(*i) + 1])
-			replace_var_by_value(input, ninput, i, j, env);
+		if (data->o_ipt[data->i] == '$' && data->o_ipt[data->i + 1])
+			replace_var_by_value(data, env);
 		else
-			ninput[(*j)++] = input[(*i)++];
+			data->n_ipt[data->j++] = data->o_ipt[data->i++];
 	}
-	if (input[*i] == '\"')
-		ninput[(*j)++] = input[(*i)++];
+	if (data->o_ipt[data->i] == '\"')
+		data->n_ipt[data->j++] = data->o_ipt[data->i++];
 }
 
-void	copy_squote(char *input, char *ninput, int *i, int *j)
+void	copy_squote(t_vexp *data)
 {
-	if (input[*i] == '\'')
-		ninput[(*j)++] = input[(*i)++];
-	while (input[*i] != '\'' && input[*i])
-		ninput[(*j)++] = input[(*i)++];
-	if (input[*i] == '\'')
-		ninput[(*j)++] = input[(*i)++];
+	if (data->o_ipt[data->i] == '\'')
+		data->n_ipt[data->j++] = data->o_ipt[data->i++];
+	while (data->o_ipt[data->i] != '\'' && data->o_ipt[data->i])
+		data->n_ipt[data->j++] = data->o_ipt[data->i++];
+	if (data->o_ipt[data->i] == '\'')
+		data->n_ipt[data->j++] = data->o_ipt[data->i++];
 }
 
 char	*my_getenv(char *var_name, t_envp **env)

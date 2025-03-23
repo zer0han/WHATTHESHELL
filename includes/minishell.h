@@ -6,7 +6,7 @@
 /*   By: rdalal <rdalal@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/10 19:08:44 by rdalal            #+#    #+#             */
-/*   Updated: 2025/03/22 19:05:07 by rdalal           ###   ########.fr       */
+/*   Updated: 2025/03/23 20:29:49 by rdalal           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -103,12 +103,20 @@ typedef struct s_exec
 	struct s_exec	*prev;
 }					t_exec;
 
+typedef struct s_vexp
+{
+	int		i;
+	int		j;
+	char	*o_ipt;
+	char	*n_ipt;
+}			t_vexp;
+
+
 /*functions here*/
 
 
 /*************ERROR HANDLING********/
 
-void	free_array(char **args);
 void	handle_error(char *context, int errnum, t_token **tokens);
 int		error_message(char *context, int error_code);
 
@@ -130,6 +138,7 @@ int		valid_id(char *var);
 // int		add_env(char ***envp, char *var, char *value);
 
 /*	builtins			*/
+int		fd_is_builtin(t_token *token);
 //char	**cmd_prep(t_token *tokens, char **envp, char **cmd_path);
 void	run_cmd(char *cmd_path, char **argv, char **envp);
 void	exec_external(t_token *tokens, char **envp, t_envp *env, t_exec *exec);
@@ -174,70 +183,71 @@ void	setup_redir(t_exec *exec);
 
 /*************PARSING*************/
 
-/*	tokenize_tools1.c	*/
-void	alloc_fail(char **result, int iword);
-char	*ft_strncdup(char const *src);
-int		ft_count_tokens(char *line);
-int		ft_search_unquote(char *line, char quote);
-int		is_space(char s);
-
-/*	tokenize_tools2.c	*/
-char	*ft_strnqdup(char *src, char quote);
-char	**ft_split_for_tokens(char *line);
-void	*ft_split_for_tokens_2(char *line, char **result, int *i, int *iword);
-t_token	*ft_lastnode(t_token *tokens);
-
-/*	tokenize_tools3.c	*/
-int		is_quote(char c);
-t_token	*is_special_str(t_token **tokens, char *str);
+/*	assign_tokens.c	*/
 void	*assign_token_type(t_token **tokens);
-void	*assign_token_type2(t_token **tokens, t_token *node);
-void	*assign_token_type3(t_token **tokens, t_token *node);
-
-/*	tokenize_tools4.c	*/
 void	assign_missing_cmds(t_token **tokens);
 void	assign_options_and_args(t_token **tokens);
+
+/*	custom_libft.c	*/
+char	*ft_strncdup(char const *src);
+char	*ft_strnqdup(char *src, char quote);
+char	*ft_fstrjoin(char *s1, char *s2);
+
+/*	parse_tokens.c	*/
 void	parse_after_cmds(t_token **node);
 void	*parse_tokens(t_token **tokens);
 void	*is_null_token(t_token **tokens);
 
-/*	tokenize_tools5.c	*/
-char	*assign_nosep_token(char *input, int *i);
-int		is_nosep_token(char *input, int *i);
+/*	split_for_tokens.c	*/
+char	**ft_split_for_tokens(char *line);
+
+/*	split_utils.c	*/
+int	ft_search_unquote(const char *line, char quote);
+int	is_nosep_token(char *input, int *i);
+
+/*	struct_utils.c	*/
+t_token	*create_node(t_token **tokens, char *char_token);
+t_token	*ft_lastnode(t_token *tokens);
+t_token	*is_special_str(t_token **tokens, char *str);
 
 /*	tokenize.c	*/
-t_token	*create_node(t_token **tokens, char *char_token);
 t_token	*ft_tokenize(char *input);
 
-/*	free.c	*/
+/*	tools.c	*/
+char	*get_path(char *cmd);
+int		is_quote(char c);
+int		is_space(char s);
+void	alloc_fail(char **result, int iword);
+
+/*	free_chars.c	*/
 void	free_string_tab(char **str_tab);
+void	free_array(char **args);
+
+/*	free_structs.c	*/
 void	free_tokens(t_token *tokens);
 void	free_exec(t_exec *exec_list);
 void	free_envp(t_envp *dup);
 void	free_all(t_token *tokens, t_exec *exec_list);
-
-/*	tools.c	*/
-char	*get_path(char *cmd);
-void	free_tab(char **tab, int code);
-char	*ft_fstrjoin(char *s1, char *s2);
-int		is_builtin(char *cmd);
 
 /*	main.c	*/
 t_token	*ft_minishell_parsing(char *input, t_envp *env);
 
 /*************EXPANSION*************/
 
-/*	variable_exp.c	*/
+/*	var_tools.c	*/
+int		get_var_len(char *input, int *i, int *add_len, t_envp *env);
 char	*get_var_name(char *input_i);
+void	replace_var_by_value(t_vexp *data, t_envp *env);
+
+/*	variable_exp.c	*/
 int		new_input_len(char *input, t_envp *env);
-void	replace_var_by_value(char *input, char *ninput, int *i, int *j, t_envp *env);
 char	*expand_variables(char *input, t_envp *env);
 
 /*	 variable_exp_tools.c	*/
-void	handle_quote_after_dollar(char *input, char *ninput, int *i, int *j);
-void	copy_quote(char *input, char *ninput, int *i, int *j, t_envp *env);
-void	copy_dquote(char *input, char *ninput, int *i, int *j, t_envp *env);
-void	copy_squote(char *input, char *ninput, int *i, int *j);
+void	handle_quote_after_dollar(t_vexp *data);
+void	copy_quote(t_vexp *data, t_envp *env);
+void	copy_dquote(t_vexp *data, t_envp *env);
+void	copy_squote(t_vexp *data);
 char	*my_getenv(char *var_name, t_envp **env);
 
 /*************SIGNALS*************/
