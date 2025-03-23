@@ -6,7 +6,7 @@
 /*   By: rdalal <rdalal@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/12 15:44:07 by rdalal            #+#    #+#             */
-/*   Updated: 2025/03/22 19:40:32 by rdalal           ###   ########.fr       */
+/*   Updated: 2025/03/23 18:52:35 by rdalal           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,7 +62,7 @@ volatile sig_atomic_t	g_exit_status = 0;
 // }
 void	setup_child_process(t_exec *exec, char **envp, t_envp *env)
 {
-	pid_t	pid;
+	pid_t pid;
 
 	if (exec->next && pipe(exec->fd_pipe) == -1)
 	{
@@ -77,7 +77,7 @@ void	setup_child_process(t_exec *exec, char **envp, t_envp *env)
 	}
 	if (pid == 0)
 	{
-		close (exec->fd_pipe[0]);
+		close(exec->fd_pipe[0]);
 		child_process(exec, envp, env);
 	}
 	else if (pid > 0)
@@ -87,9 +87,11 @@ void	setup_child_process(t_exec *exec, char **envp, t_envp *env)
 			close(exec->p_pipe);
 		if (exec->next)
 		{
-			close (exec->fd_pipe[1]);
+		close(exec->fd_pipe[1]);
 			exec->next->p_pipe = exec->fd_pipe[0];
 		}
+		else
+			waitpid(pid, NULL, 0);
 	}
 }
 
@@ -124,13 +126,15 @@ void	exec_pipeline(t_exec *exec, char **envp, t_envp *env)
 		exec = exec->next;
 	}
 	wait_for_children(head);
-	// while (head)
-	// {
-	// 	if (head->fd_pipe[0] != -1)
-	// 		close(head->fd_pipe[0]);
-	// 	if (head->fd_pipe[1] != -1 && head->next == NULL)
-	// 		close (head->fd_pipe[1]);
-	// 	head = head->next;
-	// }
+	while (head)
+	{
+		if (head->p_pipe != -1)
+			close(head->p_pipe);
+		if (head->fd_pipe[0] != -1)
+			close(head->fd_pipe[0]);
+		if (head->fd_pipe[1] != -1 && head->next == NULL)
+			close (head->fd_pipe[1]);
+		head = head->next;
+	}
 }
 

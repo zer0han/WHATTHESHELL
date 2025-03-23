@@ -6,7 +6,7 @@
 /*   By: rdalal <rdalal@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/05 13:30:19 by rdalal            #+#    #+#             */
-/*   Updated: 2025/03/22 20:25:25 by rdalal           ###   ########.fr       */
+/*   Updated: 2025/03/23 20:19:13 by rdalal           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -101,7 +101,7 @@ static int	handle_heredoc(t_redir *redir, t_exec *exec)
 	signal(SIGINT, SIG_DFL);
 	while (1)
 	{
-		line = readline("WHATTHESHELL ");
+		line = readline("> ");
 		if (!line || ft_strcmp(line, redir->delimiter) == 0)
 		{
 			free (line);
@@ -218,6 +218,7 @@ void	setup_redir(t_exec *exec)
 			exit(EXIT_FAILURE);
 		}
 		close (exec->fd_in);
+		
 	}
 	if (exec->fd_out != STDOUT_FILENO && exec->fd_out != -1)
 	{

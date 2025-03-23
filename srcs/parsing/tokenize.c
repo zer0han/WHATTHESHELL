@@ -6,7 +6,7 @@
 /*   By: rdalal <rdalal@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/15 17:40:07 by gmechaly          #+#    #+#             */
-/*   Updated: 2025/03/22 20:36:23 by rdalal           ###   ########.fr       */
+/*   Updated: 2025/03/23 16:04:48 by rdalal           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,7 @@ t_token	*create_node(t_token **tokens, char *char_token)
 		last->right = node;
 		node->left = last;
 	}
-	//node->right = NULL;
+	node->right = NULL;
 	return (*tokens);
 }
 

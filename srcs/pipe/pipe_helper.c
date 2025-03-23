@@ -6,7 +6,7 @@
 /*   By: rdalal <rdalal@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/25 15:45:14 by rdalal            #+#    #+#             */
-/*   Updated: 2025/03/22 20:12:02 by rdalal           ###   ########.fr       */
+/*   Updated: 2025/03/23 18:11:09 by rdalal           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,14 +39,12 @@ void	handle_pipe_redir(t_exec *exec)
 {
     if (exec->fd_in != STDIN_FILENO)
         dup2(exec->fd_in, STDIN_FILENO);
-    else if (exec->p_pipe >= 0) // Use pipe input if available
+    else if (exec->p_pipe >= 0)
         dup2(exec->p_pipe, STDIN_FILENO);
-
     if (exec->fd_out != STDOUT_FILENO)
         dup2(exec->fd_out, STDOUT_FILENO);
-    else if (exec->next) // Pipe output for the next process
+    else if (exec->next)
         dup2(exec->fd_pipe[1], STDOUT_FILENO);
-
     if (exec->p_pipe >= 0)
         close(exec->p_pipe);
     if (exec->next && exec->fd_pipe[1] >= 0)
