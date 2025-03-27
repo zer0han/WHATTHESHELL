@@ -6,7 +6,7 @@
 /*   By: rdalal <rdalal@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/18 19:35:01 by rdalal            #+#    #+#             */
-/*   Updated: 2025/03/24 00:19:04 by rdalal           ###   ########.fr       */
+/*   Updated: 2025/03/26 18:07:17 by rdalal           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,6 +53,7 @@ t_exec	*create_exec(t_token *cmd_token)
 	exec_cmd->pid = -1;
 	exec_cmd->next = NULL;
 	exec_cmd->prev = NULL;
+	exec_cmd->is_pipeline = 0;
 	return (exec_cmd);
 }
 
@@ -89,10 +90,6 @@ static void	process_args(t_exec *exec_cmd, t_token *node)
 	exec_cmd->args[i] = NULL;
 }
 
-/*count the nb of args
-malloc the char ** with that count
-strdup every args into a string inside the char ** */
-
 t_exec	*create_exec_list(t_token *token_tree)
 {
 	t_exec	*exec_list;
@@ -109,6 +106,8 @@ t_exec	*create_exec_list(t_token *token_tree)
 			if (!new_exec)
 				return (NULL);
 			process_args(new_exec, current_token->right);
+			if (exec_list)
+				exec_list->is_pipeline = 1;
 			add_exec_node(&exec_list, new_exec);
 		}
 		current_token = current_token->right;
@@ -117,26 +116,48 @@ t_exec	*create_exec_list(t_token *token_tree)
 
 }
 
-// int	is_pipe()
-
-t_exec	*main_execution(t_token **token_tree, char **envp, t_envp *env)
+t_exec	*main_execution(t_token **token_tree, t_envp *env)
 {
 	t_exec	*exec_list;
-	t_token	*temp;
-	pid_t	pid;
-	
-	pid = 0;
-	if (!token_tree || !*token_tree)
-		return (NULL);
-	temp = *token_tree;
-	exec_list = create_exec_list(temp);
+
+	exec_list = create_exec_list(*token_tree);
 	if (!exec_list)
 		return (NULL);
-	//if (exec_list->next)
-	exec_pipeline(exec_list, envp, env);
-	// if (fd_is_builtin(exec_list->cmd_token))
-	// 	execute_cmds(exec_list->cmd_token, envp, env, exec_list);
-	// else
-	// 	exec_external(exec_list->cmd_token, envp, env, exec_list);
+	if (exec_list->is_pipeline)
+		exec_pipeline(exec_list, env);
+	else
+	{
+		if (apply_redirection(exec_list))
+		{
+			if (fd_is_builtin(exec_list->cmd_token))
+				execute_cmds(exec_list->cmd_token, NULL, env, exec_list);
+			else
+				exec_external(exec_list->cmd_token, NULL, env, exec_list);
+		}
+	}
 	return (exec_list);
 }
+
+// int	is_pipe()
+
+// t_exec	*main_execution(t_token **token_tree, char **envp, t_envp *env)
+// {
+// 	t_exec	*exec_list;
+// 	t_token	*temp;
+// 	pid_t	pid;
+	
+// 	pid = 0;
+// 	if (!token_tree || !*token_tree)
+// 		return (NULL);
+// 	temp = *token_tree;
+// 	exec_list = create_exec_list(temp);
+// 	if (!exec_list)
+// 		return (NULL);
+// 	//if (exec_list->next)
+// 	exec_pipeline(exec_list, envp, env);
+// 	// if (fd_is_builtin(exec_list->cmd_token))
+// 	// 	execute_cmds(exec_list->cmd_token, envp, env, exec_list);
+// 	// else
+// 	// 	exec_external(exec_list->cmd_token, envp, env, exec_list);
+// 	return (exec_list);
+// }

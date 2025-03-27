@@ -6,7 +6,7 @@
 /*   By: rdalal <rdalal@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/10 19:08:44 by rdalal            #+#    #+#             */
-/*   Updated: 2025/03/23 20:29:49 by rdalal           ###   ########.fr       */
+/*   Updated: 2025/03/26 18:07:58 by rdalal           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -93,11 +93,13 @@ typedef struct s_exec
 	char			*cmd;
 	char			**args;
 	t_redir			*redir;
+	int				redir_applied;
 	t_token			*cmd_token;
 	int				fd_in;
 	int				fd_out;
 	int				fd_pipe[2];
 	int				p_pipe;
+	int				is_pipeline;
 	int				pid;
 	struct s_exec	*next;
 	struct s_exec	*prev;
@@ -125,7 +127,7 @@ int		error_message(char *context, int error_code);
 /*  exec_functions  */
 t_exec	*create_exec(t_token *cmd_token);
 t_exec	*create_exec_list(t_token *token_tree);
-t_exec	*main_execution(t_token **token_tree, char **envp, t_envp *env_list);
+t_exec	*main_execution(t_token **token_tree, t_envp *env);
 /**exec_helper**/
 void	add_exec_node(t_exec **list, t_exec *new);
 //int		add_argument(t_exec *exec, char *arg);
@@ -151,6 +153,7 @@ int		cmd_echo(t_token *tokens);
 int		cmd_unset(t_envp *env, t_token *tokens);
 int		cmd_env(t_envp *env);
 int		cmd_exit(t_token *args, t_exec *exec_list, t_envp *env);
+char	**env_to_array (t_envp *env);
 
 /*builtin_export.c*/
 int		cmd_export(t_envp *env, t_token **tokens);
@@ -160,12 +163,12 @@ void	print_env(t_envp **dup);
 /*  pipes               */
 /**pipe_helper**/
 void	handle_pipe_redir(t_exec *exec);
-void	apply_redir_pipe(t_exec *exec);
-void	child_process(t_exec *exec, char **envp, t_envp *env);
+//void	apply_redir_pipe(t_exec *exec);
+void	child_process(t_exec *exec, t_envp *env);
 /**pipe**/
-void	setup_child_process(t_exec *exec, char **envp, t_envp *env);
+void	setup_child_process(t_exec *exec, t_envp *env);
 void	wait_for_children(t_exec *exec);
-void	exec_pipeline(t_exec *exec, char **envp, t_envp *env);
+void	exec_pipeline(t_exec *exec, t_envp *env);
 
 /*  redirection         */
 /**heredoc**/

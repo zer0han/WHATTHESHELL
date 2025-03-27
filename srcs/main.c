@@ -6,7 +6,7 @@
 /*   By: rdalal <rdalal@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/26 18:40:32 by gmechaly          #+#    #+#             */
-/*   Updated: 2025/03/16 16:41:23 by gmechaly         ###   ########.fr       */
+/*   Updated: 2025/03/26 18:07:28 by rdalal           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,7 +49,7 @@ int	main(int argc, char **argv, char **envp)
 		// ft_print_tokens(&tokens);
 		if (tokens)
 		{
-			exec_data = main_execution(&tokens, envp, env_linklist);
+			exec_data = main_execution(&tokens, env_linklist);
 			free_all(tokens, exec_data);
 		}
 		input = readline("WHATTHESHELL: ");
