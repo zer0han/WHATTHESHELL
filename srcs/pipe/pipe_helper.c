@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   pipe_helper.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rdalal <rdalal@student.42.fr>              +#+  +:+       +#+        */
+/*   By: gmechaly <gmechaly@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/25 15:45:14 by rdalal            #+#    #+#             */
-/*   Updated: 2025/03/26 20:41:44 by rdalal           ###   ########.fr       */
+/*   Updated: 2025/03/27 20:07:49 by gmechaly         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -106,7 +106,8 @@ void	handle_pipe_redir(t_exec *exec)
 
 void		child_process(t_exec *exec, t_envp *env)
 {
-	setup_redir(exec);
+	if (apply_redirection(exec))
+		setup_redir(exec);
 	handle_pipe_redir(exec);
 	
 	// Close all inherited FDs not used

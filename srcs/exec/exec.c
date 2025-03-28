@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rdalal <rdalal@student.42.fr>              +#+  +:+       +#+        */
+/*   By: gmechaly <gmechaly@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/18 19:35:01 by rdalal            #+#    #+#             */
-/*   Updated: 2025/03/26 18:07:17 by rdalal           ###   ########.fr       */
+/*   Updated: 2025/03/27 19:59:28 by gmechaly         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,6 @@ signal(SIGQUIT, SIG_IGN)
 // 	return (node);
 // }
 
-
 t_exec	*create_exec(t_token *cmd_token)
 {
 	t_exec		*exec_cmd;
@@ -44,6 +43,7 @@ t_exec	*create_exec(t_token *cmd_token)
 	exec_cmd->cmd_token = cmd_token;
 	exec_cmd->cmd = cmd_token->input;
 	exec_cmd->redir = init_redir(&cmd_token);
+	// print_redir_list(exec_cmd->redir);
 	exec_cmd->args = NULL;
 	exec_cmd->fd_in = STDIN_FILENO;
 	exec_cmd->fd_out = STDOUT_FILENO;
@@ -119,7 +119,11 @@ t_exec	*create_exec_list(t_token *token_tree)
 t_exec	*main_execution(t_token **token_tree, t_envp *env)
 {
 	t_exec	*exec_list;
+	int		stdin_save;
+	int		stdout_save;
 
+	stdin_save = dup(STDIN_FILENO);
+	stdout_save = dup(STDOUT_FILENO);
 	exec_list = create_exec_list(*token_tree);
 	if (!exec_list)
 		return (NULL);
@@ -129,12 +133,15 @@ t_exec	*main_execution(t_token **token_tree, t_envp *env)
 	{
 		if (apply_redirection(exec_list))
 		{
+			setup_redir(exec_list);
 			if (fd_is_builtin(exec_list->cmd_token))
 				execute_cmds(exec_list->cmd_token, NULL, env, exec_list);
 			else
 				exec_external(exec_list->cmd_token, NULL, env, exec_list);
 		}
 	}
+	dup2(stdin_save, STDIN_FILENO);
+	dup2(stdout_save, STDOUT_FILENO);
 	return (exec_list);
 }
 

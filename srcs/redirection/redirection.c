@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   redirection.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rdalal <rdalal@student.42.fr>              +#+  +:+       +#+        */
+/*   By: gmechaly <gmechaly@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/05 13:30:19 by rdalal            #+#    #+#             */
-/*   Updated: 2025/03/26 20:45:46 by rdalal           ###   ########.fr       */
+/*   Updated: 2025/03/27 20:07:24 by gmechaly         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -177,10 +177,25 @@ static int	handle_heredoc(t_redir *redir, t_exec *exec)
 	return (1);
 }
 
+void	print_redir_list(t_redir *redir)
+{
+	int	i;
+
+	i = 0;
+	while (redir)
+	{
+		printf("REDIR NODE %d\n", i);
+		printf("type : %d | file : %s\n\n", (int)redir->type, redir->file);
+		i++;
+		redir = redir->next;
+	}
+}
+
 int apply_redirection(t_exec *exec)
 {
     t_redir *redir = exec->redir;
 
+	print_redir_list(redir);
     while (redir) {
         int success = 0;
         if (redir->type == REDIR_OUT)
@@ -224,8 +239,6 @@ int apply_redirection(t_exec *exec)
 
 void	setup_redir(t_exec *exec)
 {
-	if (exec->redir && !apply_redirection(exec))
-		exit(EXIT_FAILURE);
 	fprintf(stderr, "before dup2 : fd_in = %d, fd_out = %d\n", exec->fd_in, exec->fd_out);
 	if (exec->fd_in != STDIN_FILENO)// && exec->fd_in != -1)
 	{

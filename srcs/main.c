@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rdalal <rdalal@student.42.fr>              +#+  +:+       +#+        */
+/*   By: gmechaly <gmechaly@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/26 18:40:32 by gmechaly          #+#    #+#             */
-/*   Updated: 2025/03/26 18:07:28 by rdalal           ###   ########.fr       */
+/*   Updated: 2025/03/27 19:01:17 by gmechaly         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,8 +52,10 @@ int	main(int argc, char **argv, char **envp)
 			exec_data = main_execution(&tokens, env_linklist);
 			free_all(tokens, exec_data);
 		}
+		printf("readline ? is that you??\n");
 		input = readline("WHATTHESHELL: ");
 	}
+	printf("main got out of its loop zebi\n");
 	free(input);
 	free_envp(env_linklist);
 	return (0);
