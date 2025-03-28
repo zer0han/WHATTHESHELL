@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   extrnl_cmds.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rdalal <rdalal@student.42.fr>              +#+  +:+       +#+        */
+/*   By: gmechaly <gmechaly@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/10 17:31:21 by rdalal            #+#    #+#             */
-/*   Updated: 2025/03/24 20:28:18 by rdalal           ###   ########.fr       */
+/*   Updated: 2025/03/27 18:59:37 by gmechaly         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -200,12 +200,12 @@ void	exec_external(t_token *tokens, char **envp, t_envp *env, t_exec *exec)
 		return ;
 	}
 	argv = exec->args;
-	if (!apply_redirection(exec))
-	{
-		free(path);
-		g_exit_status = 1;
-		return ;
-	}
+	// if (!apply_redirection(exec))
+	// {
+	// 	free(path);
+	// 	g_exit_status = 1;
+	// 	return ;
+	// }
 	if (exec->is_pipeline)
 	{
 		execve(path, argv, env_to_array(env));
