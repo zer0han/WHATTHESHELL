@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gmechaly <gmechaly@student.42.fr>          +#+  +:+       +#+        */
+/*   By: rdalal <rdalal@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/18 19:35:01 by rdalal            #+#    #+#             */
-/*   Updated: 2025/03/31 17:46:51 by gmechaly         ###   ########.fr       */
+/*   Updated: 2025/03/31 19:28:44 by rdalal           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,6 +42,7 @@ t_exec	*create_exec(t_token *cmd_token)
 		return (NULL);
 	exec_cmd->cmd_token = cmd_token;
 	exec_cmd->cmd = cmd_token->input;
+	exec_cmd->redir = init_redir(&cmd_token);
 	exec_cmd->args = NULL;
 	exec_cmd->fd_in = STDIN_FILENO;
 	exec_cmd->fd_out = STDOUT_FILENO;
@@ -49,7 +50,6 @@ t_exec	*create_exec(t_token *cmd_token)
 	exec_cmd->fd_pipe[1] = -1;
 	exec_cmd->p_pipe = -1;
 	exec_cmd->pid = -1;
-	exec_cmd->heredoc_file = NULL;
 	exec_cmd->next = NULL;
 	exec_cmd->prev = NULL;
 	exec_cmd->is_pipeline = 0;
@@ -62,7 +62,7 @@ static void	process_args(t_exec *exec_cmd, t_token *node)
 	int	i;
 
 	if (!exec_cmd || !exec_cmd->cmd || !exec_cmd->cmd[0])
-		return (ft_putstr_fd("ERROR: exec->cmd is NULL!\n", STDERR_FILENO));
+	return (ft_putstr_fd("ERROR: exec->cmd is NULL!\n", STDERR_FILENO));
 	arg_size = count_args(node);
 	exec_cmd->args = malloc(sizeof(char *) * (arg_size + 2));
 	if (!exec_cmd->args)
@@ -79,6 +79,7 @@ static void	process_args(t_exec *exec_cmd, t_token *node)
 		{
 			while (--i >= 0)
 				free (exec_cmd->args[i]);
+			//free(exec_cmd->args);
 			exec_cmd->args = NULL;
 			return (free_exec(exec_cmd));
 		}
@@ -111,6 +112,7 @@ t_exec	*create_exec_list(t_token *token_tree)
 		current_token = current_token->right;
 	}
 	return (exec_list);
+
 }
 
 t_exec	*main_execution(t_token **token_tree, t_envp *env)
