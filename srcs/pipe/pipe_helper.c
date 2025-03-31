@@ -86,7 +86,7 @@ void	handle_pipe_redir(t_exec *exec)
 	if (exec->fd_out != STDOUT_FILENO)
 	{
 		dup2(exec->fd_out, STDOUT_FILENO);
-		close (exec->fd_out);	
+		close (exec->fd_out);
 	}
 	else if (exec->next)
 	{
@@ -95,22 +95,20 @@ void	handle_pipe_redir(t_exec *exec)
 	}
 	if (exec->p_pipe >= 0)
 		close(exec->p_pipe);
-	// if (exec->next && exec->fd_pipe[1] >= 0)
-	// {
-	// 	close(exec->fd_pipe[1]);
-	// 	exec->fd_pipe[1] = -1;
-	// }
+	if (exec->next && exec->fd_pipe[1] >= 0)
+	{
+		close(exec->fd_pipe[1]);
+		exec->fd_pipe[1] = -1;
+	}
 	if (exec->next && exec->fd_pipe[0] >= 0)
 		close(exec->fd_pipe[0]);
 }
 
-void		child_process(t_exec *exec, t_envp *env)
+void	child_process(t_exec *exec, t_envp *env)
 {
 	if (apply_redirection(exec))
 		setup_redir(exec);
 	handle_pipe_redir(exec);
-	
-	// Close all inherited FDs not used
 	if (exec->p_pipe != -1)
 		close(exec->p_pipe);
 	if (exec->fd_pipe[0] != -1)

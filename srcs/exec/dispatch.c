@@ -6,7 +6,7 @@
 /*   By: rdalal <rdalal@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/11 14:50:45 by rdalal            #+#    #+#             */
-/*   Updated: 2025/03/28 18:49:24 by rdalal           ###   ########.fr       */
+/*   Updated: 2025/03/31 18:10:20 by rdalal           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,21 +44,22 @@ int	fd_is_builtin(t_token *token)
 	if (!cmd)
 		return (0);
 	if (!ft_strcmp(cmd, "echo") || !ft_strcmp(cmd, "cd") \
-		|| !ft_strcmp(cmd, "pwd") || !ft_strcmp(cmd, "export")\
+		|| !ft_strcmp(cmd, "pwd") || !ft_strcmp(cmd, "export") \
 		|| !ft_strcmp(cmd, "unset") || !ft_strcmp(cmd, "env") \
 		|| !ft_strcmp(cmd, "exit"))
 		return (1);
 	return (0);
 }
 
-void	execute_cmds(t_token *token, char **envp, t_envp *env, t_exec *exec_list)
+void	execute_cmds(t_token *token, char **envp, \
+					t_envp *env, t_exec *exec_list)
 {
 	int		status;
 
 	if (!token || !token->input)
 		return ;
 	status = 0;
-	if (!apply_redirection(exec_list))	
+	if (!apply_redirection(exec_list))
 		g_exit_status = 1;
 	if (fd_is_builtin(token))
 		dispatch_cmds(token, env, exec_list);
@@ -67,7 +68,6 @@ void	execute_cmds(t_token *token, char **envp, t_envp *env, t_exec *exec_list)
 	if (g_exit_status != 0)
 		return ;
 }
-
 
 // void    execute_cmds(t_token *token, char **envp, t_envp *env, t_exec *exec_list)
 // {

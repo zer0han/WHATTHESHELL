@@ -42,8 +42,6 @@ t_exec	*create_exec(t_token *cmd_token)
 		return (NULL);
 	exec_cmd->cmd_token = cmd_token;
 	exec_cmd->cmd = cmd_token->input;
-	exec_cmd->redir = init_redir(&cmd_token);
-	// print_redir_list(exec_cmd->redir);
 	exec_cmd->args = NULL;
 	exec_cmd->fd_in = STDIN_FILENO;
 	exec_cmd->fd_out = STDOUT_FILENO;
@@ -64,7 +62,7 @@ static void	process_args(t_exec *exec_cmd, t_token *node)
 	int	i;
 
 	if (!exec_cmd || !exec_cmd->cmd || !exec_cmd->cmd[0])
-	return (ft_putstr_fd("ERROR: exec->cmd is NULL!\n", STDERR_FILENO));
+		return (ft_putstr_fd("ERROR: exec->cmd is NULL!\n", STDERR_FILENO));
 	arg_size = count_args(node);
 	exec_cmd->args = malloc(sizeof(char *) * (arg_size + 2));
 	if (!exec_cmd->args)
@@ -81,7 +79,6 @@ static void	process_args(t_exec *exec_cmd, t_token *node)
 		{
 			while (--i >= 0)
 				free (exec_cmd->args[i]);
-			//free(exec_cmd->args);
 			exec_cmd->args = NULL;
 			return (free_exec(exec_cmd));
 		}
@@ -114,7 +111,6 @@ t_exec	*create_exec_list(t_token *token_tree)
 		current_token = current_token->right;
 	}
 	return (exec_list);
-
 }
 
 t_exec	*main_execution(t_token **token_tree, t_envp *env)

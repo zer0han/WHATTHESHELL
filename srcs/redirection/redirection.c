@@ -68,66 +68,64 @@
 // }
 
 
+static int	handle_input(t_redir *redir, t_exec *exec)
+{
+	int	fd;
+
+	fd = open(redir->file, O_RDONLY);
+	if (fd== -1)
+		return (error_message(redir->file, errno), 0);
+	if (exec->fd_in != STDIN_FILENO)
+		close(exec->fd_in);
+	exec->fd_in = fd;
+	return (1);
+}
+
 // static int  handle_input(t_redir *redir, t_exec *exec)
 // {
-// 	int	fd;
+//     int fd;
 
-// 	fd = open(redir->file, O_RDONLY);
-// 	if (fd== -1)
-// 		return (error_message(redir->file, errno), 0);
-// 	// if (exec->fd_in != STDIN_FILENO)
-// 	// 	close(exec->fd_in);
-// 	exec->fd_in = fd;
-// 	return (1);
+//     if (exec->fd_in != STDIN_FILENO) // Close previous input FD
+//         close(exec->fd_in);
+//     fd = open(redir->file, O_RDONLY);
+//     if (fd == -1)
+// 	{
+// 		close(fd);
+//         return (error_message(redir->file, errno), 0);
+// 	}
+//     exec->fd_in = fd;
+//     return (1);
 // }
 
-static int  handle_input(t_redir *redir, t_exec *exec)
+static int	handle_output(t_redir *redir, t_exec *exec)
 {
-    int fd;
+	int	fd;
 
-    if (exec->fd_in != STDIN_FILENO) // Close previous input FD
-        close(exec->fd_in);
-    fd = open(redir->file, O_RDONLY);
-    if (fd == -1)
-	{
-		close(fd);
-        return (error_message(redir->file, errno), 0);
-	}
-    exec->fd_in = fd;
-	// close(fd);
-    return (1);
+	fd = open(redir->file, O_WRONLY | O_CREAT | O_TRUNC, 0644);
+	if (fd == -1)
+		return (error_message(redir->file, errno), 0);
+	if (exec->fd_out != STDOUT_FILENO)
+		close(exec->fd_out);
+	exec->fd_out = fd;
+	return (1);
 }
-
-// static int  handle_output(t_redir *redir, t_exec *exec)
-// {
-// 	int	fd;
-
-// 	fd = open(redir->file, O_WRONLY | O_CREAT | O_TRUNC, 0644);
-// 	if (fd== -1)
-// 		return (error_message(redir->file, errno), 0);
-// 	// if (exec->fd_out != STDOUT_FILENO)
-// 	// 	close(exec->fd_out);
-// 	exec->fd_out = fd;
-// 	return (1);
-// }
 
 // Modified handle_output
-static int  handle_output(t_redir *redir, t_exec *exec)
-{
-    int fd;
+// static int  handle_output(t_redir *redir, t_exec *exec)
+// {
+//     int fd;
 
-    if (exec->fd_out != STDOUT_FILENO) // Close previous output FD
-        close(exec->fd_out);
-    fd = open(redir->file, O_WRONLY | O_CREAT | O_TRUNC, 0644);
-    if (fd == -1)
-	{
-		close(fd);
-        return (error_message(redir->file, errno), 0);
-	}
-    exec->fd_out = fd;
-	// close(fd);
-    return (1);
-}
+//     if (exec->fd_out != STDOUT_FILENO) // Close previous output FD
+//         close(exec->fd_out);
+//     fd = open(redir->file, O_WRONLY | O_CREAT | O_TRUNC, 0644);
+//     if (fd == -1)
+// 	{
+// 		close(fd);
+//         return (error_message(redir->file, errno), 0);
+// 	}
+//     exec->fd_out = fd;
+//     return (1);
+// }
 
 static int	handle_append(t_redir *redir, t_exec *exec)
 {
@@ -143,7 +141,6 @@ static int	handle_append(t_redir *redir, t_exec *exec)
 		return (error_message("dup2", errno), 0);
 	}
 	exec->fd_in = fd;
-	// close (fd);
 	return (1);
 }
 

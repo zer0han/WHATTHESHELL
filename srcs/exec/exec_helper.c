@@ -6,7 +6,7 @@
 /*   By: rdalal <rdalal@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/24 18:06:16 by rdalal            #+#    #+#             */
-/*   Updated: 2025/03/13 19:18:53 by rdalal           ###   ########.fr       */
+/*   Updated: 2025/03/31 18:00:47 by rdalal           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,7 @@ void	add_exec_node(t_exec **list, t_exec *new)
 	new->prev = temp;
 }
 
-int		count_args(t_token *node)
+int	count_args(t_token *node)
 {
 	int	count;
 
@@ -39,7 +39,7 @@ int		count_args(t_token *node)
 		ft_strcmp(node->type, "option") == 0))
 	{
 		count ++;
-		node = node->right;	
+		node = node->right;
 	}
 	return (count);
 }
