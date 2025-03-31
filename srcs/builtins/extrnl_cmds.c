@@ -6,7 +6,7 @@
 /*   By: gmechaly <gmechaly@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/10 17:31:21 by rdalal            #+#    #+#             */
-/*   Updated: 2025/03/31 18:06:05 by gmechaly         ###   ########.fr       */
+/*   Updated: 2025/03/31 21:44:13 by gmechaly         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,15 +45,15 @@ char	**env_to_array(t_envp *env)
 	return (array);
 }
 
-void	exec_external(t_token *tokens, char **envp, t_envp *env, t_exec *exec)
+void	exec_external(t_token *tokens, int *std_save, t_envp *env, t_exec *exec)
 {
 	char	*path;
 	char	**argv;
 	pid_t	pid;
 	int		status;
 
+	(void)std_save;
 	(void)tokens;
-	(void)envp;
 	path = get_path(exec->cmd);
 	if (!path)
 	{
@@ -73,7 +73,6 @@ void	exec_external(t_token *tokens, char **envp, t_envp *env, t_exec *exec)
 		pid = fork();
 		if (pid == 0)
 		{
-			printf("fcntl(0) = %d\n", fcntl(0, F_GETFD));
 			execve(path, argv, env_to_array(env));
 			error_message("execve", errno);
 			exit(126);

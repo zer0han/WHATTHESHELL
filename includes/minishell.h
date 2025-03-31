@@ -6,7 +6,7 @@
 /*   By: gmechaly <gmechaly@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/10 19:08:44 by rdalal            #+#    #+#             */
-/*   Updated: 2025/03/31 16:23:26 by gmechaly         ###   ########.fr       */
+/*   Updated: 2025/03/31 21:58:12 by gmechaly         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -102,6 +102,7 @@ typedef struct s_exec
 	int				is_pipeline;
 	int				pid;
 	char			*heredoc_file;
+	int				std_save[2];
 	struct s_exec	*next;
 	struct s_exec	*prev;
 }					t_exec;
@@ -144,8 +145,8 @@ int		valid_id(char *var);
 int		fd_is_builtin(t_token *token);
 //char	**cmd_prep(t_token *tokens, char **envp, char **cmd_path);
 void	run_cmd(char *cmd_path, char **argv, char **envp);
-void	exec_external(t_token *tokens, char **envp, t_envp *env, t_exec *exec);
-void	execute_cmds(t_token *token, char **envp, t_envp *env, t_exec *exec_list);
+void	exec_external(t_token *tokens, int *std_save, t_envp *env, t_exec *exec);
+void	execute_cmds(t_token *token, t_envp *env, t_exec *exec_list);
 void	dispatch_cmds(t_token *tokens, t_envp *env, t_exec *exec_list);
 int		fd_is_builtin(t_token *token);
 int		cmd_cd(t_token *args);

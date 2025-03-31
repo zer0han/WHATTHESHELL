@@ -6,7 +6,7 @@
 /*   By: gmechaly <gmechaly@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/18 19:35:01 by rdalal            #+#    #+#             */
-/*   Updated: 2025/03/31 19:35:41 by rdalal           ###   ########.fr       */
+/*   Updated: 2025/03/31 22:22:14 by gmechaly         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,6 +29,8 @@ t_exec	*create_exec(t_token *cmd_token)
 	exec_cmd->fd_out = STDOUT_FILENO;
 	exec_cmd->fd_pipe[0] = -1;
 	exec_cmd->fd_pipe[1] = -1;
+	exec_cmd->std_save[0] = dup(STDIN_FILENO);
+	exec_cmd->std_save[1] = dup(STDOUT_FILENO);
 	exec_cmd->p_pipe = -1;
 	exec_cmd->pid = -1;
 	exec_cmd->heredoc_file = NULL;
@@ -98,11 +100,7 @@ t_exec	*create_exec_list(t_token *token_tree)
 t_exec	*main_execution(t_token **token_tree, t_envp *env)
 {
 	t_exec	*exec_list;
-	int		stdin_save;
-	int		stdout_save;
 
-	stdin_save = dup(STDIN_FILENO);
-	stdout_save = dup(STDOUT_FILENO);
 	exec_list = create_exec_list(*token_tree);
 	if (!exec_list)
 		return (NULL);
@@ -114,15 +112,15 @@ t_exec	*main_execution(t_token **token_tree, t_envp *env)
 		{
 			setup_redir(exec_list);
 			if (fd_is_builtin(exec_list->cmd_token))
-				execute_cmds(exec_list->cmd_token, NULL, env, exec_list);
+				execute_cmds(exec_list->cmd_token, env, exec_list);
 			else
-				exec_external(exec_list->cmd_token, NULL, env, exec_list);
+				exec_external(exec_list->cmd_token, exec_list->std_save, env, exec_list);
 		}
 	}
-	dup2(stdin_save, STDIN_FILENO);
-	dup2(stdout_save, STDOUT_FILENO);
-	close(stdin_save);
-	close(stdout_save);
+	dup2(exec_list->std_save[0], STDIN_FILENO);
+	dup2(exec_list->std_save[1], STDOUT_FILENO);
+	close(exec_list->std_save[0]);
+	close(exec_list->std_save[1]);
 	return (exec_list);
 }
 
