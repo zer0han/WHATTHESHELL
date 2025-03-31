@@ -6,7 +6,7 @@
 /*   By: gmechaly <gmechaly@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/16 14:55:26 by gmechaly          #+#    #+#             */
-/*   Updated: 2025/03/23 20:58:57 by gmechaly         ###   ########.fr       */
+/*   Updated: 2025/03/31 16:57:59 by gmechaly         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,6 +50,11 @@ void	free_exec(t_exec *exec_list)
 		}
 		if (temp->redir)
 			cleanup_redirection(temp->redir);
+		if (temp->heredoc_file != NULL)
+		{
+			unlink(temp->heredoc_file);
+			free(temp->heredoc_file);
+		}
 		free (temp);
 	}
 }
