@@ -6,7 +6,7 @@
 /*   By: gmechaly <gmechaly@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/21 14:05:00 by gmechaly          #+#    #+#             */
-/*   Updated: 2025/03/31 19:24:26 by gmechaly         ###   ########.fr       */
+/*   Updated: 2025/03/31 23:17:25 by gmechaly         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,7 +63,7 @@ void	*assign_token_type(t_token **tokens)
 	t_token	*node;
 
 	node = is_special_str(tokens, "<<");
-	if (node != NULL)
+	while (node != NULL)
 	{
 		if (node->right)
 		{
@@ -74,7 +74,7 @@ void	*assign_token_type(t_token **tokens)
 			return (printf("parse error near << token"), NULL);
 	}
 	node = is_special_str(tokens, ">>");
-	if (node != NULL)
+	while (node != NULL)
 	{
 		if (node->right)
 		{

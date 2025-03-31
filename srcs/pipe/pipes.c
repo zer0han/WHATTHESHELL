@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   pipes.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rdalal <rdalal@student.42.fr>              +#+  +:+       +#+        */
+/*   By: gmechaly <gmechaly@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/12 15:44:07 by rdalal            #+#    #+#             */
-/*   Updated: 2025/03/31 17:16:58 by rdalal           ###   ########.fr       */
+/*   Updated: 2025/03/31 23:10:21 by gmechaly         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -212,6 +212,8 @@ void	setup_child_process(t_exec *exec, t_envp *env)
 	}
 	else
 	{
+		close(exec->std_save[0]);
+		close(exec->std_save[1]);
 		exec->pid = pid;
 		if (exec->p_pipe != -1)
 			close(exec->p_pipe);
@@ -243,14 +245,9 @@ void	wait_for_children(t_exec *exec)
 void    exec_pipeline(t_exec *exec, t_envp *env)
 {
     t_exec  *head = exec;
-    int     pipe_fd[2];
 
     while (exec && exec->next)
     {
-        if (pipe(pipe_fd) < 0)
-            handle_error("pipe", errno, NULL);
-        exec->fd_pipe[0] = pipe_fd[0];
-        exec->fd_pipe[1] = pipe_fd[1];
         setup_child_process(exec, env);
         close(exec->fd_pipe[1]);
         exec = exec->next;
