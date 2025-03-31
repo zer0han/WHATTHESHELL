@@ -3,7 +3,7 @@
 /*                                                        :::      ::::::::   */
 /*   exec.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rdalal <rdalal@student.42.fr>              +#+  +:+       +#+        */
+/*   By: gmechaly <gmechaly@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/18 19:35:01 by rdalal            #+#    #+#             */
 /*   Updated: 2025/03/31 19:35:41 by rdalal           ###   ########.fr       */
@@ -31,6 +31,7 @@ t_exec	*create_exec(t_token *cmd_token)
 	exec_cmd->fd_pipe[1] = -1;
 	exec_cmd->p_pipe = -1;
 	exec_cmd->pid = -1;
+	exec_cmd->heredoc_file = NULL;
 	exec_cmd->next = NULL;
 	exec_cmd->prev = NULL;
 	exec_cmd->is_pipeline = 0;
