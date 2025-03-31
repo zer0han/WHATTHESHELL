@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   pipe_helper.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gmechaly <gmechaly@student.42.fr>          +#+  +:+       +#+        */
+/*   By: rdalal <rdalal@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/25 15:45:14 by rdalal            #+#    #+#             */
-/*   Updated: 2025/03/27 20:07:49 by gmechaly         ###   ########.fr       */
+/*   Updated: 2025/03/28 20:03:11 by rdalal           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -117,7 +117,6 @@ void		child_process(t_exec *exec, t_envp *env)
 		close(exec->fd_pipe[0]);
 	if (exec->fd_pipe[1] != -1)
 		close(exec->fd_pipe[1]);
-	
 	if (exec->fd_in != STDIN_FILENO)
 		close(exec->fd_in);
 	if (exec->fd_out != STDOUT_FILENO)

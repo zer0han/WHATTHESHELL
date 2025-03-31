@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   dispatch.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gmechaly <gmechaly@student.42.fr>          +#+  +:+       +#+        */
+/*   By: rdalal <rdalal@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/11 14:50:45 by rdalal            #+#    #+#             */
-/*   Updated: 2025/03/27 18:16:05 by gmechaly         ###   ########.fr       */
+/*   Updated: 2025/03/28 18:49:24 by rdalal           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,6 @@ void	dispatch_cmds(t_token *tokens, t_envp *env, t_exec *exec_list)
 	else if (ft_strcmp(tokens->input, "exit") == 0)
 		status = cmd_exit(tokens, exec_list, env);
 	g_exit_status = status;
-	// return (status);
 }
 
 int	fd_is_builtin(t_token *token)
@@ -52,44 +51,44 @@ int	fd_is_builtin(t_token *token)
 	return (0);
 }
 
-// void	execute_cmds(t_token *token, char **envp, t_envp *env, t_exec *exec_list)
-// {
-// 	int		status;
-
-// 	if (!token || !token->input)
-// 		return ;
-// 	status = 0;
-// 	if (!apply_redirection(exec_list))	
-// 		g_exit_status = 1;
-// 	if (fd_is_builtin(token))
-// 		dispatch_cmds(token, env, exec_list);
-// 	else
-// 		exec_external(token, envp, env, exec_list);
-// 	if (g_exit_status != 0)
-// 		return ;
-// }
-
-
-void    execute_cmds(t_token *token, char **envp, t_envp *env, t_exec *exec_list)
+void	execute_cmds(t_token *token, char **envp, t_envp *env, t_exec *exec_list)
 {
-    int saved_stdin = dup(STDIN_FILENO);
-    int saved_stdout = dup(STDOUT_FILENO);
+	int		status;
 
-    if (!apply_redirection(exec_list)) {
-        close(saved_stdin);
-        close(saved_stdout);
-        g_exit_status = 1;
-        return;
-    }
-    
-    if (fd_is_builtin(token)) {
-        dispatch_cmds(token, env, exec_list);
-        // Force-restore original FDs
-        dup2(saved_stdin, STDIN_FILENO);
-        dup2(saved_stdout, STDOUT_FILENO);
-    } else {
-        exec_external(token, envp, env, exec_list);
-    }
-    close(saved_stdin);
-    close(saved_stdout);
+	if (!token || !token->input)
+		return ;
+	status = 0;
+	if (!apply_redirection(exec_list))	
+		g_exit_status = 1;
+	if (fd_is_builtin(token))
+		dispatch_cmds(token, env, exec_list);
+	else
+		exec_external(token, envp, env, exec_list);
+	if (g_exit_status != 0)
+		return ;
 }
+
+
+// void    execute_cmds(t_token *token, char **envp, t_envp *env, t_exec *exec_list)
+// {
+//     int saved_stdin = dup(STDIN_FILENO);
+//     int saved_stdout = dup(STDOUT_FILENO);
+
+//     if (!apply_redirection(exec_list)) {
+//         close(saved_stdin);
+//         close(saved_stdout);
+//         g_exit_status = 1;
+//         return;
+//     }
+    
+//     if (fd_is_builtin(token)) {
+//         dispatch_cmds(token, env, exec_list);
+//         // Force-restore original FDs
+//         dup2(saved_stdin, STDIN_FILENO);
+//         dup2(saved_stdout, STDOUT_FILENO);
+//     } else {
+//         exec_external(token, envp, env, exec_list);
+//     }
+//     close(saved_stdin);
+//     close(saved_stdout);
+// }
