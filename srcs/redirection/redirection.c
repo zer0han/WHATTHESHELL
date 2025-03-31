@@ -6,7 +6,7 @@
 /*   By: rdalal <rdalal@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/05 13:30:19 by rdalal            #+#    #+#             */
-/*   Updated: 2025/03/28 17:02:45 by rdalal           ###   ########.fr       */
+/*   Updated: 2025/03/31 16:11:40 by gmechaly         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,8 +89,12 @@ static int  handle_input(t_redir *redir, t_exec *exec)
         close(exec->fd_in);
     fd = open(redir->file, O_RDONLY);
     if (fd == -1)
+	{
+		close(fd);
         return (error_message(redir->file, errno), 0);
+	}
     exec->fd_in = fd;
+	close(fd);
     return (1);
 }
 
@@ -116,8 +120,12 @@ static int  handle_output(t_redir *redir, t_exec *exec)
         close(exec->fd_out);
     fd = open(redir->file, O_WRONLY | O_CREAT | O_TRUNC, 0644);
     if (fd == -1)
+	{
+		close(fd);
         return (error_message(redir->file, errno), 0);
+	}
     exec->fd_out = fd;
+	close(fd);
     return (1);
 }
 
@@ -134,11 +142,12 @@ static int	handle_append(t_redir *redir, t_exec *exec)
 		close(fd);
 		return (error_message("dup2", errno), 0);
 	}
+	exec->fd_in = fd;
 	close (fd);
 	return (1);
 }
 
-static int	handle_heredoc(t_redir *redir, t_exec *exec)
+static char	*handle_heredoc(t_redir *redir, t_exec *exec)
 {
 	int		fd;
 	char	*line;
@@ -146,12 +155,12 @@ static int	handle_heredoc(t_redir *redir, t_exec *exec)
 
 	temp_file = ft_strjoin("/tmp/.heredoc", ft_itoa(getpid()));
 	if (!temp_file)
-		return (error_message("heredoc", ENOMEM), 0);
+		return (error_message("heredoc", ENOMEM), NULL);
 	fd = open(temp_file, O_WRONLY | O_CREAT | O_TRUNC, 0644);
 	if (fd < 0)
 	{
 		free(temp_file);
-		return (error_message("heredoc", errno), 0);
+		return (error_message("heredoc", errno), NULL);
 	}
 	signal(SIGINT, SIG_DFL);
 	while (1)
@@ -166,15 +175,15 @@ static int	handle_heredoc(t_redir *redir, t_exec *exec)
 		write(fd, "\n", 1);
 		free(line);
 	}
-	close (fd);
-	exec->fd_in = open(temp_file, O_RDONLY);
-	unlink(temp_file);
-	free(temp_file);
-	if (fd < 0)
-		return (error_message("heredoc", errno), 0);
+	exec->fd_in = fd;
+	close(fd);
+	// unlink(temp_file);
+	// free(temp_file);
+	// if (fd < 0)
+	// 	return (error_message("heredoc", errno), NULL);
 	if (exec->fd_in != STDIN_FILENO)
 		close(exec->fd_in);
-	return (1);
+	return (temp_file);
 }
 
 // void	print_redir_list(t_redir *redir)
