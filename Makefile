@@ -6,7 +6,7 @@
 #    By: rdalal <rdalal@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/11/05 20:07:53 by rdalal            #+#    #+#              #
-#    Updated: 2025/03/23 20:40:08 by rdalal           ###   ########.fr        #
+#    Updated: 2025/03/31 20:11:44 by rdalal           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -68,32 +68,40 @@ LIBFT	= $(LIBFT_PATH)libft.a
 OBJS	= $(SRCS:.c=.o)
 
 all: $(NAME)
+		$(print_flag)
 
 $(LIBFT):
-			$(MAKE) -C $(LIBFT_PATH)
+			@$(MAKE) -C $(LIBFT_PATH) -s
 
 $(NAME):	$(OBJS) $(LIBFT) $(HEAD)
-			$(CC) $(CFLAGS) $(OBJS) $(LIBFT) -o $(NAME) $(READLINE_FLAGS)
+			@$(CC) $(CFLAGS) $(OBJS) $(LIBFT) -o $(NAME) $(READLINE_FLAGS)
 
 .c.o:
-			$(CC) $(CFLAGS) -c $< -o $@ -I$(HEAD) -I$(LIBFT_H_PATH)
+			@$(CC) $(CFLAGS) -c $< -o $@ -I$(HEAD) -I$(LIBFT_H_PATH)
 
 clean:	libft-clean root-clean
 
 libft-clean:
-			$(MAKE) -C $(LIBFT_PATH) clean
+			@$(MAKE) -C $(LIBFT_PATH) clean
 	
 root-clean:
-			rm -f $(OBJS)
+			@rm -f $(OBJS)
 
 fclean: libft-fclean root-fclean
 
 libft-fclean:
-			$(MAKE) -C $(LIBFT_PATH) fclean
+			@$(MAKE) -C $(LIBFT_PATH) fclean
 
 root-fclean: root-clean
-			rm -f $(NAME)
+			@rm -f $(NAME)
 
 re: fclean all
 
 .PHONY: all clean fclean re libft libft-clean libft-fclean root-clean root-fclean
+
+define print_flag
+	@echo ".☆.｡.:*・°･.｡*･.｡* .☆.｡.:*.☆.｡.:*・°･.｡*･.｡*.☆.｡.:*.☆.｡.:*.☆.｡.:*.☆.｡.:*.☆.｡.:*.☆.｡.:*.☆.｡.:*"
+	@cat ascii_art.txt
+	@echo ""
+	@echo ".☆.｡.:*・°･.｡*･.｡* .☆.｡.:*.☆.｡.:*・°･.｡*･.｡*.☆.｡.:*.☆.｡.:*.☆.｡.:*.☆.｡.:*.☆.｡.:*.☆.｡.:*.☆.｡.:*"
+endef
