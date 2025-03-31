@@ -6,30 +6,11 @@
 /*   By: rdalal <rdalal@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/18 19:35:01 by rdalal            #+#    #+#             */
-/*   Updated: 2025/03/31 19:28:44 by rdalal           ###   ########.fr       */
+/*   Updated: 2025/03/31 19:35:41 by rdalal           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-
-/*just pseudo code examples of how the exec funcitons will look*/
-
-/*signal hanldig
-signal(SIGINT, SIG_IGN)
-signal(SIGQUIT, SIG_IGN)
-*/
-
-// t_redir	*ft_last_redir_node(t_redir **list)
-// {
-// 	t_redir	*node;
-
-// 	if (!list)
-// 		return (NULL);
-// 	node = *list;
-// 	while (node)
-// 		node = node->next;
-// 	return (node);
-// }
 
 t_exec	*create_exec(t_token *cmd_token)
 {
@@ -79,7 +60,6 @@ static void	process_args(t_exec *exec_cmd, t_token *node)
 		{
 			while (--i >= 0)
 				free (exec_cmd->args[i]);
-			//free(exec_cmd->args);
 			exec_cmd->args = NULL;
 			return (free_exec(exec_cmd));
 		}
@@ -112,7 +92,6 @@ t_exec	*create_exec_list(t_token *token_tree)
 		current_token = current_token->right;
 	}
 	return (exec_list);
-
 }
 
 t_exec	*main_execution(t_token **token_tree, t_envp *env)
