@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   redirection.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gmechaly <gmechaly@student.42.fr>          +#+  +:+       +#+        */
+/*   By: rdalal <rdalal@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/05 13:30:19 by rdalal            #+#    #+#             */
-/*   Updated: 2025/03/27 20:07:24 by gmechaly         ###   ########.fr       */
+/*   Updated: 2025/03/28 17:02:45 by rdalal           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -177,72 +177,96 @@ static int	handle_heredoc(t_redir *redir, t_exec *exec)
 	return (1);
 }
 
-void	print_redir_list(t_redir *redir)
-{
-	int	i;
+// void	print_redir_list(t_redir *redir)
+// {
+// 	int	i;
 
-	i = 0;
-	while (redir)
-	{
-		printf("REDIR NODE %d\n", i);
-		printf("type : %d | file : %s\n\n", (int)redir->type, redir->file);
-		i++;
-		redir = redir->next;
-	}
-}
-
-int apply_redirection(t_exec *exec)
-{
-    t_redir *redir = exec->redir;
-
-	print_redir_list(redir);
-    while (redir) {
-        int success = 0;
-        if (redir->type == REDIR_OUT)
-            success = handle_output(redir, exec);
-		else if (redir->type == REDIR_APPEND)
-			success = handle_append(redir, exec);
-        else if (redir->type == REDIR_IN)
-            success = handle_input(redir, exec);
-        else if (redir->type == HEREDOC)
-            success = handle_heredoc(redir, exec);
-        if (!success) {
-            // Cleanup all opened FDs
-            if (exec->fd_in != STDIN_FILENO) close(exec->fd_in);
-            if (exec->fd_out != STDOUT_FILENO) close(exec->fd_out);
-            return (0);
-        }
-        redir = redir->next;
-    }
-    return (1);
-}
+// 	i = 0;
+// 	while (redir)
+// 	{
+// 		fprintf(stderr, "REDIR NODE %d\n", i);
+// 		fprintf(stderr, "type : %d | file : %s\n\n", (int)redir->type, redir->file);
+// 		i++;
+// 		redir = redir->next;
+// 	}
+// }
 
 // int	apply_redirection(t_exec *exec)
 // {
 // 	t_redir	*redir;
+// 	int		pass;
 
 // 	redir = exec->redir;
 // 	while (redir)
 // 	{
-// 		if (redir->type == REDIR_OUT && !handle_output(redir, exec))
-// 			return (fprintf(stderr, "[apply_redir] set output fd: %d\n", exec->fd_out), 0);
-// 		else if (redir->type == REDIR_APPEND && !handle_append(redir, exec))
-// 		return (fprintf(stderr, "[apply_redir] set output fd: %d\n", exec->fd_out), 0);
-// 		else if (redir->type == REDIR_IN && !handle_input(redir, exec))
-// 			return (fprintf(stderr, "[apply_redir] set input fd: %d\n", exec->fd_in), 0);
-// 		else if (redir->type == HEREDOC && !handle_heredoc(redir, exec))
-// 			return (0);
-// 		redir = redir->next;
+// 		pass = 0;
+// 		if (redir->type == REDIR_OUT)
+// 			pass = handle_output(redir, exec);
+// 		else if (redir->type == REDIR_APPEND)
+// 			pass = handle_append(redir, exec);
+// 		else if (redir->type == REDIR_IN)
+// 			pass = handle_input(redir, exec);
+// 		else if (redir->type == HEREDOC)
+// 			pass = handle_heredoc(redir, exec);
+// 		if (!pass)
+// 		{
+			
+// 		}
 // 	}
-// 	return (1);
 // }
+
+// int apply_redirection(t_exec *exec)
+// {
+//     t_redir *redir = exec->redir;
+
+// 	// print_redir_list(redir);
+//     while (redir) {
+//         int success = 0;
+//         if (redir->type == REDIR_OUT)
+//             success = handle_output(redir, exec);
+// 		else if (redir->type == REDIR_APPEND)
+// 			success = handle_append(redir, exec);
+//         else if (redir->type == REDIR_IN)
+//             success = handle_input(redir, exec);
+//         else if (redir->type == HEREDOC)
+//             success = handle_heredoc(redir, exec);
+//         if (!success) {
+//             // Cleanup all opened FDs
+//             if (exec->fd_in != STDIN_FILENO) close(exec->fd_in);
+//             if (exec->fd_out != STDOUT_FILENO) close(exec->fd_out);
+//             return (0);
+//         }
+//         redir = redir->next;
+//     }
+//     return (1);
+// }
+
+int	apply_redirection(t_exec *exec)
+{
+	t_redir	*redir;
+
+	redir = exec->redir;
+	while (redir)
+	{
+		if (redir->type == REDIR_OUT && !handle_output(redir, exec))
+			return (fprintf(stderr, "[apply_redir] set output fd: %d\n", exec->fd_out), 0);
+		else if (redir->type == REDIR_APPEND && !handle_append(redir, exec))
+		return (fprintf(stderr, "[apply_redir] set output fd: %d\n", exec->fd_out), 0);
+		else if (redir->type == REDIR_IN && !handle_input(redir, exec))
+			return (fprintf(stderr, "[apply_redir] set input fd: %d\n", exec->fd_in), 0);
+		else if (redir->type == HEREDOC && !handle_heredoc(redir, exec))
+			return (0);
+		redir = redir->next;
+	}
+	return (1);
+}
 
 void	setup_redir(t_exec *exec)
 {
 	fprintf(stderr, "before dup2 : fd_in = %d, fd_out = %d\n", exec->fd_in, exec->fd_out);
 	if (exec->fd_in != STDIN_FILENO)// && exec->fd_in != -1)
 	{
-        fprintf(stderr, "[setup_redir] redirecting input from fd %d to STDIN\n", exec->fd_in);
+		fprintf(stderr, "[setup_redir] redirecting input from fd %d to STDIN\n", exec->fd_in);
 		if (dup2(exec->fd_in, STDIN_FILENO) == -1)
 		{
 			perror("Error: dup2 failed in stdin");
@@ -253,7 +277,7 @@ void	setup_redir(t_exec *exec)
 	}
 	if (exec->fd_out != STDOUT_FILENO)// && exec->fd_out != -1)
 	{
-        fprintf(stderr, "[setup_redir] redirecting output from fd %d to STDOUT\n", exec->fd_out);
+		fprintf(stderr, "[setup_redir] redirecting output from fd %d to STDOUT\n", exec->fd_out);
 		if (dup2(exec->fd_out, STDOUT_FILENO) == -1)
 		{
 			perror("Error: dup2 failed in stdout");

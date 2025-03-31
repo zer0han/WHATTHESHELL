@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   builtin_export.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gmechaly <gmechaly@student.42.fr>          +#+  +:+       +#+        */
+/*   By: rdalal <rdalal@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/28 18:07:44 by rdalal            #+#    #+#             */
-/*   Updated: 2025/03/23 16:35:17 by gmechaly         ###   ########.fr       */
+/*   Updated: 2025/03/28 17:26:03 by rdalal           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,146 +45,6 @@ declare -x PATH="/usr/bin"
 declare -x SHELL="/bin/bash"
 
 ***/
-
-// static char	*ft_join_env_var(char *var, char *value)
-// {
-// 	char	*temp;
-// 	char	*result;
-
-// 	if (!var || !value)
-// 		return (NULL);
-// 	temp = ft_strjoin(var, "=");
-// 	if (!temp)
-// 		return (NULL);
-// 	result = ft_strjoin(temp, value);
-// 	free(temp);
-// 	return (result);
-// }
-// static char	**dup_env(char **envp)
-// {
-// 	char	**copy;
-// 	int		count;
-// 	int		i;
-
-// 	count = 0;
-// 	while (envp[count])
-// 		count++;
-// 	copy = malloc(sizeof(char *) * (count + 1));
-// 	if (!copy)
-// 		return (NULL);
-// 	i = -1;
-// 	while (++i < count)
-// 		copy[i] = ft_strdup(envp[i]);
-// 	copy[count] = NULL;
-// 	return (copy);
-// }
-// static char	*create_env_entry(char *var, char *value)
-// {
-// 	char	*entry;
-// 	int		var_len;
-// 	int		val_len;
-
-// 	if (!var || !value)
-// 		return (NULL);
-// 	var_len = ft_strlen(var);
-// 	val_len = ft_strlen(value);
-// 	entry = malloc(var_len + val_len + 2);
-// 	if (!entry)
-// 		return (NULL);
-// 	ft_strlcpy(entry, var, var_len + 1);
-// 	entry[var_len] = '=';
-// 	ft_strlcpy(entry + var_len + 1, value, val_len + 1);
-// 	return (entry);
-// }
-
-// void	sort_export_env(char **object)
-// {
-// 	int		i;
-// 	int		j;
-// 	char	*temp;
-
-// 	i = 0;
-// 	while (object[i] && object [i + 1])
-// 	{
-// 		j = i + 1;
-// 		if(ft_strcmp(object[i], object[j]) > 0)
-// 		{
-// 			temp = object[i];
-// 			object[i] = object[j];
-// 			object[j] = temp;
-// 			i = 0;
-// 		}
-// 		else
-// 			i++;
-// 	}
-// }
-
-// static int	is_allocated(void *ptr)
-// {
-// 	void	*t;
-
-// 	t = malloc(1);
-// 	if (!ptr)
-// 		return (0);
-// 	free (t);
-// 	if (ptr >= t & ptr <= (t + 1))
-// 		return (0);
-// 	return (1);
-// }
-
-// int	update_env(char ***envp, char *var, char *value)
-// {
-// 	int		i;
-// 	char	*new_entry;
-
-// 	if (!envp || !var || !value)
-// 		return (1);
-// 	i = -1;
-// 	while ((*envp)[++i])
-// 	{
-// 		if (!ft_strncmp((*envp)[i], var, ft_strlen(var)) && /*\*/
-// 			((*envp)[i][ft_strlen(var)] == '=' || /*\*/
-// 			(*envp)[i][ft_strlen(var)] == '\0'))
-// 		{
-// 			new_entry = create_env_entry(var, value);
-// 			if (!new_entry)
-// 				return (1);
-// 			if (is_allocated((*envp)[i]))
-// 				free((*envp)[i]);
-// 			(*envp)[i] = new_entry;
-// 			return (0);
-// 		}
-// 	}
-// 	return (1);
-// }
-
-// int	add_env(char ***envp, char *var, char *value)
-// {
-// 	int		count;
-// 	int		i;
-// 	char	**new;
-// 	char	*entry;
-
-// 	if (!envp|| !var || !value)
-// 		return (1);
-// 	count = 0;
-// 	while ((*envp)[count])
-// 		count++;
-// 	entry = create_env_entry(var, value);
-// 	if (!entry)
-// 		return (1);
-// 	new = malloc(sizeof(char *) * (count + 2));
-// 	if (!new)
-// 		return (free(entry), 1);
-// 	i = -1;
-// 	while (++i < count)
-// 		new[i] = ft_strdup((*envp)[i]);
-// 	new[count] = entry;
-// 	new[count + 1] = NULL;
-// 	//free_array((*envp));
-// 	*envp = new;
-// 	return (0);
-// }
 
 void	print_env(t_envp **dup)
 {

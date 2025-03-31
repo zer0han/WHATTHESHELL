@@ -3,27 +3,15 @@
 /*                                                        :::      ::::::::   */
 /*   builtins.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gmechaly <gmechaly@student.42.fr>          +#+  +:+       +#+        */
+/*   By: rdalal <rdalal@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/06 16:25:27 by rdalal            #+#    #+#             */
-/*   Updated: 2025/03/16 11:02:42 by gmechaly         ###   ########.fr       */
+/*   Updated: 2025/03/28 17:26:43 by rdalal           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-/* 
-cd [options] [directory]
-
-cd
-cd -- in the POSIX standard, cd -- behaves like runing cd without arguments
-cd - ()
-cd ..
-cd /
-cd ~
-
-int chdir(const char *path);
-*/
 int	cmd_cd(t_token *args)
 {
 	const char	*dir;
@@ -47,17 +35,8 @@ int	cmd_cd(t_token *args)
 	return (EXIT_SUCCESS);
 }
 
-/***pwd***/	
-/*
-	default behaviour of builtin pwd is same as using "pwd -L"
-	pwd -L: prints the symbolic path
-	pwd -P: prints the actual path
-	use getcwd() function here
-	getcwd(): string|false
-*/
 int	cmd_pwd(void)
 {
-	//(void)args;
 	char	cwd[1024];
 
 	if (getcwd(cwd, sizeof(cwd)) != NULL)
@@ -71,39 +50,6 @@ int	cmd_pwd(void)
 		return (EXIT_FAILURE);
 	}
 }
-
-/***env***/
-
-/*
-*if no flags or parameters specified, the env command displays your current environment, showing one Name=Value per line
-**Print out a list of all the env variables
-
-*'-i' or '-ignore-environment' or '-'
-**runs a command with an empty environment
-
-[-i | -] [Name=Value]... [Command [Argument ...]]
-*/
-
-// static char	**dup_env(char **envp)
-// {
-// 	char	**copy;
-// 	int		count;
-// 	int		i;
-
-// 	count = 0;
-// 	if(!envp)
-// 		return (NULL);
-// 	while (envp[count])
-// 		count++;
-// 	copy = malloc(sizeof(char *) * (count + 1));
-// 	if (!copy)
-// 		return (NULL);
-// 	i = -1;
-// 	while (++i < count)
-// 		copy[i] = ft_strdup(envp[i]);
-// 	copy[count] = NULL;
-// 	return (copy);
-// }
 
 int	cmd_env(t_envp *env)
 {
