@@ -6,7 +6,7 @@
 /*   By: rdalal <rdalal@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/29 19:13:16 by rdalal            #+#    #+#             */
-/*   Updated: 2025/03/28 17:26:10 by rdalal           ###   ########.fr       */
+/*   Updated: 2025/03/31 17:55:47 by rdalal           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,7 +55,8 @@ int	env_remover(t_envp **env, char *var)
 	var_len = ft_strlen(var);
 	while (node)
 	{
-		if (ft_strncmp(node->str, var, var_len) == 0 && (node->str[var_len] == '=' \
+		if (ft_strncmp(node->str, var, var_len) == 0 \
+			&& (node->str[var_len] == '=' \
 			|| node->str[var_len] == '\0'))
 		{
 			free(node->str);
