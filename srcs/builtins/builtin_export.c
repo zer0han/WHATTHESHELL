@@ -6,11 +6,10 @@
 /*   By: rdalal <rdalal@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/28 18:07:44 by rdalal            #+#    #+#             */
-/*   Updated: 2025/03/28 17:26:03 by rdalal           ###   ########.fr       */
+/*   Updated: 2025/03/31 17:54:07 by rdalal           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-// #include <stdlib.h>
 #include "minishell.h"
 
 /***cmd_export
