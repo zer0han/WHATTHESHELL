@@ -3,22 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   builtin_unset.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gmechaly <gmechaly@student.42.fr>          +#+  +:+       +#+        */
+/*   By: rdalal <rdalal@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/29 19:13:16 by rdalal            #+#    #+#             */
-/*   Updated: 2025/03/16 11:01:56 by gmechaly         ###   ########.fr       */
+/*   Updated: 2025/03/28 17:26:10 by rdalal           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-
-/***unset***/
-/* unset [variable_name]
- * unset [-options] [variable_name]
- ** undefine a variable in bash
- * unset -f [function_name]
- ** undefine shell function in bash
-*/
 
 int	valid_id(char *var)
 {
