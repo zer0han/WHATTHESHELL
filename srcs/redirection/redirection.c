@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   redirection.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rdalal <rdalal@student.42.fr>              +#+  +:+       +#+        */
+/*   By: gmechaly <gmechaly@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/05 13:30:19 by rdalal            #+#    #+#             */
-/*   Updated: 2025/03/31 18:48:11 by rdalal           ###   ########.fr       */
+/*   Updated: 2025/03/31 18:47:36 by gmechaly         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -144,20 +144,19 @@ static int	handle_append(t_redir *redir, t_exec *exec)
 	return (1);
 }
 
-static char	*handle_heredoc(t_redir *redir, t_exec *exec)
+static int	handle_heredoc(t_redir *redir, t_exec *exec)
 {
 	int		fd;
 	char	*line;
-	char	*temp_file;
 
-	temp_file = ft_strjoin("/tmp/.heredoc", ft_itoa(getpid()));
-	if (!temp_file)
-		return (error_message("heredoc", ENOMEM), NULL);
-	fd = open(temp_file, O_WRONLY | O_CREAT | O_TRUNC, 0644);
+	exec->heredoc_file = ft_strjoin("/tmp/.heredoc", ft_itoa(getpid()));
+	if (!exec->heredoc_file)
+		return (error_message("heredoc", ENOMEM), 0);
+	fd = open(exec->heredoc_file, O_CREAT | O_WRONLY | O_TRUNC, 0644);
 	if (fd < 0)
 	{
-		free(temp_file);
-		return (error_message("heredoc", errno), NULL);
+		free(exec->heredoc_file);
+		return (error_message("heredoc", errno), 0);
 	}
 	signal(SIGINT, SIG_DFL);
 	while (1)
@@ -172,15 +171,18 @@ static char	*handle_heredoc(t_redir *redir, t_exec *exec)
 		write(fd, "\n", 1);
 		free(line);
 	}
-	exec->fd_in = fd;
+	signals();
 	close(fd);
+	exec->fd_in = open(exec->heredoc_file, O_RDONLY);
+	if (exec->fd_in < 0)
+		return (error_message("heredoc", errno), 0);
 	// unlink(temp_file);
 	// free(temp_file);
 	// if (fd < 0)
-	// 	return (error_message("heredoc", errno), NULL);
-	if (exec->fd_in != STDIN_FILENO)
-		close(exec->fd_in);
-	return (temp_file);
+	// 	return (error_message("heredoc", errno), 0);
+	// if (exec->fd_in != STDIN_FILENO)
+	// 	close(exec->fd_in);
+	return (1);
 }
 
 // void	print_redir_list(t_redir *redir)
@@ -257,11 +259,11 @@ int	apply_redirection(t_exec *exec)
 		if (redir->type == REDIR_OUT && !handle_output(redir, exec))
 			return (fprintf(stderr, "[apply_redir] set output fd: %d\n", exec->fd_out), 0);
 		else if (redir->type == REDIR_APPEND && !handle_append(redir, exec))
-		return (fprintf(stderr, "[apply_redir] set output fd: %d\n", exec->fd_out), 0);
+			return (fprintf(stderr, "[apply_redir] set output fd: %d\n", exec->fd_out), 0);
 		else if (redir->type == REDIR_IN && !handle_input(redir, exec))
 			return (fprintf(stderr, "[apply_redir] set input fd: %d\n", exec->fd_in), 0);
 		else if (redir->type == HEREDOC && !handle_heredoc(redir, exec))
-			return (0);
+			return (fprintf(stderr, "[apply_redir] set input fd: %d\n", exec->fd_in), 0);
 		redir = redir->next;
 	}
 	return (1);

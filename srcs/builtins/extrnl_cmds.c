@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   extrnl_cmds.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rdalal <rdalal@student.42.fr>              +#+  +:+       +#+        */
+/*   By: gmechaly <gmechaly@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/10 17:31:21 by rdalal            #+#    #+#             */
-/*   Updated: 2025/03/31 17:59:56 by rdalal           ###   ########.fr       */
+/*   Updated: 2025/03/31 18:06:05 by gmechaly         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,6 +73,7 @@ void	exec_external(t_token *tokens, char **envp, t_envp *env, t_exec *exec)
 		pid = fork();
 		if (pid == 0)
 		{
+			printf("fcntl(0) = %d\n", fcntl(0, F_GETFD));
 			execve(path, argv, env_to_array(env));
 			error_message("execve", errno);
 			exit(126);
