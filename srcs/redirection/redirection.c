@@ -6,7 +6,7 @@
 /*   By: gmechaly <gmechaly@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/05 13:30:19 by rdalal            #+#    #+#             */
-/*   Updated: 2025/03/31 22:27:36 by gmechaly         ###   ########.fr       */
+/*   Updated: 2025/04/01 20:52:45 by gmechaly         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -149,12 +149,14 @@ static int	handle_heredoc(t_redir *redir, t_exec *exec)
 	int		fd;
 	char	*line;
 	char	*pid;
+	int		i;
 
+	i = 0;
 	pid = ft_itoa(getpid());
 	if (pid)
 		exec->heredoc_file = ft_strjoin("/tmp/.heredoc", pid);
 	if (!pid || !exec->heredoc_file)
-		return (error_message("heredoc", ENOMEM), 0);
+		return (free(pid), error_message("heredoc", ENOMEM), 0);
 	free(pid);
 	fd = open(exec->heredoc_file, O_CREAT | O_WRONLY | O_TRUNC, 0644);
 	if (fd < 0)
@@ -165,16 +167,20 @@ static int	handle_heredoc(t_redir *redir, t_exec *exec)
 	// signal(SIGINT, SIG_DFL);
 	while (1)
 	{
-		printf("g_exit_status = %d\n", g_exit_status);
 		line = readline("> ");
-		if (!line || ft_strcmp(line, redir->delimiter) == 0 || g_exit_status == 130)
+		if (line && redir->delimiter[i + 1] == NULL && ft_strcmp(line, redir->delimiter[i]))
 		{
-			free (line);
-			break ;
+			printf("i = %d\n", i);
+			write (fd, line, ft_strlen(line));
+			write(fd, "\n", 1);
+			free(line);
 		}
-		write (fd, line, ft_strlen(line));
-		write(fd, "\n", 1);
-		free(line);
+		else if (!line || !ft_strcmp(line, redir->delimiter[i]))
+		{
+			i++;
+			if (redir->delimiter[i] == NULL)
+				break ;
+		}
 	}
 	// signals();
 	close(fd);

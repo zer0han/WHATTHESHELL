@@ -6,7 +6,7 @@
 /*   By: gmechaly <gmechaly@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/21 14:05:00 by gmechaly          #+#    #+#             */
-/*   Updated: 2025/03/31 23:17:25 by gmechaly         ###   ########.fr       */
+/*   Updated: 2025/04/01 17:50:46 by gmechaly         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,6 +69,7 @@ void	*assign_token_type(t_token **tokens)
 		{
 			node->right->type = "delimiter";
 			node->type = "heredoc";
+			node = is_special_str(&node->right, "<<");
 		}
 		else
 			return (printf("parse error near << token"), NULL);
@@ -80,6 +81,7 @@ void	*assign_token_type(t_token **tokens)
 		{
 			node->type = "append mode";
 			node->right->type = "file";
+			node = is_special_str(&node->right, ">>");
 		}
 		else
 			return (printf("parse error near >> token"), NULL);
