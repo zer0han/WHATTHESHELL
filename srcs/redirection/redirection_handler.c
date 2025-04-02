@@ -6,58 +6,11 @@
 /*   By: rdalal <rdalal@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/24 18:27:39 by rdalal            #+#    #+#             */
-/*   Updated: 2025/03/26 20:50:21 by rdalal           ###   ########.fr       */
+/*   Updated: 2025/04/01 18:11:23 by rdalal           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-
-// static t_redir	*create_redir_node(t_redir_type type, char *target)
-// {
-// 	t_redir	*node;
-
-// 	node = ft_calloc(1, sizeof(t_redir));
-// 	if (node == NULL)
-// 		return (NULL);
-// 	node->type = type;;
-// 	if (type == HEREDOC)
-// 		node->delimiter = ft_strdup(target);
-// 	else
-// 		node->file = ft_strdup(target);
-// 	return (node);
-// }
-
-// t_redir	*init_redir(t_token	**cmd_token)
-// {
-// 	t_token	*node;
-// 	t_redir	*redir_list;
-// 	t_redir	*new_redir;
-
-// 	node = *cmd_token;
-// 	redir_list = NULL;
-// 	while (node)
-// 	{
-// 		if (is_redirection(node->input))
-// 		{
-// 			new_redir = malloc(sizeof(t_redir));
-// 			if (!ft_strcmp(node->input, ">"))
-// 				new_redir->type = REDIR_OUT;
-// 			else if (!ft_strcmp(node->input, ">>"))
-// 				new_redir->type = REDIR_APPEND;
-// 			else if (!ft_strcmp(node->input, "<"))
-// 				new_redir->type = REDIR_IN;
-// 			else if (!ft_strcmp(node->input, "<<"))
-// 				new_redir->type = HEREDOC;
-// 			if (node->right)
-// 				new_redir->file = ft_strdup(node->right->input);
-// 			new_redir->next = redir_list;
-// 			redir_list = new_redir;
-// 		}
-// 		node = node->right;
-// 	}
-// 	return (redir_list);
-// }
-
 
 void	cleanup_redirection(t_redir *redir)
 {
@@ -146,4 +99,3 @@ t_redir	*init_redir(t_token **cmd_token)
 	}
 	return (redir_list);
 }
-
