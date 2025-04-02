@@ -6,7 +6,7 @@
 #    By: rdalal <rdalal@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/11/05 20:07:53 by rdalal            #+#    #+#              #
-#    Updated: 2025/03/31 20:11:44 by rdalal           ###   ########.fr        #
+#    Updated: 2025/04/01 20:45:31 by rdalal           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -33,8 +33,7 @@ SRCS_PARSE	=	assign_tokens.c custom_libft.c parse_tokens.c \
 
 SRCS_PIPE	=	pipe_helper.c pipes.c
 
-SRCS_REDIR	=	exec_redirs.c redirection_handler.c \
-				redirection.c
+SRCS_REDIR	=	redirection_handler.c redirection.c
 
 SRCS_SIG	=	signal_handler.c
 
