@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parse_tokens.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gmechaly <gmechaly@student.42.fr>          +#+  +:+       +#+        */
+/*   By: rdalal <rdalal@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/23 14:02:50 by gmechaly          #+#    #+#             */
-/*   Updated: 2025/04/01 17:51:02 by gmechaly         ###   ########.fr       */
+/*   Updated: 2025/04/02 22:11:47 by rdalal           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,7 @@ void	*parse_tokens(t_token **tokens)
 		{
 			path = get_path(node->input);
 			if (path == NULL && !fd_is_builtin(node))
-				return (printf("%s : invalid cmd\n", node->input), NULL);
+				return (printf(PROMPT "%s : invalid cmd\n", node->input), NULL);
 			free(path);
 		}
 		else if (node->type && !(ft_strncmp(node->type, "file", 4)))
@@ -49,7 +49,7 @@ void	*parse_tokens(t_token **tokens)
 			if (node->left && node->left->input && \
 			(!ft_strncmp(node->left->input, "<", ft_strlen(node->left->input))) \
 			&& access(node->input, F_OK | R_OK))
-				return (printf("%s : no such file or directory\n", \
+				return (printf(PROMPT "%s : no such file or directory\n", \
 						node->input), NULL);
 		}
 		node = node->right;
@@ -63,7 +63,7 @@ void	*is_null_token(t_token **tokens)
 
 	node = *tokens;
 	if (node->type == NULL)
-		return (printf("%s : invalid cmd\n", node->input), NULL);
+		return (printf(PROMPT "%s : invalid cmd\n", node->input), NULL);
 	while (node)
 	{
 		if (node->type == NULL)
