@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gmechaly <gmechaly@student.42.fr>          +#+  +:+       +#+        */
+/*   By: rdalal <rdalal@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/18 19:35:01 by rdalal            #+#    #+#             */
-/*   Updated: 2025/04/02 16:48:42 by rdalal           ###   ########.fr       */
+/*   Updated: 2025/04/02 17:24:01 by rdalal           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,7 +45,8 @@ static void	*process_args(t_exec *exec_cmd, t_token *node)
 	int	i;
 
 	if (!exec_cmd || !exec_cmd->cmd || !exec_cmd->cmd[0])
-		return (ft_putstr_fd("ERROR: exec->cmd is NULL!\n", STDERR_FILENO), NULL);
+		return (ft_putstr_fd("ERROR: exec->cmd is NULL!\n", STDERR_FILENO), \
+			NULL);
 	exec_cmd->args = malloc(sizeof(char *) * (count_args(node) + 2));
 	if (!exec_cmd->args)
 		return (perror("malloc failed in process_args"), NULL);
@@ -58,12 +59,8 @@ static void	*process_args(t_exec *exec_cmd, t_token *node)
 	{
 		exec_cmd->args[i] = ft_strdup(node->input);
 		if (!exec_cmd->args[i])
-		{
-			//while (--i >= 0)
-			// 	free (exec_cmd->args[i]);
-			// exec_cmd->args = NULL;
-			return (free_exec(exec_cmd), NULL);
-		}
+			return (close(exec_cmd->std_save[0]), \
+				close(exec_cmd->std_save[1]), free_exec(exec_cmd), NULL);
 		node = node->right;
 		i++;
 	}

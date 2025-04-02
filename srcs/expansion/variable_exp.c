@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   variable_exp.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gmechaly <gmechaly@student.42.fr>          +#+  +:+       +#+        */
+/*   By: rdalal <rdalal@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/30 13:52:27 by gmechaly          #+#    #+#             */
-/*   Updated: 2025/03/23 16:13:05 by gmechaly         ###   ########.fr       */
+/*   Updated: 2025/04/02 18:47:38 by rdalal           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,7 +50,7 @@ static t_vexp	*init_data(char *input, t_envp *env)
 	if (data->i > 0)
 		data->n_ipt = (char *)malloc(sizeof(char) * (data->i + 1));
 	if (data->i <= 0 || data->n_ipt == NULL)
-		return (NULL);
+		return (free(data), NULL);
 	data->i = 0;
 	data->j = 0;
 	data->o_ipt = input;

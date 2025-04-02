@@ -6,7 +6,7 @@
 /*   By: rdalal <rdalal@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/26 18:40:32 by gmechaly          #+#    #+#             */
-/*   Updated: 2025/04/02 16:28:38 by rdalal           ###   ########.fr       */
+/*   Updated: 2025/04/02 18:52:40 by rdalal           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,5 +59,6 @@ int	main(int argc, char **argv, char **envp)
 	printf("main got out of its loop zebi\n");
 	free(input);
 	free_envp(env_linklist);
+	rl_clear_history();
 	return (0);
 }
