@@ -3,7 +3,7 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gmechaly <gmechaly@student.42.fr>          +#+  +:+       +#+        */
+/*   By: rdalal <rdalal@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/10 19:08:44 by rdalal            #+#    #+#             */
 /*   Updated: 2025/04/02 17:22:40 by gmechaly         ###   ########.fr       */
@@ -161,6 +161,7 @@ char	**env_to_array (t_envp *env);
 /*builtin_export.c*/
 int		cmd_export(t_envp *env, t_token **tokens);
 t_envp	*envp_dup(char **envp);
+t_envp	*create_envp_node(char *env_line, t_envp **duplicate);
 void	print_env(t_envp **dup);
 
 /*  pipes               */

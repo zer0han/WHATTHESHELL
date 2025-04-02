@@ -57,5 +57,6 @@ int	main(int argc, char **argv, char **envp)
 	printf("main got out of its loop zebi\n");
 	free(input);
 	free_envp(env_linklist);
+	rl_clear_history();
 	return (0);
 }
