@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   dispatch.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gmechaly <gmechaly@student.42.fr>          +#+  +:+       +#+        */
+/*   By: rdalal <rdalal@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/11 14:50:45 by rdalal            #+#    #+#             */
-/*   Updated: 2025/03/31 22:32:42 by gmechaly         ###   ########.fr       */
+/*   Updated: 2025/04/01 18:06:52 by rdalal           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,27 +62,3 @@ void	execute_cmds(t_token *token, t_envp *env, t_exec *exec_list)
 	if (g_exit_status != 0)
 		return ;
 }
-
-// void    execute_cmds(t_token *token, char **envp, t_envp *env, t_exec *exec_list)
-// {
-//     int saved_stdin = dup(STDIN_FILENO);
-//     int saved_stdout = dup(STDOUT_FILENO);
-
-//     if (!apply_redirection(exec_list)) {
-//         close(saved_stdin);
-//         close(saved_stdout);
-//         g_exit_status = 1;
-//         return;
-//     }
-    
-//     if (fd_is_builtin(token)) {
-//         dispatch_cmds(token, env, exec_list);
-//         // Force-restore original FDs
-//         dup2(saved_stdin, STDIN_FILENO);
-//         dup2(saved_stdout, STDOUT_FILENO);
-//     } else {
-//         exec_external(token, envp, env, exec_list);
-//     }
-//     close(saved_stdin);
-//     close(saved_stdout);
-// }

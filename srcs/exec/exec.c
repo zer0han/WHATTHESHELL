@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gmechaly <gmechaly@student.42.fr>          +#+  +:+       +#+        */
+/*   By: rdalal <rdalal@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/18 19:35:01 by rdalal            #+#    #+#             */
-/*   Updated: 2025/03/31 22:22:14 by gmechaly         ###   ########.fr       */
+/*   Updated: 2025/04/01 18:07:13 by rdalal           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -123,27 +123,3 @@ t_exec	*main_execution(t_token **token_tree, t_envp *env)
 	close(exec_list->std_save[1]);
 	return (exec_list);
 }
-
-// int	is_pipe()
-
-// t_exec	*main_execution(t_token **token_tree, char **envp, t_envp *env)
-// {
-// 	t_exec	*exec_list;
-// 	t_token	*temp;
-// 	pid_t	pid;
-	
-// 	pid = 0;
-// 	if (!token_tree || !*token_tree)
-// 		return (NULL);
-// 	temp = *token_tree;
-// 	exec_list = create_exec_list(temp);
-// 	if (!exec_list)
-// 		return (NULL);
-// 	//if (exec_list->next)
-// 	exec_pipeline(exec_list, envp, env);
-// 	// if (fd_is_builtin(exec_list->cmd_token))
-// 	// 	execute_cmds(exec_list->cmd_token, envp, env, exec_list);
-// 	// else
-// 	// 	exec_external(exec_list->cmd_token, envp, env, exec_list);
-// 	return (exec_list);
-// }
