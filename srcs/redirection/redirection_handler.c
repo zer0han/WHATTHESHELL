@@ -6,7 +6,7 @@
 /*   By: gmechaly <gmechaly@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/24 18:27:39 by rdalal            #+#    #+#             */
-/*   Updated: 2025/04/01 18:11:23 by rdalal           ###   ########.fr       */
+/*   Updated: 2025/04/02 18:35:27 by gmechaly         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,7 +52,6 @@ static void	*create_delim_array(t_redir *redir, t_token **tokens)
 	int		i;
 
 	i = 0;
-	tokens = &(*tokens)->right;
 	head = *tokens;
 	while (*tokens && (!ft_strcmp((*tokens)->type, "heredoc") \
 	|| !ft_strcmp((*tokens)->type, "delimiter")))
@@ -134,15 +133,15 @@ t_redir	*init_redir(t_token **cmd_token)
 	tail = &redir_list;
 	while (node->left && (ft_strcmp(node->left->type, "pipe") != 0))
 		node = node->left;
-	fprintf(stderr, "DEBUG: [init_redir] starting at token %s\n", node->input);
+	// fprintf(stderr, "DEBUG: [init_redir] starting at token %s\n", node->input);
 	while (node && (ft_strcmp(node->type, "pipe") != 0))
 	{
-		fprintf(stderr, "DEBUG: [init_redir] processing token %s\n", node->input);
+		// fprintf(stderr, "DEBUG: [init_redir] processing token %s\n", node->input);
 		if (ft_strcmp(node->type, "redirection") == 0 
 			|| ft_strcmp(node->type, "append mode") == 0 
 			|| ft_strcmp(node->type, "heredoc") == 0)
 		{
-			fprintf(stderr, "DEBUG: [init_redir] redirection initialized and processing token here %s\n", node->input);
+			// fprintf(stderr, "DEBUG: [init_redir] redirection initialized and processing token here %s\n", node->input);
 			if (!parse_redir_node(&node, tail))
 				return (cleanup_redirection(redir_list), NULL);
 			while (node && (!ft_strcmp(node->type, "heredoc") \
