@@ -6,7 +6,7 @@
 /*   By: gmechaly <gmechaly@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/10 19:08:44 by rdalal            #+#    #+#             */
-/*   Updated: 2025/04/02 16:04:53 by gmechaly         ###   ########.fr       */
+/*   Updated: 2025/04/02 17:22:40 by gmechaly         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -117,7 +117,8 @@ typedef struct s_vexp
 
 
 /*functions here*/
-
+ /*TEMP*/
+ void	ft_print_tokens(t_token **tokens);
 
 /*************ERROR HANDLING********/
 
