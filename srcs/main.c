@@ -6,27 +6,27 @@
 /*   By: gmechaly <gmechaly@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/26 18:40:32 by gmechaly          #+#    #+#             */
-/*   Updated: 2025/04/01 17:45:45 by gmechaly         ###   ########.fr       */
+/*   Updated: 2025/04/02 16:06:14 by gmechaly         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
 
-static void	ft_print_tokens(t_token **tokens)
-{
-	t_token	*node;
-	int		i;
+// static void	ft_print_tokens(t_token **tokens)
+// {
+// 	t_token	*node;
+// 	int		i;
 
-	i = 0;
-	node = *tokens;
-	while (node)
-	{
-		printf("input %d : %s\n", i, node->input);
-		printf("type : %s\n\n", node->type);
-		node = node->right;
-		i++;
-	}
-}
+// 	i = 0;
+// 	node = *tokens;
+// 	while (node)
+// 	{
+// 		printf("input %d : %s\n", i, node->input);
+// 		printf("type : %s\n\n", node->type);
+// 		node = node->right;
+// 		i++;
+// 	}
+// }
 
 
 int	main(int argc, char **argv, char **envp)
@@ -47,7 +47,7 @@ int	main(int argc, char **argv, char **envp)
 		if (*input)
 			add_history(input);
 		tokens = ft_minishell_parsing(input, env_linklist);
-		ft_print_tokens(&tokens);
+		// ft_print_tokens(&tokens);
 		if (tokens)
 		{
 			exec_data = main_execution(&tokens, env_linklist);

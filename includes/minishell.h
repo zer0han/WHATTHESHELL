@@ -6,7 +6,7 @@
 /*   By: gmechaly <gmechaly@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/10 19:08:44 by rdalal            #+#    #+#             */
-/*   Updated: 2025/04/01 16:19:30 by gmechaly         ###   ########.fr       */
+/*   Updated: 2025/04/02 16:04:53 by gmechaly         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,7 +65,7 @@ typedef struct s_token
 {
 	char			*input;
 	char			*type;
-	int				*value;
+	// int				*value;
 	struct s_token	*left;
 	struct s_token	*right;
 }					t_token;
@@ -144,8 +144,8 @@ int		valid_id(char *var);
 /*	builtins			*/
 int		fd_is_builtin(t_token *token);
 //char	**cmd_prep(t_token *tokens, char **envp, char **cmd_path);
-void	run_cmd(char *cmd_path, char **argv, char **envp);
-void	exec_external(t_token *tokens, int *std_save, t_envp *env, t_exec *exec);
+// void	run_cmd(char *cmd_path, char **argv, char **envp);
+void	exec_external(t_envp *env, t_exec *exec);
 void	execute_cmds(t_token *token, t_envp *env, t_exec *exec_list);
 void	dispatch_cmds(t_token *tokens, t_envp *env, t_exec *exec_list);
 int		fd_is_builtin(t_token *token);
