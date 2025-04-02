@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   fuckyou.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gmechaly <gmechaly@student.42.fr>          +#+  +:+       +#+        */
+/*   By: rdalal <rdalal@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/18 18:41:24 by rdalal            #+#    #+#             */
-/*   Updated: 2025/03/10 18:29:25 by gmechaly         ###   ########.fr       */
+/*   Updated: 2025/04/02 22:01:28 by rdalal           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -395,7 +395,7 @@ int	main(int argc, char **argv, char **envp)
 
 	while (1)
 	{
-		input = readline("whattheshell> ");
+		input = readline(PROMPT> ");
 		if (!input)
 			break ;
 		if (*input)

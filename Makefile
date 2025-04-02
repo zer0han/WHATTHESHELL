@@ -6,7 +6,7 @@
 #    By: rdalal <rdalal@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/11/05 20:07:53 by rdalal            #+#    #+#              #
-#    Updated: 2025/04/02 18:03:13 by rdalal           ###   ########.fr        #
+#    Updated: 2025/04/02 21:35:27 by rdalal           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -75,11 +75,14 @@ $(LIBFT):
 
 $(NAME):	$(OBJS) $(LIBFT) $(HEAD)
 			@$(CC) $(CFLAGS) $(OBJS) $(LIBFT) -o $(NAME) $(READLINE_FLAGS)
+			@echo "$(GREEN)🚀 $(NAME) BUILT SUCCESSFULLY! 🚀$(RESET)"
 
 .c.o:
 			@$(CC) $(CFLAGS) -c $< -o $@ -I$(HEAD) -I$(LIBFT_H_PATH)
+			@echo "$(YELLOW)COMPILING: $<$(RESET)"
 
 clean:	libft-clean root-clean
+		@echo "$(RED)🧹 CLEANED OBJECT FILES 🧹$(RESET)"
 
 libft-clean:
 			@$(MAKE) -C $(LIBFT_PATH) clean
@@ -88,6 +91,7 @@ root-clean:
 			@rm -f $(OBJS)
 
 fclean: libft-fclean root-fclean
+		@echo "$(RED) 🧹🧹 FULL CLEAN COMPLETE 🧹🧹$(RESET)"
 
 libft-fclean:
 			@$(MAKE) -C $(LIBFT_PATH) fclean
@@ -99,9 +103,20 @@ re: fclean all
 
 .PHONY: all clean fclean re libft libft-clean libft-fclean root-clean root-fclean
 
+# Colors
+RESET = \033[0m
+BOLD = \033[1m
+GREEN = \033[1;32m
+BLUE = \033[1;34m
+RED = \033[1;31m
+YELLOW = \033[1;33m
+
 define print_flag
-	@echo ".☆.｡.:*・°･.｡*･.｡* .☆.｡.:*.☆.｡.:*・°･.｡*･.｡*.☆.｡.:*.☆.｡.:*.☆.｡.:*.☆.｡.:*.☆.｡.:*.☆.｡.:*.☆.｡.:*"
+	@echo "$(GREEN) 🚀 COMPILATION COMPLETE 🚀$(RESET)"
+	@echo "$(BLUE).☆.｡.:*・°･.｡*･.｡* .☆.｡.:*.☆.｡.:*・°･.｡*･.｡*.☆.｡.:*.☆.｡.:*.☆.｡.:*.☆.｡.:*.☆.｡.:*.☆.｡.:*.☆.｡.:*$(RESET)"
+	@echo "$(GREEN)"
 	@cat ascii_art.txt
 	@echo ""
-	@echo ".☆.｡.:*・°･.｡*･.｡* .☆.｡.:*.☆.｡.:*・°･.｡*･.｡*.☆.｡.:*.☆.｡.:*.☆.｡.:*.☆.｡.:*.☆.｡.:*.☆.｡.:*.☆.｡.:*"
+	@echo "$(RESET)"
+	@echo "$(BLUE).☆.｡.:*・°･.｡*･.｡* .☆.｡.:*.☆.｡.:*・°･.｡*･.｡*.☆.｡.:*.☆.｡.:*.☆.｡.:*.☆.｡.:*.☆.｡.:*.☆.｡.:*.☆.｡.:*$(RESET)"
 endef

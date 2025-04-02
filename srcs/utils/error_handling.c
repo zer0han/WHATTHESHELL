@@ -6,7 +6,7 @@
 /*   By: rdalal <rdalal@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/18 17:51:24 by rdalal            #+#    #+#             */
-/*   Updated: 2025/03/11 22:23:40 by rdalal           ###   ########.fr       */
+/*   Updated: 2025/04/02 22:05:07 by rdalal           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@
 
 void	handle_error(char *context, int errnum, t_token **tokens)
 {
-	ft_putstr_fd("whattheshell: ", STDERR_FILENO);
+	ft_putstr_fd(PROMPT, STDERR_FILENO);
 	ft_putstr_fd(context, STDERR_FILENO);
 	ft_putstr_fd(": ", STDERR_FILENO);
 	ft_putendl_fd(strerror(errnum), STDERR_FILENO);
@@ -31,7 +31,7 @@ void	handle_error(char *context, int errnum, t_token **tokens)
 
 int	error_message(char *context, int error_code)
 {
-	ft_putstr_fd("whattheshell: ", STDERR_FILENO);
+	ft_putstr_fd(PROMPT, STDERR_FILENO);
 	ft_putstr_fd(context, STDERR_FILENO);
 	ft_putstr_fd(": ", STDERR_FILENO);
 	ft_putendl_fd(strerror(error_code), STDERR_FILENO);
