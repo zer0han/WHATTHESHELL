@@ -6,7 +6,7 @@
 /*   By: rdalal <rdalal@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/24 18:27:39 by rdalal            #+#    #+#             */
-/*   Updated: 2025/04/02 22:02:36 by rdalal           ###   ########.fr       */
+/*   Updated: 2025/04/02 22:32:59 by gmechaly         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,8 @@ void	cleanup_redirection(t_redir *redir)
 {
 	t_redir	*tmp;
 
+	while (redir && redir->prev)
+		redir = redir->prev;
 	while (redir)
 	{
 		tmp = redir;
@@ -34,17 +36,17 @@ void	cleanup_redirection(t_redir *redir)
 	}
 }
 
-static void	print_delim_array(char **delimiter)
-{
-	int	i;
+// static void	print_delim_array(char **delimiter)
+// {
+// 	int	i;
 
-	i = 0;
-	while (delimiter[i])
-	{
-		printf("delim[%d] = .%s.\n", i, delimiter[i]);
-		i++;
-	}
-}
+// 	i = 0;
+// 	while (delimiter[i])
+// 	{
+// 		printf("delim[%d] = .%s.\n", i, delimiter[i]);
+// 		i++;
+// 	}
+// }
 
 static void	*create_delim_array(t_redir *redir, t_token **tokens)
 {
@@ -81,11 +83,36 @@ static void	*create_delim_array(t_redir *redir, t_token **tokens)
 	return (redir);
 }
 
+static t_redir	*ft_last_redir_node(t_redir **redir)
+{
+	t_redir	*node;
+
+	if (!*redir)
+		return (NULL);
+	node = *redir;
+	while (node && node->next)
+		node = node->next;
+	return (node);
+}
+
 static int	parse_redir_node(t_token **node, t_redir **tail)
 {
-	t_redir	*new = ft_calloc(1, sizeof(t_redir));
+	t_redir	*new;
+
+	new = ft_calloc(1, sizeof(t_redir));
+	*tail = ft_last_redir_node(tail);
 	if (!new)
 		return (0);
+	if (!*tail)
+	{
+		new->prev = NULL;
+		*tail = new;
+	}
+	else
+	{
+		new->prev = *tail;
+		new->prev->next = new;
+	}
 	if (!(*node)->right || !(*node)->right->input)
 	{
 		free(new);
@@ -104,7 +131,7 @@ static int	parse_redir_node(t_token **node, t_redir **tail)
 	{
 		if (!create_delim_array(new, node))
 			return (0);
-		print_delim_array(new->delimiter);
+		// print_delim_array(new->delimiter);
 	}
 	else
 		new->file = ft_strdup((*node)->right->input);
@@ -116,10 +143,26 @@ static int	parse_redir_node(t_token **node, t_redir **tail)
 	// 	ft_putstr_fd("PROMPT syntax error\n", 2);
 	// 	return (0);
 	// }
-	*tail = new;
+	// *tail = new;
 	if (new->type != HEREDOC)
 		*node = (*node)->right->right;
+	new->next = NULL;
 	return (1);
+}
+
+static void	print_redir_list(t_redir **redir)
+{
+	t_redir	*node;
+	int		i;
+
+	i = 0;
+	node = *redir;
+	while (node)
+	{
+		printf("redir[%d] : file = %s, type = %d\n", i, node->file, (int)node->type);
+		node = node->next;
+		i++;
+	}
 }
 
 t_redir	*init_redir(t_token **cmd_token)
@@ -144,6 +187,7 @@ t_redir	*init_redir(t_token **cmd_token)
 			// fprintf(stderr, "DEBUG: [init_redir] redirection initialized and processing token here %s\n", node->input);
 			if (!parse_redir_node(&node, tail))
 				return (cleanup_redirection(redir_list), NULL);
+			print_redir_list(&redir_list);
 			while (node && (!ft_strcmp(node->type, "heredoc") \
 			|| !ft_strcmp(node->type, "delimiter")))
 				node = node->right;
