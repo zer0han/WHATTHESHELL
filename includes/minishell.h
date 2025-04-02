@@ -6,7 +6,7 @@
 /*   By: gmechaly <gmechaly@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/10 19:08:44 by rdalal            #+#    #+#             */
-/*   Updated: 2025/03/31 21:58:12 by gmechaly         ###   ########.fr       */
+/*   Updated: 2025/04/01 16:19:30 by gmechaly         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,7 +82,7 @@ typedef struct s_redir
 {
 	t_redir_type	type;
 	char			*file;
-	char			*delimiter;
+	char			**delimiter;
 	//t_token			*redir;
 	struct s_redir	*next;
 	struct s_redir	*prev;
