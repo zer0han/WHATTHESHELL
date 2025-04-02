@@ -6,7 +6,7 @@
 /*   By: gmechaly <gmechaly@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/05 13:30:19 by rdalal            #+#    #+#             */
-/*   Updated: 2025/04/01 20:52:45 by gmechaly         ###   ########.fr       */
+/*   Updated: 2025/04/02 19:10:55 by gmechaly         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -101,6 +101,7 @@ static int	handle_output(t_redir *redir, t_exec *exec)
 {
 	int	fd;
 
+	printf("handle output for file %s\n", redir->file);
 	fd = open(redir->file, O_WRONLY | O_CREAT | O_TRUNC, 0644);
 	if (fd == -1)
 		return (error_message(redir->file, errno), 0);
