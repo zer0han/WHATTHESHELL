@@ -6,7 +6,7 @@
 /*   By: rdalal <rdalal@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/10 19:08:44 by rdalal            #+#    #+#             */
-/*   Updated: 2025/04/02 17:22:40 by gmechaly         ###   ########.fr       */
+/*   Updated: 2025/04/02 21:45:07 by rdalal           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -115,6 +115,7 @@ typedef struct s_vexp
 	char	*n_ipt;
 }			t_vexp;
 
+# define PROMPT "\001\033[1;32m\002WHATTHESHELL>$ \001\033[0m\002"
 
 /*functions here*/
  /*TEMP*/

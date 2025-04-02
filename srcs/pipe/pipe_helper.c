@@ -6,7 +6,7 @@
 /*   By: rdalal <rdalal@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/25 15:45:14 by rdalal            #+#    #+#             */
-/*   Updated: 2025/04/01 18:07:38 by rdalal           ###   ########.fr       */
+/*   Updated: 2025/04/02 22:04:49 by rdalal           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,7 +61,7 @@ void	child_process(t_exec *exec, t_envp *env)
 	if (!get_path(exec->cmd))
 		exit (127);
 	execve(get_path(exec->cmd), exec->args, env_to_array(env));
-	perror("WHATTHESHELL: execve");
+	perror("execve");
 	free_array(env_to_array(env));
 	exit (126);
 }

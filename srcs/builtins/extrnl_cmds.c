@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   extrnl_cmds.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gmechaly <gmechaly@student.42.fr>          +#+  +:+       +#+        */
+/*   By: rdalal <rdalal@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/10 17:31:21 by rdalal            #+#    #+#             */
-/*   Updated: 2025/04/02 16:00:17 by gmechaly         ###   ########.fr       */
+/*   Updated: 2025/04/02 20:51:07 by rdalal           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,8 +35,7 @@ char	**env_to_array(t_envp *env)
 		{
 			while (--i >= 0)
 				free (array[i]);
-			free (array);
-			return (NULL);
+			return (free (array), NULL);
 		}
 		i++;
 		temp = temp->next;

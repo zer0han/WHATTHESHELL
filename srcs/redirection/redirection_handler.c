@@ -3,7 +3,7 @@
 /*                                                        :::      ::::::::   */
 /*   redirection_handler.c                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gmechaly <gmechaly@student.42.fr>          +#+  +:+       +#+        */
+/*   By: rdalal <rdalal@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/24 18:27:39 by rdalal            #+#    #+#             */
 /*   Updated: 2025/04/02 22:32:59 by gmechaly         ###   ########.fr       */
@@ -140,7 +140,7 @@ static int	parse_redir_node(t_token **node, t_redir **tail)
 	// 	free(new->file);
 	// 	free_array(new->delimiter);
 	// 	free(new);
-	// 	ft_putstr_fd("WHATTHESHELL: syntax error\n", 2);
+	// 	ft_putstr_fd("PROMPT syntax error\n", 2);
 	// 	return (0);
 	// }
 	// *tail = new;
