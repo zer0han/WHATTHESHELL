@@ -6,7 +6,7 @@
 /*   By: rdalal <rdalal@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/24 18:06:16 by rdalal            #+#    #+#             */
-/*   Updated: 2025/03/31 18:00:47 by rdalal           ###   ########.fr       */
+/*   Updated: 2025/04/02 16:24:12 by rdalal           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,7 @@ int	count_args(t_token *node)
 	while (node && (ft_strcmp(node->type, "arg") == 0 || \
 		ft_strcmp(node->type, "option") == 0))
 	{
-		count ++;
+		count++;
 		node = node->right;
 	}
 	return (count);
