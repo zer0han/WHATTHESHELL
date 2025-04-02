@@ -6,7 +6,7 @@
 /*   By: rdalal <rdalal@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/18 19:35:01 by rdalal            #+#    #+#             */
-/*   Updated: 2025/04/01 18:07:13 by rdalal           ###   ########.fr       */
+/*   Updated: 2025/04/02 16:48:42 by rdalal           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,20 +40,18 @@ t_exec	*create_exec(t_token *cmd_token)
 	return (exec_cmd);
 }
 
-static void	process_args(t_exec *exec_cmd, t_token *node)
+static void	*process_args(t_exec *exec_cmd, t_token *node)
 {
-	int	arg_size;
 	int	i;
 
 	if (!exec_cmd || !exec_cmd->cmd || !exec_cmd->cmd[0])
-	return (ft_putstr_fd("ERROR: exec->cmd is NULL!\n", STDERR_FILENO));
-	arg_size = count_args(node);
-	exec_cmd->args = malloc(sizeof(char *) * (arg_size + 2));
+		return (ft_putstr_fd("ERROR: exec->cmd is NULL!\n", STDERR_FILENO), NULL);
+	exec_cmd->args = malloc(sizeof(char *) * (count_args(node) + 2));
 	if (!exec_cmd->args)
-		return (perror("malloc failed in process_args"));
+		return (perror("malloc failed in process_args"), NULL);
 	exec_cmd->args[0] = ft_strdup(exec_cmd->cmd);
 	if (!exec_cmd->args[0])
-		return (perror("strdup failed for cmd"));
+		return (perror("strdup failed for cmd"), NULL);
 	i = 1;
 	while (node && (ft_strcmp(node->type, "arg") == 0 \
 		|| ft_strcmp(node->type, "option") == 0))
@@ -61,15 +59,16 @@ static void	process_args(t_exec *exec_cmd, t_token *node)
 		exec_cmd->args[i] = ft_strdup(node->input);
 		if (!exec_cmd->args[i])
 		{
-			while (--i >= 0)
-				free (exec_cmd->args[i]);
-			exec_cmd->args = NULL;
-			return (free_exec(exec_cmd));
+			//while (--i >= 0)
+			// 	free (exec_cmd->args[i]);
+			// exec_cmd->args = NULL;
+			return (free_exec(exec_cmd), NULL);
 		}
 		node = node->right;
 		i++;
 	}
 	exec_cmd->args[i] = NULL;
+	return (exec_cmd);
 }
 
 t_exec	*create_exec_list(t_token *token_tree)
@@ -87,7 +86,8 @@ t_exec	*create_exec_list(t_token *token_tree)
 			new_exec = create_exec(current_token);
 			if (!new_exec)
 				return (NULL);
-			process_args(new_exec, current_token->right);
+			if (!process_args(new_exec, current_token->right))
+				return (NULL);
 			if (exec_list)
 				exec_list->is_pipeline = 1;
 			add_exec_node(&exec_list, new_exec);
