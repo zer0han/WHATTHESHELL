@@ -6,107 +6,23 @@
 /*   By: rdalal <rdalal@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/28 18:07:44 by rdalal            #+#    #+#             */
-/*   Updated: 2025/03/31 17:54:07 by rdalal           ###   ########.fr       */
+/*   Updated: 2025/04/02 18:13:56 by rdalal           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-/***cmd_export
-*export
-**to view all the exported variables.
+// static t_envp	*ft_last_env_node(t_envp **duplicate)
+// {
+// 	t_envp	*node;
 
-*export -p
-**to view all the exported variables on current shell
-
-*export -f [function name]
-**to export shell function
-*Must be used if the names refer to functions.
-*If -f is not used, the export will assume the names are variables.
-
-*export -n [variable_name]
-**Named variables (or functions, with -f) will no longer be exported
-**No output will be seen on screen, to see exported variable grep from exported ones is used
-
-*export without argument, the environment variables are displayed in alphabetical order.
-**each variable is printed in the format
-** declare -x VAR="value"
-**sorting the environment ensures consistent behavior when user calls export
-
-*export with arguments
-**if args passed like export VAR=value, the variable is added or updated in the environment list without
-needing sorting immediately
-
-output
-
-declare -x HOME="/home/user"
-declare -x PATH="/usr/bin"
-declare -x SHELL="/bin/bash"
-
-***/
-
-void	print_env(t_envp **dup)
-{
-	t_envp	*node;
-
-	node = *dup;
-	while (node)
-	{
-		printf("export %s\n", node->str);
-		node = node->next;
-	}
-}
-
-static t_envp	*ft_last_env_node(t_envp **duplicate)
-{
-	t_envp	*node;
-
-	node = *duplicate;
-	if (node == NULL)
-		return (NULL);
-	while (node && node->next)
-		node = node->next;
-	return (node);
-}
-
-static t_envp	*create_envp_node(char *env_line, t_envp **duplicate)
-{
-	t_envp	*node;
-
-	node = ft_calloc(1, sizeof(t_envp));
-	if (node == NULL)
-		return (NULL);
-	node->str = ft_strdup(env_line);
-	if (!(*duplicate))
-	{
-		duplicate = &node;
-		node->prev = NULL;
-	}
-	else
-	{
-		node->prev = ft_last_env_node(duplicate);
-		node->prev->next = node;
-	}
-	node->next = NULL;
-	return (*duplicate);
-}
-
-t_envp	*envp_dup(char **envp)
-{
-	t_envp	*dup_env;
-	int		i;
-
-	i = 0;
-	dup_env = NULL;
-	while (envp[i])
-	{
-		dup_env = create_envp_node(envp[i], &dup_env);
-		if (dup_env == NULL)
-			return (NULL);
-		i++;
-	}
-	return(dup_env);
-}
+// 	node = *duplicate;
+// 	if (node == NULL)
+// 		return (NULL);
+// 	while (node && node->next)
+// 		node = node->next;
+// 	return (node);
+// }
 
 static void	*add_env(t_envp **dup, char *var, char *value)
 {
@@ -127,30 +43,30 @@ static void	*add_env(t_envp **dup, char *var, char *value)
 	return (*dup);
 }
 
-static int	update_env(t_envp **dup, char *var, char *value)
+static int	update_env(t_envp **dup, char *var, char *val)
 {
-	t_envp	*node;
+	t_envp	*nv;
 	int		i;
 
-	node = *dup;
+	nv = *dup;
 	i = 0;
-	while (node)
+	while (nv)
 	{
-		if (strncmp(node->str, var, ft_strlen(var)) == 0 && \
-			node->str[ft_strlen(var)] == '=')
+		if (strncmp(nv->str, var, ft_strlen(var)) == 0 && \
+			nv->str[ft_strlen(var)] == '=')
 		{
-			free(node->str);
-			node->str = malloc(ft_strlen(var) + ft_strlen(value) + 2);
-			if (node->str == NULL)
+			free(nv->str);
+			nv->str = malloc(ft_strlen(var) + ft_strlen(val) + 2);
+			if (nv->str == NULL)
 				return (-1);
-			ft_strlcpy(node->str, var, ft_strlen(var) + 1);
-			ft_strlcat(node->str, "=", ft_strlen(node->str) + 2);
-			ft_strlcat(node->str, value, ft_strlen(node->str) + ft_strlen(value) + 2);
-			if (is_quote(node->str[ft_strlen(node->str) - 1]))
-				node->str[ft_strlen(node->str) - 1] = '\0';
+			ft_strlcpy(nv->str, var, ft_strlen(var) + 1);
+			ft_strlcat(nv->str, "=", ft_strlen(nv->str) + 2);
+			ft_strlcat(nv->str, val, ft_strlen(nv->str) + ft_strlen(val) + 2);
+			if (is_quote(nv->str[ft_strlen(nv->str) - 1]))
+				nv->str[ft_strlen(nv->str) - 1] = '\0';
 			return (0);
 		}
-		node = node->next;
+		nv = nv->next;
 		i++;
 	}
 	return (1);
