@@ -3,7 +3,7 @@
 /*                                                        :::      ::::::::   */
 /*   exec.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rdalal <rdalal@student.42.fr>              +#+  +:+       +#+        */
+/*   By: gmechaly <gmechaly@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/18 19:35:01 by rdalal            #+#    #+#             */
 /*   Updated: 2025/04/02 16:48:42 by rdalal           ###   ########.fr       */
@@ -114,7 +114,7 @@ t_exec	*main_execution(t_token **token_tree, t_envp *env)
 			if (fd_is_builtin(exec_list->cmd_token))
 				execute_cmds(exec_list->cmd_token, env, exec_list);
 			else
-				exec_external(exec_list->cmd_token, exec_list->std_save, env, exec_list);
+				exec_external(env, exec_list);
 		}
 	}
 	dup2(exec_list->std_save[0], STDIN_FILENO);
