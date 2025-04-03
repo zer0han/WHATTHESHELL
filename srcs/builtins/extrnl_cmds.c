@@ -6,50 +6,73 @@
 /*   By: rdalal <rdalal@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/10 17:31:21 by rdalal            #+#    #+#             */
-/*   Updated: 2025/04/02 20:51:07 by rdalal           ###   ########.fr       */
+/*   Updated: 2025/04/03 19:04:13 by rdalal           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-char	**env_to_array(t_envp *env)
+static int	env_count(t_envp *env)
 {
-	t_envp	*temp;
-	char	**array;
-	int		count;
-	int		i;
+	int	count;
 
 	count = 0;
-	temp = env;
-	while (temp && ++count)
-		temp = temp->next;
-	array = malloc(sizeof(char *) * (count + 1));
+	while (env)
+	{
+		count++;
+		env = env->next;
+	}
+	return (count);
+}
+
+char	**env_to_array(t_envp *env)
+{
+	char	**array;
+	int		i;
+
+	array = malloc(sizeof(char *) * (env_count(env) + 1));
 	if (!array)
 		return (NULL);
 	i = 0;
-	temp = env;
-	while (temp)
+	while (env)
 	{
-		array[i] = ft_strdup(temp->str);
+		array[i] = ft_strdup(env->str);
 		if (!array[i])
 		{
-			while (--i >= 0)
-				free (array[i]);
-			return (free (array), NULL);
+			free_string_tab(array);
+			return (NULL);
 		}
 		i++;
-		temp = temp->next;
+		env = env->next;
 	}
 	array[i] = NULL;
 	return (array);
 }
 
+static void	exec_child(char *path, char **argv, t_envp *env, t_exec *exec)
+{
+	close(exec->std_save[0]);
+	close(exec->std_save[1]);
+	execve(path, argv, env_to_array(env));
+	error_message("execve", errno);
+	exit(126);
+}
+
+static void	exec_parent(pid_t pid)
+{
+	int	status;
+
+	if (pid > 0)
+	{
+		waitpid(pid, &status, 0);
+		g_exit_status = WEXITSTATUS(status);
+	}
+}
+
 void	exec_external(t_envp *env, t_exec *exec)
 {
 	char	*path;
-	char	**argv;
 	pid_t	pid;
-	int		status;
 
 	path = get_path(exec->cmd);
 	if (!path)
@@ -58,31 +81,14 @@ void	exec_external(t_envp *env, t_exec *exec)
 		g_exit_status = 127;
 		return ;
 	}
-	argv = exec->args;
 	if (exec->is_pipeline)
-	{
-		close(exec->std_save[0]);
-		close(exec->std_save[1]);
-		execve(path, argv, env_to_array(env));
-		error_message("execve", errno);
-		exit(126);
-	}
+		exec_child(path, exec->args, env, exec);
 	else
 	{
 		pid = fork();
 		if (pid == 0)
-		{
-			close(exec->std_save[0]);
-			close(exec->std_save[1]);
-			execve(path, argv, env_to_array(env));
-			error_message("execve", errno);
-			exit(126);
-		}
-		else if (pid > 0)
-		{
-			waitpid(pid, &status, 0);
-			g_exit_status = WEXITSTATUS(status);
-		}
+			exec_child(path, exec->args, env, exec);
+		exec_parent(pid);
 	}
 	free (path);
 }
