@@ -6,7 +6,7 @@
 /*   By: gmechaly <gmechaly@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/16 14:55:26 by gmechaly          #+#    #+#             */
-/*   Updated: 2025/04/02 17:21:33 by gmechaly         ###   ########.fr       */
+/*   Updated: 2025/04/08 00:09:20 by gmechaly         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,4 +85,11 @@ void	free_envp(t_envp *dup)
 		free(dup);
 		dup = temp;
 	}
+}
+
+void	free_end(t_envp *env, char *input)
+{
+	free(input);
+	free_envp(env);
+	rl_clear_history();
 }

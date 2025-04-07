@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rdalal <rdalal@student.42.fr>              +#+  +:+       +#+        */
+/*   By: gmechaly <gmechaly@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/10 19:08:44 by rdalal            #+#    #+#             */
-/*   Updated: 2025/04/02 21:45:07 by rdalal           ###   ########.fr       */
+/*   Updated: 2025/04/08 00:10:01 by gmechaly         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -236,6 +236,7 @@ void	free_tokens(t_token *tokens);
 void	free_exec(t_exec *exec_list);
 void	free_envp(t_envp *dup);
 void	free_all(t_token *tokens, t_exec *exec_list);
+void	free_end(t_envp *env, char *input);
 
 /*	main.c	*/
 t_token	*ft_minishell_parsing(char *input, t_envp *env);

@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: rdalal <rdalal@student.42.fr>              +#+  +:+       +#+         #
+#    By: gmechaly <gmechaly@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/11/05 20:07:53 by rdalal            #+#    #+#              #
-#    Updated: 2025/04/02 21:35:27 by rdalal           ###   ########.fr        #
+#    Updated: 2025/04/08 00:06:01 by gmechaly         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -28,9 +28,10 @@ SRCS_EXEC	=	dispatch.c exec_helper.c exec.c
 
 SRCS_EXP	=	variable_exp.c variable_exp_tools.c var_tools.c
 
-SRCS_PARSE	=	assign_tokens.c custom_libft.c parse_tokens.c \
-				split_for_tokens.c split_utils.c struct_utils.c \
-				tokenize.c tools.c free_chars.c free_structs.c main.c
+SRCS_PARSE	=	assign_tokens.c assign_special_tokens.c custom_libft.c \
+				parse_tokens.c split_for_tokens.c split_utils.c \
+				struct_utils.c tokenize.c tools.c free_chars.c \
+				free_structs.c main.c
 
 SRCS_PIPE	=	pipe_helper.c pipes.c
 

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   dispatch.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rdalal <rdalal@student.42.fr>              +#+  +:+       +#+        */
+/*   By: gmechaly <gmechaly@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/11 14:50:45 by rdalal            #+#    #+#             */
-/*   Updated: 2025/04/01 18:06:52 by rdalal           ###   ########.fr       */
+/*   Updated: 2025/04/07 23:24:59 by gmechaly         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,11 +53,11 @@ int	fd_is_builtin(t_token *token)
 
 void	execute_cmds(t_token *token, t_envp *env, t_exec *exec_list)
 {
-	int		status;
+	// int		status;
 
 	if (!token || !token->input)
 		return ;
-	status = 0;
+	// status = 0;
 	dispatch_cmds(token, env, exec_list);
 	if (g_exit_status != 0)
 		return ;
