@@ -6,7 +6,7 @@
 /*   By: gmechaly <gmechaly@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/05 16:26:32 by gmechaly          #+#    #+#             */
-/*   Updated: 2025/03/19 17:57:29 by gmechaly         ###   ########.fr       */
+/*   Updated: 2025/04/07 23:51:49 by gmechaly         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,6 +45,11 @@ void	copy_quote(t_vexp *data, t_envp *env)
 
 void	copy_dquote(t_vexp *data, t_envp *env)
 {
+	if (data->o_ipt[data->i] == '\"' && data->o_ipt[data->i + 1] == '\"')
+	{
+		data->i += 2;
+		return ;
+	}
 	if (data->o_ipt[data->i] == '\"')
 		data->n_ipt[data->j++] = data->o_ipt[data->i++];
 	while (data->o_ipt[data->i] && data->o_ipt[data->i] != '\"')
@@ -60,6 +65,11 @@ void	copy_dquote(t_vexp *data, t_envp *env)
 
 void	copy_squote(t_vexp *data)
 {
+	if (data->o_ipt[data->i] == '\'' && data->o_ipt[data->i + 1] == '\'')
+	{
+		data->i += 2;
+		return ;
+	}
 	if (data->o_ipt[data->i] == '\'')
 		data->n_ipt[data->j++] = data->o_ipt[data->i++];
 	while (data->o_ipt[data->i] != '\'' && data->o_ipt[data->i])
