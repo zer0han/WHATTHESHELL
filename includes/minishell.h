@@ -6,7 +6,7 @@
 /*   By: gmechaly <gmechaly@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/10 19:08:44 by rdalal            #+#    #+#             */
-/*   Updated: 2025/04/08 00:10:01 by gmechaly         ###   ########.fr       */
+/*   Updated: 2025/04/09 00:02:40 by gmechaly         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -151,7 +151,7 @@ void	exec_external(t_envp *env, t_exec *exec);
 void	execute_cmds(t_token *token, t_envp *env, t_exec *exec_list);
 void	dispatch_cmds(t_token *tokens, t_envp *env, t_exec *exec_list);
 int		fd_is_builtin(t_token *token);
-int		cmd_cd(t_token *args);
+int		cmd_cd(t_token *args, t_envp *env);
 int		cmd_pwd(void);
 int		cmd_echo(t_token *tokens);
 int		cmd_unset(t_envp *env, t_token *tokens);
@@ -187,23 +187,27 @@ int		apply_redirection(t_exec *exec);
 void	cleanup_redirection(t_redir *redir);
 t_redir	*init_redir(t_token **cmd_token);
 void	setup_redir(t_exec *exec);
+void	*create_delim_array(t_redir *redir, t_token **tokens);
+t_redir	*ft_last_redir_node(t_redir **redir);
+int		handle_heredoc(t_redir *redir, t_exec *exec);
+int		parse_redir_node(t_token **node, t_redir **tail);
 
 
 /*************PARSING*************/
 
 /*	assign_tokens.c	*/
 void	*assign_token_type(t_token **tokens);
-void	assign_missing_cmds(t_token **tokens);
+void	assign_missing_cmds(t_token **tokens, t_envp *env);
 void	assign_options_and_args(t_token **tokens);
 
 /*	custom_libft.c	*/
-char	*ft_strncdup(char const *src);
+char	*ft_strncdup(char const *src, int *index);
 char	*ft_strnqdup(char *src, char quote);
 char	*ft_fstrjoin(char *s1, char *s2);
 
 /*	parse_tokens.c	*/
 void	parse_after_cmds(t_token **node);
-void	*parse_tokens(t_token **tokens);
+void	*parse_tokens(t_token **tokens, t_envp *env);
 void	*is_null_token(t_token **tokens);
 
 /*	split_for_tokens.c	*/
@@ -219,10 +223,10 @@ t_token	*ft_lastnode(t_token *tokens);
 t_token	*is_special_str(t_token **tokens, char *str);
 
 /*	tokenize.c	*/
-t_token	*ft_tokenize(char *input);
+t_token	*ft_tokenize(char *input, t_envp *env);
 
 /*	tools.c	*/
-char	*get_path(char *cmd);
+char	*get_path(char *cmd, t_envp *env);
 int		is_quote(char c);
 int		is_space(char s);
 void	alloc_fail(char **result, int iword);
