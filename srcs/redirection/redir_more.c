@@ -6,7 +6,7 @@
 /*   By: gmechaly <gmechaly@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/08 16:30:38 by gmechaly          #+#    #+#             */
-/*   Updated: 2025/04/09 00:37:08 by gmechaly         ###   ########.fr       */
+/*   Updated: 2025/04/09 01:20:27 by gmechaly         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,33 +32,22 @@ static int	init_heredoc(t_exec *exec)
 	return (fd);
 }
 
-int	handle_heredoc(t_redir *redir, t_exec *exec)
+int	handle_heredoc(t_redir *redir, t_exec *exec, t_envp *env)
 {
 	int		fd;
-	char	*l;
 	int		i;
 
 	i = 0;
 	fd = init_heredoc(exec);
 	if (fd < 0)
 		return (0);
-	while (redir->delimiter[i])
-	{
-		l = readline("> ");
-		if (l && !redir->delimiter[i + 1] && ft_strcmp(l, redir->delimiter[i]))
-		{
-			write (fd, l, ft_strlen(l));
-			write(fd, "\n", 1);
-			free(l);
-		}
-		else if (!l || !ft_strcmp(l, redir->delimiter[i]))
-			i++;
-	}
+	if (!multi_line_heredoc(redir, fd, env))
+		return (close(fd), error_message("heredoc", errno), 0);
 	close(fd);
 	exec->fd_in = open(exec->heredoc_file, O_RDONLY);
 	if (exec->fd_in < 0)
-		return (free(l), error_message("herdoc", errno), g_exit_status = 1, 0);
-	return (free(l), 1);
+		return (error_message("heredoc", errno), g_exit_status = 1, 0);
+	return (1);
 }
 
 static t_redir	*create_redir_node(t_redir **tail)

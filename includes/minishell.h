@@ -6,7 +6,7 @@
 /*   By: rdalal <rdalal@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/10 19:08:44 by rdalal            #+#    #+#             */
-/*   Updated: 2025/04/09 01:22:00 by rdalal           ###   ########.fr       */
+/*   Updated: 2025/04/09 01:21:05 by gmechaly         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -156,14 +156,15 @@ void	wait_for_children(t_exec *exec);
 void	exec_pipeline(t_exec *exec, t_envp *env);
 
 /**redirection**/
-int		apply_redirection(t_exec *exec);
+int		apply_redirection(t_exec *exec, t_envp *env);
 void	cleanup_redirection(t_redir *redir);
 t_redir	*init_redir(t_token **cmd_token);
 void	setup_redir(t_exec *exec);
 void	*create_delim_array(t_redir *redir, t_token **tokens);
 t_redir	*ft_last_redir_node(t_redir **redir);
-int		handle_heredoc(t_redir *redir, t_exec *exec);
+int		handle_heredoc(t_redir *redir, t_exec *exec, t_envp *env);
 int		parse_redir_node(t_token **node, t_redir **tail);
+void	*multi_line_heredoc(t_redir *redir, int fd, t_envp *env);
 
 /*************PARSING*************/
 
