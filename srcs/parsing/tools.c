@@ -6,11 +6,11 @@
 /*   By: gmechaly <gmechaly@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/23 19:53:43 by gmechaly          #+#    #+#             */
-/*   Updated: 2025/03/19 16:32:29 by gmechaly         ###   ########.fr       */
+/*   Updated: 2025/04/09 00:09:10 by gmechaly         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../includes/minishell.h"
+#include "minishell.h"
 
 static void	free_tab(char **tab, int code)
 {
@@ -26,7 +26,7 @@ static void	free_tab(char **tab, int code)
 		free(tab);
 }
 
-char	*get_path(char *cmd)
+char	*get_path(char *cmd, t_envp *env)
 {
 	char	*env_var;
 	char	*folder;
@@ -34,7 +34,11 @@ char	*get_path(char *cmd)
 	char	**cmd_paths;
 	int		i;
 
-	env_var = getenv("PATH");
+	if (!access(cmd, F_OK | X_OK))
+		return (ft_strdup(cmd));
+	env_var = my_getenv("PATH", &env);
+	if (!env_var)
+		return (NULL);
 	cmd_paths = ft_split(env_var, ':');
 	i = 0;
 	while (cmd_paths[i] && cmd)

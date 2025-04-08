@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   extrnl_cmds.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rdalal <rdalal@student.42.fr>              +#+  +:+       +#+        */
+/*   By: gmechaly <gmechaly@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/10 17:31:21 by rdalal            #+#    #+#             */
-/*   Updated: 2025/04/03 19:04:13 by rdalal           ###   ########.fr       */
+/*   Updated: 2025/04/08 23:54:29 by gmechaly         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,7 +74,7 @@ void	exec_external(t_envp *env, t_exec *exec)
 	char	*path;
 	pid_t	pid;
 
-	path = get_path(exec->cmd);
+	path = get_path(exec->cmd, env);
 	if (!path)
 	{
 		error_message(exec->cmd, errno);

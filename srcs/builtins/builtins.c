@@ -3,25 +3,25 @@
 /*                                                        :::      ::::::::   */
 /*   builtins.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rdalal <rdalal@student.42.fr>              +#+  +:+       +#+        */
+/*   By: gmechaly <gmechaly@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/06 16:25:27 by rdalal            #+#    #+#             */
-/*   Updated: 2025/03/28 17:26:43 by rdalal           ###   ########.fr       */
+/*   Updated: 2025/04/09 00:07:06 by gmechaly         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int	cmd_cd(t_token *args)
+int	cmd_cd(t_token *args, t_envp *env)
 {
 	const char	*dir;
 
 	if (!args->right)
 	{
-		dir = getenv("HOME");
+		dir = my_getenv("HOME", &env);
 		if (!dir)
 		{
-			printf("cd: missing arguement\n");
+			printf("cd: missing argument\n");
 			return (EXIT_FAILURE);
 		}
 	}

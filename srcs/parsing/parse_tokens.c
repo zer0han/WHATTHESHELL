@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parse_tokens.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rdalal <rdalal@student.42.fr>              +#+  +:+       +#+        */
+/*   By: gmechaly <gmechaly@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/23 14:02:50 by gmechaly          #+#    #+#             */
-/*   Updated: 2025/04/02 22:11:47 by rdalal           ###   ########.fr       */
+/*   Updated: 2025/04/08 23:55:46 by gmechaly         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,7 @@ void	parse_after_cmds(t_token **node)
 	}
 }
 
-void	*parse_tokens(t_token **tokens)
+void	*parse_tokens(t_token **tokens, t_envp *env)
 {
 	t_token	*node;
 	char	*path;
@@ -39,7 +39,7 @@ void	*parse_tokens(t_token **tokens)
 	{
 		if (node->type && !ft_strncmp(node->type, "cmd", 3))
 		{
-			path = get_path(node->input);
+			path = get_path(node->input, env);
 			if (path == NULL && !fd_is_builtin(node))
 				return (printf(PROMPT "%s : invalid cmd\n", node->input), NULL);
 			free(path);

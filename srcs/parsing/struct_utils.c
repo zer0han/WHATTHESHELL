@@ -6,11 +6,11 @@
 /*   By: gmechaly <gmechaly@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/10 19:40:18 by gmechaly          #+#    #+#             */
-/*   Updated: 2025/03/31 19:24:13 by gmechaly         ###   ########.fr       */
+/*   Updated: 2025/04/08 16:27:08 by gmechaly         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../includes/minishell.h"
+#include "minishell.h"
 
 t_token	*create_node(t_token **tokens, char *char_token)
 {
