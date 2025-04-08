@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   variable_exp.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rdalal <rdalal@student.42.fr>              +#+  +:+       +#+        */
+/*   By: gmechaly <gmechaly@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/30 13:52:27 by gmechaly          #+#    #+#             */
-/*   Updated: 2025/04/02 18:47:38 by rdalal           ###   ########.fr       */
+/*   Updated: 2025/04/08 22:13:55 by gmechaly         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,9 +33,11 @@ int	new_input_len(char *input, t_envp *env)
 		}
 		if (input[i] && input[i] == '\'' && code == 0)
 			i += ft_search_unquote(&input[i], '\'');
-		if (input[i] != '\0')
+		if (i >= 0 && input[i] != '\0')
 			i++;
 	}
+	if (i <= 0)
+		return (INT_MIN);
 	return (i + add_len);
 }
 
@@ -85,13 +87,3 @@ char	*expand_variables(char *input, t_envp *env)
 	free(data);
 	return (new_input);
 }
-
-// int	main(void)
-// {
-// 	char	*ninput;
-
-// 	ninput = expand_variables("echo $HOME \"$HOME\" $\"HOME\"");
-// 	printf("%s\n", ninput);
-// 	free(ninput);
-// 	return (0);
-// }

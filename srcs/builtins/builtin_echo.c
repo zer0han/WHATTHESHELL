@@ -3,14 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   builtin_echo.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rdalal <rdalal@student.42.fr>              +#+  +:+       +#+        */
+/*   By: gmechaly <gmechaly@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/21 19:48:47 by rdalal            #+#    #+#             */
-/*   Updated: 2025/03/10 19:46:16 by rdalal           ###   ########.fr       */
+/*   Updated: 2025/04/08 18:50:28 by gmechaly         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../includes/minishell.h"
+#include "minishell.h"
 
 static int	handle_n_flag(t_token **args, int *nl)
 {
@@ -39,8 +39,13 @@ int	cmd_echo(t_token *tokens)
 	if (!tokens || ft_strcmp(tokens->input, "echo") != 0)
 		return (EXIT_FAILURE);
 	args = tokens->right;
-	if (args)
-		handle_n_flag(&args, &nl);
+	if (args && !handle_n_flag(&args, &nl))
+	{
+		printf("%s", args->input);
+		args = args->right;
+		if (args && (ft_strcmp(args->type, "arg") == 0))
+			printf(" ");
+	}		
 	while (args && (ft_strcmp(args->type, "arg") == 0))
 	{
 		printf("%s", args->input);

@@ -6,13 +6,13 @@
 /*   By: gmechaly <gmechaly@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/15 17:40:07 by gmechaly          #+#    #+#             */
-/*   Updated: 2025/04/01 17:50:55 by gmechaly         ###   ########.fr       */
+/*   Updated: 2025/04/09 00:45:11 by gmechaly         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../includes/minishell.h"
+#include "minishell.h"
 
-t_token	*ft_tokenize(char *input)
+t_token	*ft_tokenize(char *input, t_envp *env)
 {
 	char	**char_tokens;
 	int		i;
@@ -34,8 +34,8 @@ t_token	*ft_tokenize(char *input)
 	}
 	free (char_tokens);
 	if (assign_token_type(&tokens) == NULL)
-		return (NULL);
-	assign_missing_cmds(&tokens);
+		return (free_tokens(tokens), NULL);
+	assign_missing_cmds(&tokens, env);
 	assign_options_and_args(&tokens);
 	return (tokens);
 }

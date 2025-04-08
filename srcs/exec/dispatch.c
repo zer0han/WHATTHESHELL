@@ -6,7 +6,7 @@
 /*   By: gmechaly <gmechaly@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/11 14:50:45 by rdalal            #+#    #+#             */
-/*   Updated: 2025/04/07 23:24:59 by gmechaly         ###   ########.fr       */
+/*   Updated: 2025/04/09 00:03:48 by gmechaly         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ void	dispatch_cmds(t_token *tokens, t_envp *env, t_exec *exec_list)
 	if (ft_strcmp(tokens->input, "echo") == 0)
 		status = cmd_echo(tokens);
 	else if (ft_strcmp(tokens->input, "cd") == 0)
-		status = cmd_cd(tokens);
+		status = cmd_cd(tokens, env);
 	else if (ft_strcmp(tokens->input, "pwd") == 0)
 		status = cmd_pwd();
 	else if (ft_strcmp(tokens->input, "env") == 0)
@@ -53,11 +53,8 @@ int	fd_is_builtin(t_token *token)
 
 void	execute_cmds(t_token *token, t_envp *env, t_exec *exec_list)
 {
-	// int		status;
-
 	if (!token || !token->input)
 		return ;
-	// status = 0;
 	dispatch_cmds(token, env, exec_list);
 	if (g_exit_status != 0)
 		return ;

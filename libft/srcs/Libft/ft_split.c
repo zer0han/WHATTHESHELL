@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_split.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rdalal <rdalal@student.42.fr>              +#+  +:+       +#+        */
+/*   By: gmechaly <gmechaly@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/22 17:31:00 by rdalal            #+#    #+#             */
-/*   Updated: 2025/03/07 17:13:07 by rdalal           ###   ########.fr       */
+/*   Updated: 2025/04/08 16:28:52 by gmechaly         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -103,4 +103,3 @@ char	**ft_split(char const *s, char c)
 	result[word_index] = NULL;
 	return (result);
 }
-

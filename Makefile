@@ -6,7 +6,7 @@
 #    By: gmechaly <gmechaly@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/11/05 20:07:53 by rdalal            #+#    #+#              #
-#    Updated: 2025/04/08 00:06:01 by gmechaly         ###   ########.fr        #
+#    Updated: 2025/04/08 17:22:30 by gmechaly         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -35,7 +35,7 @@ SRCS_PARSE	=	assign_tokens.c assign_special_tokens.c custom_libft.c \
 
 SRCS_PIPE	=	pipe_helper.c pipes.c
 
-SRCS_REDIR	=	redirection_handler.c redirection.c
+SRCS_REDIR	=	redirection_handler.c redirection.c redir_more.c
 
 SRCS_SIG	=	signal_handler.c
 
