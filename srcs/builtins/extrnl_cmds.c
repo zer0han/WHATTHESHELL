@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   extrnl_cmds.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gmechaly <gmechaly@student.42.fr>          +#+  +:+       +#+        */
+/*   By: rdalal <rdalal@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/10 17:31:21 by rdalal            #+#    #+#             */
-/*   Updated: 2025/04/08 23:54:29 by gmechaly         ###   ########.fr       */
+/*   Updated: 2025/04/09 01:07:23 by rdalal           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,7 +65,10 @@ static void	exec_parent(pid_t pid)
 	if (pid > 0)
 	{
 		waitpid(pid, &status, 0);
-		g_exit_status = WEXITSTATUS(status);
+		if (WIFEXITED(status))
+			g_exit_status = WEXITSTATUS(status);
+		else if (WIFSIGNALED(status))
+			g_exit_status = 128 + WTERMSIG(status);
 	}
 }
 
