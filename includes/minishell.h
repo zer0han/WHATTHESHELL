@@ -3,7 +3,7 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gmechaly <gmechaly@student.42.fr>          +#+  +:+       +#+        */
+/*   By: rdalal <rdalal@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/10 19:08:44 by rdalal            #+#    #+#             */
 /*   Updated: 2025/04/09 01:21:05 by gmechaly         ###   ########.fr       */
@@ -35,18 +35,6 @@
 
 extern volatile sig_atomic_t	g_exit_status;
 
-/* define identifiers stuff here
-# define ...
-*/
-
-/*structs here*/
-
-/*typedef struct s_data
-{
-			
-}*/
-// variable types are just placeholders for now
-
 typedef struct s_data
 {
 	char			*args;
@@ -65,7 +53,6 @@ typedef struct s_token
 {
 	char			*input;
 	char			*type;
-	// int				*value;
 	struct s_token	*left;
 	struct s_token	*right;
 }					t_token;
@@ -83,7 +70,6 @@ typedef struct s_redir
 	t_redir_type	type;
 	char			*file;
 	char			**delimiter;
-	//t_token			*redir;
 	struct s_redir	*next;
 	struct s_redir	*prev;
 }					t_redir;
@@ -119,7 +105,7 @@ typedef struct s_vexp
 
 /*functions here*/
  /*TEMP*/
- void	ft_print_tokens(t_token **tokens);
+ //void	ft_print_tokens(t_token **tokens);
 
 /*************ERROR HANDLING********/
 
@@ -134,19 +120,14 @@ t_exec	*create_exec_list(t_token *token_tree);
 t_exec	*main_execution(t_token **token_tree, t_envp *env);
 /**exec_helper**/
 void	add_exec_node(t_exec **list, t_exec *new);
-//int		add_argument(t_exec *exec, char *arg);
 int		count_args(t_token *node);
 /*	helper				*/
 void	sort_export_env(char **object);
 int		exitcode_check(char *code);
 int		valid_id(char *var);
-// int		update_env(char ***envp, char *var, char *value);
-// int		add_env(char ***envp, char *var, char *value);
 
 /*	builtins			*/
 int		fd_is_builtin(t_token *token);
-//char	**cmd_prep(t_token *tokens, char **envp, char **cmd_path);
-// void	run_cmd(char *cmd_path, char **argv, char **envp);
 void	exec_external(t_envp *env, t_exec *exec);
 void	execute_cmds(t_token *token, t_envp *env, t_exec *exec_list);
 void	dispatch_cmds(t_token *tokens, t_envp *env, t_exec *exec_list);
@@ -157,7 +138,7 @@ int		cmd_echo(t_token *tokens);
 int		cmd_unset(t_envp *env, t_token *tokens);
 int		cmd_env(t_envp *env);
 int		cmd_exit(t_token *args, t_exec *exec_list, t_envp *env);
-char	**env_to_array (t_envp *env);
+char	**env_to_array(t_envp *env);
 
 /*builtin_export.c*/
 int		cmd_export(t_envp *env, t_token **tokens);
@@ -168,19 +149,11 @@ void	print_env(t_envp **dup);
 /*  pipes               */
 /**pipe_helper**/
 void	handle_pipe_redir(t_exec *exec);
-//void	apply_redir_pipe(t_exec *exec);
 void	child_process(t_exec *exec, t_envp *env);
 /**pipe**/
 void	setup_child_process(t_exec *exec, t_envp *env);
 void	wait_for_children(t_exec *exec);
 void	exec_pipeline(t_exec *exec, t_envp *env);
-
-/*  redirection         */
-/**heredoc**/
-
-/**redir_handler**/
-
-/**redirection_exec**/
 
 /**redirection**/
 int		apply_redirection(t_exec *exec, t_envp *env);
@@ -192,7 +165,6 @@ t_redir	*ft_last_redir_node(t_redir **redir);
 int		handle_heredoc(t_redir *redir, t_exec *exec, t_envp *env);
 int		parse_redir_node(t_token **node, t_redir **tail);
 void	*multi_line_heredoc(t_redir *redir, int fd, t_envp *env);
-
 
 /*************PARSING*************/
 
@@ -215,8 +187,8 @@ void	*is_null_token(t_token **tokens);
 char	**ft_split_for_tokens(char *line);
 
 /*	split_utils.c	*/
-int	ft_search_unquote(const char *line, char quote);
-int	is_nosep_token(char *input, int *i);
+int		ft_search_unquote(const char *line, char quote);
+int		is_nosep_token(char *input, int *i);
 
 /*	struct_utils.c	*/
 t_token	*create_node(t_token **tokens, char *char_token);

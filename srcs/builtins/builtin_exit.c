@@ -6,7 +6,7 @@
 /*   By: rdalal <rdalal@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/14 14:07:48 by rdalal            #+#    #+#             */
-/*   Updated: 2025/04/02 22:04:26 by rdalal           ###   ########.fr       */
+/*   Updated: 2025/04/09 00:06:04 by rdalal           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,26 +30,25 @@ int	exitcode_check(char *code)
 
 int	cmd_exit(t_token *token, t_exec *exec_list, t_envp *env)
 {
-	int	exit_code;
+	int		exit_code;
 
 	exit_code = 0;
-	if (token && token->right && token->right->right)
-	{
-		ft_putstr_fd(PROMPT "exit: too many arguments\n", STDERR_FILENO);
-		return (1);
-	}
 	if (token && token->right)
 	{
 		if (exitcode_check(token->right->input))
 		{
-			ft_putstr_fd(PROMPT "exit: nbr required\n", STDERR_FILENO);
+			ft_putstr_fd(PROMPT "exit: ", STDERR_FILENO);
+			ft_putstr_fd(token->right->input, STDERR_FILENO);
+			ft_putendl_fd(": numeric argument required", STDERR_FILENO);
 			exit_code = 2;
 		}
+		else if (token->right->right)
+			return (ft_putendl_fd(PROMPT "exit: too many arguments", \
+				 STDERR_FILENO), 1);
 		else
 			exit_code = ft_atoi(token->right->input) % 256;
-	}	
-	else
-		exit_code = 0;
+	}
+	printf("exit\n");
 	close(exec_list->std_save[0]);
 	close(exec_list->std_save[1]);
 	free_all(token, exec_list);
