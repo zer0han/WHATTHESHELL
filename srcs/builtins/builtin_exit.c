@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   builtin_exit.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rdalal <rdalal@student.42.fr>              +#+  +:+       +#+        */
+/*   By: gmechaly <gmechaly@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/14 14:07:48 by rdalal            #+#    #+#             */
-/*   Updated: 2025/04/09 00:06:04 by rdalal           ###   ########.fr       */
+/*   Updated: 2025/04/09 01:46:06 by gmechaly         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,7 +44,7 @@ int	cmd_exit(t_token *token, t_exec *exec_list, t_envp *env)
 		}
 		else if (token->right->right)
 			return (ft_putendl_fd(PROMPT "exit: too many arguments", \
-				 STDERR_FILENO), 1);
+				STDERR_FILENO), 1);
 		else
 			exit_code = ft_atoi(token->right->input) % 256;
 	}

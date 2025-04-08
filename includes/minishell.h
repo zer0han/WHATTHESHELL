@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rdalal <rdalal@student.42.fr>              +#+  +:+       +#+        */
+/*   By: gmechaly <gmechaly@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/10 19:08:44 by rdalal            #+#    #+#             */
-/*   Updated: 2025/04/09 01:21:05 by gmechaly         ###   ########.fr       */
+/*   Updated: 2025/04/09 01:45:37 by gmechaly         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -104,8 +104,8 @@ typedef struct s_vexp
 # define PROMPT "\001\033[1;32m\002WHATTHESHELL>$ \001\033[0m\002"
 
 /*functions here*/
- /*TEMP*/
- //void	ft_print_tokens(t_token **tokens);
+/*TEMP*/
+//void	ft_print_tokens(t_token **tokens);
 
 /*************ERROR HANDLING********/
 
