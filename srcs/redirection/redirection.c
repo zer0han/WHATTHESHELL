@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   redirection.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gmechaly <gmechaly@student.42.fr>          +#+  +:+       +#+        */
+/*   By: rdalal <rdalal@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/05 13:30:19 by rdalal            #+#    #+#             */
-/*   Updated: 2025/04/08 00:21:29 by gmechaly         ###   ########.fr       */
+/*   Updated: 2025/04/09 00:30:14 by rdalal           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,7 @@ static int	handle_output(t_redir *redir, t_exec *exec)
 
 	fd = open(redir->file, O_WRONLY | O_CREAT | O_TRUNC, 0644);
 	if (fd == -1)
-		return (error_message(redir->file, errno), 0);
+		return (error_message(redir->file, errno), g_exit_status = 1, 0);
 	if (exec->fd_out != STDOUT_FILENO)
 		close(exec->fd_out);
 	exec->fd_out = fd;
