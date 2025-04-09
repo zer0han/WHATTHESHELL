@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   pipe_helper.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gmechaly <gmechaly@student.42.fr>          +#+  +:+       +#+        */
+/*   By: rdalal <rdalal@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/25 15:45:14 by rdalal            #+#    #+#             */
-/*   Updated: 2025/04/09 01:04:40 by gmechaly         ###   ########.fr       */
+/*   Updated: 2025/04/09 23:24:21 by rdalal           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,8 @@ void	handle_pipe_redir(t_exec *exec)
 	if (exec->fd_out != STDOUT_FILENO)
 	{
 		dup2(exec->fd_out, STDOUT_FILENO);
-		close (exec->fd_out);
+		if (exec->fd_pipe[1] >= 0)
+			close (exec->fd_pipe[1]);
 	}
 	else if (exec->next)
 	{
