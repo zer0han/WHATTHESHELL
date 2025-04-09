@@ -6,7 +6,7 @@
 /*   By: gmechaly <gmechaly@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/25 15:45:14 by rdalal            #+#    #+#             */
-/*   Updated: 2025/04/08 23:57:37 by gmechaly         ###   ########.fr       */
+/*   Updated: 2025/04/09 01:04:40 by gmechaly         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,7 +43,7 @@ void	child_process(t_exec *exec, t_envp *env)
 {
 	char	*path;
 
-	if (apply_redirection(exec))
+	if (apply_redirection(exec, env))
 		setup_redir(exec);
 	handle_pipe_redir(exec);
 	if (exec->p_pipe != -1)

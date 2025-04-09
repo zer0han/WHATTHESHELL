@@ -6,7 +6,7 @@
 /*   By: rdalal <rdalal@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/05 13:30:19 by rdalal            #+#    #+#             */
-/*   Updated: 2025/04/09 00:55:36 by rdalal           ###   ########.fr       */
+/*   Updated: 2025/04/09 01:04:16 by gmechaly         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,7 +55,7 @@ static int	handle_append(t_redir *redir, t_exec *exec)
 	return (1);
 }
 
-int	apply_redirection(t_exec *exec)
+int	apply_redirection(t_exec *exec, t_envp *env)
 {
 	t_redir	*redir;
 
@@ -68,7 +68,7 @@ int	apply_redirection(t_exec *exec)
 			return (0);
 		else if (redir->type == REDIR_IN && !handle_input(redir, exec))
 			return (0);
-		else if (redir->type == HEREDOC && !handle_heredoc(redir, exec))
+		else if (redir->type == HEREDOC && !handle_heredoc(redir, exec, env))
 			return (0);
 		redir = redir->next;
 	}

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rdalal <rdalal@student.42.fr>              +#+  +:+       +#+        */
+/*   By: gmechaly <gmechaly@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/18 19:35:01 by rdalal            #+#    #+#             */
-/*   Updated: 2025/04/02 18:40:28 by gmechaly         ###   ########.fr       */
+/*   Updated: 2025/04/09 01:04:03 by gmechaly         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -105,7 +105,7 @@ t_exec	*main_execution(t_token **token_tree, t_envp *env)
 		exec_pipeline(exec_list, env);
 	else
 	{
-		if (apply_redirection(exec_list))
+		if (apply_redirection(exec_list, env))
 		{
 			setup_redir(exec_list);
 			if (fd_is_builtin(exec_list->cmd_token))
