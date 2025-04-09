@@ -6,7 +6,7 @@
 /*   By: gmechaly <gmechaly@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/25 15:45:14 by rdalal            #+#    #+#             */
-/*   Updated: 2025/04/09 18:38:24 by gmechaly         ###   ########.fr       */
+/*   Updated: 2025/04/09 22:01:43 by gmechaly         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,11 +14,16 @@
 
 void	handle_pipe_redir(t_exec *exec)
 {
-	if (exec->fd_in != STDIN_FILENO)
+	if (exec->fd_in != STDIN_FILENO && !exec->redir_applied[0])
 		dup2(exec->fd_in, STDIN_FILENO);
-	else if (exec->p_pipe >= 0)
+	else if (exec->p_pipe >= 0 && !exec->redir_applied[0])
 		dup2(exec->p_pipe, STDIN_FILENO);
-	if (exec->next && exec->fd_out != STDOUT_FILENO)
+	if (exec->fd_out != STDOUT_FILENO && !exec->redir_applied[1])
+	{
+		dup2(exec->fd_out, STDOUT_FILENO);
+		close (exec->fd_out);
+	}
+	else if (exec->next && !exec->redir_applied[1])
 	{
 		dup2(exec->fd_pipe[1], STDOUT_FILENO);
 		close(exec->fd_pipe[1]);
