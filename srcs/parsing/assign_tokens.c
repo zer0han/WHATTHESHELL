@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   assign_tokens.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gmechaly <gmechaly@student.42.fr>          +#+  +:+       +#+        */
+/*   By: rdalal <rdalal@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/21 14:05:00 by gmechaly          #+#    #+#             */
-/*   Updated: 2025/04/08 23:54:44 by gmechaly         ###   ########.fr       */
+/*   Updated: 2025/04/09 15:22:01 by rdalal           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,7 @@ void	assign_missing_cmds(t_token **tokens, t_envp *env)
 		else if (node->type == NULL && is_cmd <= is_pipe)
 		{
 			path = get_path(node->input, env);
-			if (path != NULL || fd_is_builtin(node)  || \
+			if (path != NULL || fd_is_builtin(node) || \
 			!access(node->input, F_OK | X_OK))
 				node->type = "cmd";
 			free(path);
