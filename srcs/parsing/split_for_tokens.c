@@ -6,7 +6,7 @@
 /*   By: gmechaly <gmechaly@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/17 17:05:39 by gmechaly          #+#    #+#             */
-/*   Updated: 2025/04/09 00:43:01 by gmechaly         ###   ########.fr       */
+/*   Updated: 2025/04/09 23:19:57 by gmechaly         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -120,7 +120,7 @@ char	**ft_split_for_tokens(char *line)
 		result[iword] = assign_nosep_token(&line[i], &i);
 		if (result[iword] != NULL)
 			iword++;
-		if (ft_split_for_tokens_2(line, result, &i, &iword) == NULL)
+		else if (ft_split_for_tokens_2(line, result, &i, &iword) == NULL)
 			return (NULL);
 	}
 	result[iword] = NULL;

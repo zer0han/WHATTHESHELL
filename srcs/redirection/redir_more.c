@@ -6,7 +6,7 @@
 /*   By: gmechaly <gmechaly@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/08 16:30:38 by gmechaly          #+#    #+#             */
-/*   Updated: 2025/04/09 01:20:27 by gmechaly         ###   ########.fr       */
+/*   Updated: 2025/04/09 20:37:00 by gmechaly         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,24 +50,26 @@ int	handle_heredoc(t_redir *redir, t_exec *exec, t_envp *env)
 	return (1);
 }
 
-static t_redir	*create_redir_node(t_redir **tail)
+static t_redir	*create_redir_node(t_redir **redir)
 {
 	t_redir	*new;
+	t_redir	*last;
 
 	new = ft_calloc(1, sizeof(t_redir));
-	*tail = ft_last_redir_node(tail);
+	last = ft_last_redir_node(redir);
 	if (!new)
 		return (NULL);
-	if (!*tail)
+	if (!*redir)
 	{
 		new->prev = NULL;
-		*tail = new;
+		*redir = new;
 	}
 	else
 	{
-		new->prev = *tail;
+		new->prev = last;
 		new->prev->next = new;
 	}
+	new->next = NULL;
 	return (new);
 }
 
@@ -83,11 +85,11 @@ static void	assign_redir_node(t_token **node, t_redir *new)
 		new->type = HEREDOC;
 }
 
-int	parse_redir_node(t_token **node, t_redir **tail)
+int	parse_redir_node(t_token **node, t_redir **redir)
 {
 	t_redir	*new;
 
-	new = create_redir_node(tail);
+	new = create_redir_node(redir);
 	if (!new)
 		return (0);
 	if (!(*node)->right || !(*node)->right->input)
@@ -103,6 +105,5 @@ int	parse_redir_node(t_token **node, t_redir **tail)
 		new->file = ft_strdup((*node)->right->input);
 	if (new->type != HEREDOC)
 		*node = (*node)->right->right;
-	new->next = NULL;
 	return (1);
 }

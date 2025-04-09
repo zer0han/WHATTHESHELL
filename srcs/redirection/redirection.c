@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   redirection.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rdalal <rdalal@student.42.fr>              +#+  +:+       +#+        */
+/*   By: gmechaly <gmechaly@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/05 13:30:19 by rdalal            #+#    #+#             */
-/*   Updated: 2025/04/09 01:04:16 by gmechaly         ###   ########.fr       */
+/*   Updated: 2025/04/09 22:00:58 by gmechaly         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,6 +83,7 @@ void	setup_redir(t_exec *exec)
 			exit(EXIT_FAILURE);
 		close(exec->fd_in);
 		exec->fd_in = STDIN_FILENO;
+		exec->redir_applied[0] = 1;
 	}
 	if (exec->fd_out != STDOUT_FILENO)
 	{
@@ -90,5 +91,6 @@ void	setup_redir(t_exec *exec)
 			exit(EXIT_FAILURE);
 		close(exec->fd_out);
 		exec->fd_out = STDOUT_FILENO;
+		exec->redir_applied[1] = 1;
 	}
 }

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   pipes.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rdalal <rdalal@student.42.fr>              +#+  +:+       +#+        */
+/*   By: gmechaly <gmechaly@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/12 15:44:07 by rdalal            #+#    #+#             */
-/*   Updated: 2025/04/09 01:03:49 by rdalal           ###   ########.fr       */
+/*   Updated: 2025/04/09 22:00:33 by gmechaly         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,11 +64,17 @@ void	exec_pipeline(t_exec *exec, t_envp *env)
 	head = exec;
 	while (exec && exec->next)
 	{
+		exec->redir_applied[0] = 0;
+		exec->redir_applied[1] = 0;
 		setup_child_process(exec, env);
 		close(exec->fd_pipe[1]);
 		exec = exec->next;
 	}
 	if (exec)
+	{
+		exec->redir_applied[0] = 0;
+		exec->redir_applied[1] = 0;
 		setup_child_process(exec, env);
+	}
 	wait_for_children(head);
 }
