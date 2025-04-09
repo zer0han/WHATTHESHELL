@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: gmechaly <gmechaly@student.42.fr>          +#+  +:+       +#+         #
+#    By: rdalal <rdalal@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/11/05 20:07:53 by rdalal            #+#    #+#              #
-#    Updated: 2025/04/09 01:22:07 by gmechaly         ###   ########.fr        #
+#    Updated: 2025/04/09 19:29:45 by rdalal           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -73,33 +73,33 @@ all: $(NAME)
 		$(print_flag)
 
 $(LIBFT):
-			@$(MAKE) -C $(LIBFT_PATH) -s
+			$(MAKE) -C $(LIBFT_PATH) -s
 
 $(NAME):	$(OBJS) $(LIBFT) $(HEAD)
-			@$(CC) $(CFLAGS) $(OBJS) $(LIBFT) -o $(NAME) $(READLINE_FLAGS)
+			$(CC) $(CFLAGS) $(OBJS) $(LIBFT) -o $(NAME) $(READLINE_FLAGS)
 			@echo "$(GREEN)🚀 $(NAME) BUILT SUCCESSFULLY! 🚀$(RESET)"
 
 .c.o:
-			@$(CC) $(CFLAGS) -c $< -o $@ -I$(HEAD) -I$(LIBFT_H_PATH)
+			$(CC) $(CFLAGS) -c $< -o $@ -I$(HEAD) -I$(LIBFT_H_PATH)
 			@echo "$(YELLOW)COMPILING: $<$(RESET)"
 
 clean:	libft-clean root-clean
 		@echo "$(RED)🧹 CLEANED OBJECT FILES 🧹$(RESET)"
 
 libft-clean:
-			@$(MAKE) -C $(LIBFT_PATH) clean
+			$(MAKE) -C $(LIBFT_PATH) clean
 	
 root-clean:
-			@rm -f $(OBJS)
+			rm -f $(OBJS)
 
 fclean: libft-fclean root-fclean
 		@echo "$(RED) 🧹🧹 FULL CLEAN COMPLETE 🧹🧹$(RESET)"
 
 libft-fclean:
-			@$(MAKE) -C $(LIBFT_PATH) fclean
+			$(MAKE) -C $(LIBFT_PATH) fclean
 
 root-fclean: root-clean
-			@rm -f $(NAME)
+			rm -f $(NAME)
 
 re: fclean all
 
