@@ -6,7 +6,7 @@
 /*   By: gmechaly <gmechaly@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/24 18:27:39 by rdalal            #+#    #+#             */
-/*   Updated: 2025/04/08 17:14:46 by gmechaly         ###   ########.fr       */
+/*   Updated: 2025/04/09 20:36:51 by gmechaly         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -95,11 +95,9 @@ t_redir	*init_redir(t_token **cmd_token)
 {
 	t_token	*node;
 	t_redir	*redir_list;
-	t_redir	**tail;
 
 	node = *cmd_token;
 	redir_list = NULL;
-	tail = &redir_list;
 	while (node->left && (ft_strcmp(node->left->type, "pipe") != 0))
 		node = node->left;
 	while (node && (ft_strcmp(node->type, "pipe") != 0))
@@ -108,7 +106,7 @@ t_redir	*init_redir(t_token **cmd_token)
 		!ft_strcmp(node->type, "append mode") || \
 		!ft_strcmp(node->type, "heredoc"))
 		{
-			if (!parse_redir_node(&node, tail))
+			if (!parse_redir_node(&node, &redir_list))
 				return (cleanup_redirection(redir_list), NULL);
 			while (node && (!ft_strcmp(node->type, "heredoc") \
 			|| !ft_strcmp(node->type, "delimiter")))

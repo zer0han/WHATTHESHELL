@@ -6,7 +6,7 @@
 /*   By: gmechaly <gmechaly@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/18 19:35:01 by rdalal            #+#    #+#             */
-/*   Updated: 2025/04/09 01:04:03 by gmechaly         ###   ########.fr       */
+/*   Updated: 2025/04/09 21:57:59 by gmechaly         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,14 +16,14 @@ t_exec	*create_exec(t_token *cmd_token)
 {
 	t_exec		*exec_cmd;
 
-	if (!cmd_token)
-		return (NULL);
 	exec_cmd = malloc(sizeof(t_exec));
 	if (!exec_cmd)
 		return (NULL);
 	exec_cmd->cmd_token = cmd_token;
 	exec_cmd->cmd = cmd_token->input;
 	exec_cmd->redir = init_redir(&cmd_token);
+	exec_cmd->redir_applied[0] = 0;
+	exec_cmd->redir_applied[1] = 0;
 	exec_cmd->args = NULL;
 	exec_cmd->fd_in = STDIN_FILENO;
 	exec_cmd->fd_out = STDOUT_FILENO;
