@@ -6,7 +6,7 @@
 /*   By: gmechaly <gmechaly@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/10 19:08:44 by rdalal            #+#    #+#             */
-/*   Updated: 2025/04/09 21:56:35 by gmechaly         ###   ########.fr       */
+/*   Updated: 2025/04/10 22:40:30 by gmechaly         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -117,7 +117,7 @@ int		error_message(char *context, int error_code);
 /*  exec_functions  */
 t_exec	*create_exec(t_token *cmd_token);
 t_exec	*create_exec_list(t_token *token_tree);
-t_exec	*main_execution(t_token **token_tree, t_envp *env);
+t_exec	*main_execution(t_token **token_tree, t_envp **env);
 /**exec_helper**/
 void	add_exec_node(t_exec **list, t_exec *new);
 int		count_args(t_token *node);
@@ -129,16 +129,17 @@ int		valid_id(char *var);
 /*	builtins			*/
 int		fd_is_builtin(t_token *token);
 void	exec_external(t_envp *env, t_exec *exec);
-void	execute_cmds(t_token *token, t_envp *env, t_exec *exec_list);
-void	dispatch_cmds(t_token *tokens, t_envp *env, t_exec *exec_list);
+void	execute_cmds(t_token *token, t_envp **env, t_exec *exec_list);
+void	dispatch_cmds(t_token *tokens, t_envp **env, t_exec *exec_list);
 int		fd_is_builtin(t_token *token);
-int		cmd_cd(t_token *args, t_envp *env);
+int		cmd_cd(t_token *args, t_envp **env);
 int		cmd_pwd(void);
 int		cmd_echo(t_token *tokens);
 int		cmd_unset(t_envp *env, t_token *tokens);
 int		cmd_env(t_envp *env);
 int		cmd_exit(t_token *args, t_exec *exec_list, t_envp *env);
 char	**env_to_array(t_envp *env);
+int		update_env(t_envp **dup, char *var, char *val);
 
 /*builtin_export.c*/
 int		cmd_export(t_envp *env, t_token **tokens);
@@ -149,11 +150,11 @@ void	print_env(t_envp **dup);
 /*  pipes               */
 /**pipe_helper**/
 void	handle_pipe_redir(t_exec *exec);
-void	child_process(t_exec *exec, t_envp *env);
+void	child_process(t_exec *exec, t_envp **env);
 /**pipe**/
-void	setup_child_process(t_exec *exec, t_envp *env);
+void	setup_child_process(t_exec *exec, t_envp **env);
 void	wait_for_children(t_exec *exec);
-void	exec_pipeline(t_exec *exec, t_envp *env);
+void	exec_pipeline(t_exec *exec, t_envp **env);
 
 /**redirection**/
 int		apply_redirection(t_exec *exec, t_envp *env);

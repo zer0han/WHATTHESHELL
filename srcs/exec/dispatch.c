@@ -6,13 +6,13 @@
 /*   By: gmechaly <gmechaly@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/11 14:50:45 by rdalal            #+#    #+#             */
-/*   Updated: 2025/04/09 00:03:48 by gmechaly         ###   ########.fr       */
+/*   Updated: 2025/04/10 22:38:53 by gmechaly         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void	dispatch_cmds(t_token *tokens, t_envp *env, t_exec *exec_list)
+void	dispatch_cmds(t_token *tokens, t_envp **env, t_exec *exec_list)
 {
 	int	status;
 
@@ -26,13 +26,13 @@ void	dispatch_cmds(t_token *tokens, t_envp *env, t_exec *exec_list)
 	else if (ft_strcmp(tokens->input, "pwd") == 0)
 		status = cmd_pwd();
 	else if (ft_strcmp(tokens->input, "env") == 0)
-		status = cmd_env(env);
+		status = cmd_env(*env);
 	else if (ft_strcmp(tokens->input, "export") == 0)
-		status = cmd_export(env, &tokens);
+		status = cmd_export(*env, &tokens);
 	else if (ft_strcmp(tokens->input, "unset") == 0)
-		status = cmd_unset(env, tokens);
+		status = cmd_unset(*env, tokens);
 	else if (ft_strcmp(tokens->input, "exit") == 0)
-		status = cmd_exit(tokens, exec_list, env);
+		status = cmd_exit(tokens, exec_list, *env);
 	g_exit_status = status;
 }
 
@@ -51,7 +51,7 @@ int	fd_is_builtin(t_token *token)
 	return (0);
 }
 
-void	execute_cmds(t_token *token, t_envp *env, t_exec *exec_list)
+void	execute_cmds(t_token *token, t_envp **env, t_exec *exec_list)
 {
 	if (!token || !token->input)
 		return ;

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   extrnl_cmds.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rdalal <rdalal@student.42.fr>              +#+  +:+       +#+        */
+/*   By: gmechaly <gmechaly@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/10 17:31:21 by rdalal            #+#    #+#             */
-/*   Updated: 2025/04/09 01:07:23 by rdalal           ###   ########.fr       */
+/*   Updated: 2025/04/10 22:42:03 by gmechaly         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,6 +53,7 @@ static void	exec_child(char *path, char **argv, t_envp *env, t_exec *exec)
 {
 	close(exec->std_save[0]);
 	close(exec->std_save[1]);
+	signal(SIGQUIT, SIG_DFL);
 	execve(path, argv, env_to_array(env));
 	error_message("execve", errno);
 	exit(126);
