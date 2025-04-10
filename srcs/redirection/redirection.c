@@ -6,7 +6,7 @@
 /*   By: gmechaly <gmechaly@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/05 13:30:19 by rdalal            #+#    #+#             */
-/*   Updated: 2025/04/09 22:00:58 by gmechaly         ###   ########.fr       */
+/*   Updated: 2025/04/10 19:49:54 by gmechaly         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,11 +46,8 @@ static int	handle_append(t_redir *redir, t_exec *exec)
 	fd = open(redir->file, O_WRONLY | O_CREAT | O_APPEND, 0644);
 	if (fd == -1)
 		return (error_message(redir->file, errno), g_exit_status = 1, 0);
-	if (dup2(fd, STDOUT_FILENO) == -1)
-	{
-		close(fd);
-		return (error_message("dup2", errno), 0);
-	}
+	if (exec->fd_out != STDOUT_FILENO)
+		close(exec->fd_out);
 	exec->fd_out = fd;
 	return (1);
 }

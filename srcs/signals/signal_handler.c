@@ -6,7 +6,7 @@
 /*   By: gmechaly <gmechaly@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/26 15:41:10 by gmechaly          #+#    #+#             */
-/*   Updated: 2025/03/04 23:32:01 by gmechaly         ###   ########.fr       */
+/*   Updated: 2025/04/10 19:54:52 by gmechaly         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,7 @@ static void	clear_rl_line(void)
 {
 	rl_replace_line("", 0);
 	rl_on_new_line();
+	rl_redisplay();
 }
 
 static void	handle_sigint(int sig)

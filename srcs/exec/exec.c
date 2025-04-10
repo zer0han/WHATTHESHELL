@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rdalal <rdalal@student.42.fr>              +#+  +:+       +#+        */
+/*   By: gmechaly <gmechaly@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/18 19:35:01 by rdalal            #+#    #+#             */
-/*   Updated: 2025/04/09 23:27:18 by rdalal           ###   ########.fr       */
+/*   Updated: 2025/04/10 22:42:30 by gmechaly         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -94,7 +94,7 @@ t_exec	*create_exec_list(t_token *token_tree)
 	return (exec_list);
 }
 
-t_exec	*main_execution(t_token **token_tree, t_envp *env)
+t_exec	*main_execution(t_token **token_tree, t_envp **env)
 {
 	t_exec	*exec_list;
 
@@ -105,13 +105,13 @@ t_exec	*main_execution(t_token **token_tree, t_envp *env)
 		exec_pipeline(exec_list, env);
 	else
 	{
-		if (apply_redirection(exec_list, env))
+		if (apply_redirection(exec_list, *env))
 		{
 			setup_redir(exec_list);
 			if (fd_is_builtin(exec_list->cmd_token))
 				execute_cmds(exec_list->cmd_token, env, exec_list);
 			else
-				exec_external(env, exec_list);
+				exec_external(*env, exec_list);
 		}
 	}
 	dup2(exec_list->std_save[0], STDIN_FILENO);

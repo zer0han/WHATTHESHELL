@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   builtin_export.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rdalal <rdalal@student.42.fr>              +#+  +:+       +#+        */
+/*   By: gmechaly <gmechaly@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/28 18:07:44 by rdalal            #+#    #+#             */
-/*   Updated: 2025/04/02 18:13:56 by rdalal           ###   ########.fr       */
+/*   Updated: 2025/04/10 21:00:45 by gmechaly         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,7 +43,7 @@ static void	*add_env(t_envp **dup, char *var, char *value)
 	return (*dup);
 }
 
-static int	update_env(t_envp **dup, char *var, char *val)
+int	update_env(t_envp **dup, char *var, char *val)
 {
 	t_envp	*nv;
 	int		i;

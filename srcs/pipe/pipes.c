@@ -6,7 +6,7 @@
 /*   By: gmechaly <gmechaly@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/12 15:44:07 by rdalal            #+#    #+#             */
-/*   Updated: 2025/04/09 22:00:33 by gmechaly         ###   ########.fr       */
+/*   Updated: 2025/04/10 22:39:57 by gmechaly         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 volatile sig_atomic_t	g_exit_status = 0;
 
-void	setup_child_process(t_exec *exec, t_envp *env)
+void	setup_child_process(t_exec *exec, t_envp **env)
 {
 	pid_t	pid;
 
@@ -57,7 +57,7 @@ void	wait_for_children(t_exec *exec)
 	}
 }
 
-void	exec_pipeline(t_exec *exec, t_envp *env)
+void	exec_pipeline(t_exec *exec, t_envp **env)
 {
 	t_exec	*head;
 

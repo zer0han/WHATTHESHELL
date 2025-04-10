@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   export_helper.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rdalal <rdalal@student.42.fr>              +#+  +:+       +#+        */
+/*   By: gmechaly <gmechaly@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/02 18:01:33 by rdalal            #+#    #+#             */
-/*   Updated: 2025/04/02 18:13:53 by rdalal           ###   ########.fr       */
+/*   Updated: 2025/04/10 22:22:40 by gmechaly         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,31 @@ static t_envp	*ft_last_env_node(t_envp **duplicate)
 	while (node && node->next)
 		node = node->next;
 	return (node);
+}
+
+static void	*update_shlvl(t_envp **env)
+{
+	char	*eq;
+	int		lvl;
+	char	*shlvl;
+	t_envp	*node;
+
+	node = *env;
+	while (node && ft_strncmp("SHLVL", node->str, 5))
+		node = node->next;
+	eq = ft_strchr(node->str, '=') + 1;
+	lvl = ft_atoi(eq) + 1;
+	if (lvl > 1000)
+	{
+		printf("shell level (%d) too high, resetting to %d\n", lvl, lvl % 1000);
+		lvl = lvl % 1000;
+	}
+	else if (lvl < 0)
+		lvl = 0;
+	shlvl = ft_itoa(lvl);
+	if (update_env(env, "SHLVL", shlvl))
+		return (free(shlvl), printf("caca\n"), NULL);
+	return (free(shlvl), env);
 }
 
 t_envp	*create_envp_node(char *env_line, t_envp **duplicate)
@@ -72,5 +97,7 @@ t_envp	*envp_dup(char **envp)
 			return (NULL);
 		i++;
 	}
+	if (!update_shlvl(&dup_env))
+		return (printf("prout\n"), NULL);
 	return (dup_env);
 }

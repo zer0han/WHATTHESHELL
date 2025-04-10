@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rdalal <rdalal@student.42.fr>              +#+  +:+       +#+        */
+/*   By: gmechaly <gmechaly@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/26 18:40:32 by gmechaly          #+#    #+#             */
-/*   Updated: 2025/04/09 01:18:50 by rdalal           ###   ########.fr       */
+/*   Updated: 2025/04/10 22:37:31 by gmechaly         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,9 +38,9 @@ int	main(int argc, char **argv, char **envp)
 	(void)argc;
 	(void)argv;
 	signals();
+	env_linklist = envp_dup(envp);
 	input = readline(PROMPT);
 	tokens = NULL;
-	env_linklist = envp_dup(envp);
 	while (input != NULL)
 	{
 		if (*input)
@@ -48,7 +48,7 @@ int	main(int argc, char **argv, char **envp)
 		tokens = ft_minishell_parsing(input, env_linklist);
 		if (tokens)
 		{
-			exec_data = main_execution(&tokens, env_linklist);
+			exec_data = main_execution(&tokens, &env_linklist);
 			free_all(tokens, exec_data);
 		}
 		input = readline(PROMPT);

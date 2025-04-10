@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   pipe_helper.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rdalal <rdalal@student.42.fr>              +#+  +:+       +#+        */
+/*   By: gmechaly <gmechaly@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/25 15:45:14 by rdalal            #+#    #+#             */
-/*   Updated: 2025/04/09 23:26:45 by rdalal           ###   ########.fr       */
+/*   Updated: 2025/04/10 22:43:42 by gmechaly         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,11 +40,11 @@ void	handle_pipe_redir(t_exec *exec)
 		close(exec->fd_pipe[0]);
 }
 
-void	child_process(t_exec *exec, t_envp *env)
+void	child_process(t_exec *exec, t_envp **env)
 {
 	char	*path;
 
-	if (apply_redirection(exec, env))
+	if (apply_redirection(exec, *env))
 		setup_redir(exec);
 	handle_pipe_redir(exec);
 	if (exec->p_pipe != -1)
@@ -59,12 +59,13 @@ void	child_process(t_exec *exec, t_envp *env)
 		close(exec->fd_out);
 	if (fd_is_builtin(exec->cmd_token) && !exec->is_pipeline)
 		dispatch_cmds(exec->cmd_token, env, exec);
-	path = get_path(exec->cmd, env);
+	path = get_path(exec->cmd, *env);
 	if (!path)
 		exit (127);
-	execve(path, exec->args, env_to_array(env));
+	signal(SIGQUIT, SIG_DFL);
+	execve(path, exec->args, env_to_array(*env));
 	perror("execve");
 	free(path);
-	free_array(env_to_array(env));
+	free_array(env_to_array(*env));
 	exit (126);
 }
