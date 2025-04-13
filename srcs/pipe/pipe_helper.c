@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   pipe_helper.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gmechaly <gmechaly@student.42.fr>          +#+  +:+       +#+        */
+/*   By: rdalal <rdalal@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/25 15:45:14 by rdalal            #+#    #+#             */
-/*   Updated: 2025/04/10 22:43:42 by gmechaly         ###   ########.fr       */
+/*   Updated: 2025/04/13 16:16:38 by rdalal           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,13 +40,8 @@ void	handle_pipe_redir(t_exec *exec)
 		close(exec->fd_pipe[0]);
 }
 
-void	child_process(t_exec *exec, t_envp **env)
+static void	close_child_fds(t_exec *exec)
 {
-	char	*path;
-
-	if (apply_redirection(exec, *env))
-		setup_redir(exec);
-	handle_pipe_redir(exec);
 	if (exec->p_pipe != -1)
 		close(exec->p_pipe);
 	if (exec->fd_pipe[0] != -1)
@@ -57,6 +52,16 @@ void	child_process(t_exec *exec, t_envp **env)
 		close(exec->fd_in);
 	if (exec->fd_out != STDOUT_FILENO)
 		close(exec->fd_out);
+}
+
+void	child_process(t_exec *exec, t_envp **env)
+{
+	char	*path;
+
+	if (apply_redirection(exec, *env))
+		setup_redir(exec);
+	handle_pipe_redir(exec);
+	close_child_fds(exec);
 	if (fd_is_builtin(exec->cmd_token) && !exec->is_pipeline)
 		dispatch_cmds(exec->cmd_token, env, exec);
 	path = get_path(exec->cmd, *env);

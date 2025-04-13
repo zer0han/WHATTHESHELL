@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   assign_special_tokens.c                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gmechaly <gmechaly@student.42.fr>          +#+  +:+       +#+        */
+/*   By: rdalal <rdalal@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/08 00:01:43 by gmechaly          #+#    #+#             */
-/*   Updated: 2025/04/09 00:44:10 by gmechaly         ###   ########.fr       */
+/*   Updated: 2025/04/13 17:39:57 by rdalal           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,8 @@ static void	*assign_token_pipe(t_token **tokens, t_token *node)
 			node = is_special_str(&node->right, "|");
 		}
 		else
-			return (printf("parse error near | token\n"), NULL);
+			return (printf("parse error near | token\n"), \
+				g_exit_status = 2, NULL);
 	}
 	return (*tokens);
 }
@@ -41,7 +42,7 @@ static void	*assign_token_redir(t_token **tokens, t_token *node)
 			node = is_special_str(&node->right, "<");
 		}
 		else
-			return (printf("parse error near < token\n"), NULL);
+			return (printf("parse error near < \n"), g_exit_status = 2, NULL);
 	}
 	node = is_special_str(tokens, ">");
 	while (node != NULL)
@@ -53,7 +54,7 @@ static void	*assign_token_redir(t_token **tokens, t_token *node)
 			node = is_special_str(&node->right, ">");
 		}
 		else
-			return (printf("parse error near > token\n"), NULL);
+			return (printf("parse error near > \n"), g_exit_status = 2, NULL);
 	}
 	return (assign_token_pipe(tokens, node));
 }
@@ -70,7 +71,8 @@ static void	*assign_token_append(t_token **tokens, t_token *node)
 			node = is_special_str(&node->right, ">>");
 		}
 		else
-			return (printf("parse error near >> token\n"), NULL);
+			return (printf("parse error near >> token\n"), \
+				g_exit_status = 2, NULL);
 	}
 	return (assign_token_redir(tokens, node));
 }
@@ -89,7 +91,8 @@ void	*assign_token_type(t_token **tokens)
 			node = is_special_str(&node->right, "<<");
 		}
 		else
-			return (printf("parse error near << token\n"), NULL);
+			return (printf("parse error near << token\n"), \
+				g_exit_status = 2, NULL);
 	}
 	return (assign_token_append(tokens, node));
 }
